@@ -9,6 +9,10 @@ const readOutLoud = (message) => {
 	    speech.onend = () => {
 	    	console.log("SPEECH END!")
 	    }
+	    speech.onpause = () => {
+	    	console.log("SPEECH PAUSE!")
+	    	console.log(speech)
+	    }
 	    window.speechSynthesis.speak(speech);
 }
 

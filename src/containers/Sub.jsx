@@ -12,7 +12,8 @@ class Sub extends Component {
   	}
   	componentDidMount() {
   		const path = this.props.location.pathname;
-  		const subreddit = path.split("/")[2];
+      console.log(path)
+  		const subreddit = path.split("/")[3];
   		
   		fetch(`https://www.reddit.com/r/${subreddit}/.json`)
   		.then(res => res.json())
@@ -21,7 +22,7 @@ class Sub extends Component {
   	}
   	componentDidUpdate() {
   		const path = this.props.location.pathname;
-  		const subreddit = path.split("/")[2];
+  		const subreddit = path.split("/")[3];
 
   		if (this.state.currentSub !== subreddit) {
         if (!this.state.loading) { this.setState({ loading: true }); }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 
-import config from "./config";
+// import config from "./config";
 import getHashValue from "./helpers/getHashValue";
 
 import Home from "./containers/Home";
@@ -11,13 +11,13 @@ import Thread from "./containers/Thread";
 
 import NavBar from "./components/NavBar";
 import SubRedditTab from "./components/SubRedditTab";
-import ControlTab from "./components/ControlTab";
 
 class App extends Component {
   	constructor() {
 		super();
-		this.state = { subreddits: null, loggedIn: false }
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.state = { subreddits: null, loggedIn: false, sidebarIsOpen: false }
+    this.handleSideBar = this.handleSideBar.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   	}
   	componentDidMount() {
   		// if (accessToken)
@@ -29,7 +29,7 @@ class App extends Component {
 
   		// validate request and origin
   		// if error
-  		if (token && state === config.SECRET_STRING) {
+  		if (token && state === process.env.REACT_APP_SECRET_STRING) {
   			console.log("successfully logged in");
   			localStorage.setItem("access_token", token)
   			
@@ -56,31 +56,34 @@ class App extends Component {
   			}
   		}
   	}
+    handleSideBar(e) {
+      this.state.sidebarIsOpen ? 
+        this.setState({ sidebarIsOpen: false })
+        :
+        this.setState({ sidebarIsOpen: true });
+    }
   	handleSubmit(e) {
-  		e.preventDefault();
-		console.log(e.target);
-		fetch("https://www.reddit.com/")
-		.then(res => res.json())
-		.then(data => console.log(data))
-		.catch(err => console.error(err))
-  	}
+      e.preventDefault();
+      fetch("https://www.reddit.com/")
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+    }
 
   	render() {
-		const { subreddits, loggedIn, user } = this.state;
+		const { subreddits, loggedIn, user, sidebarIsOpen } = this.state;
     const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
 		return (
 			<Router>
 		  	<div className="App">
-				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } />
+				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } />
 
-				<SubRedditTab subreddits={ subreddits } />
-
-				<ControlTab />
+				<SubRedditTab subreddits={ subreddits } isOpen={ sidebarIsOpen } />
 
 				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route path="/r/:subreddit/:title" component={Thread} />
-					<Route path="/r" component={Sub} />
+					<Route exact path="/x/" component={Home} />
+					<Route path="/x/r/:subreddit/:title" component={Thread} />
+					<Route path="/x/r" component={Sub} />
 				</Switch>	
 
 		  	</div>

@@ -1,0 +1,59 @@
+.Synth {
+	border: 1px solid #555;
+	display: inline-flex;
+}
+.synth-button {
+	border-radius: 50%;
+	display: flex;
+	margin: auto;
+}
+.Synth i {
+	font-size: 30px;
+	margin: auto;
+}
+
+@media (max-width: 1000px) {
+	.Synth {
+		background:
+			linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+			linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+			linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+			linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+			linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+			linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+		background-color: #131313;
+		background-size: 20px 20px;
+
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-bottom: none;
+		padding: 10px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 2;
+		opacity: 1;
+	}
+	.synth-button {
+		background: rgb(255, 100, 100);
+		box-shadow: inset 0px 0px 10px 1px black;
+		border-radius: 50%;
+		display: flex;
+		margin: auto;
+		height: 20vw;
+		width: 20vw;
+	}
+	.synth-button .inner {
+		border-radius: 50%;
+		box-shadow: inset 0px 0px 7px 1px black;
+		display: flex;
+		margin: auto;
+		height: 75%;
+		width: 75%;
+	}
+	.Synth i {
+		color: white;
+		font-size: 24px;
+	}
+}

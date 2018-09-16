@@ -3,6 +3,17 @@
 	display: flex;
 	height: 50px;
 }
+.navbar a {
+	margin: auto;
+	margin-left: 40px;
+}
+.navbar .fa-bars {
+	font-size: 25px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 4;
+}
 .nav-right {
 	display: flex;
 }
@@ -10,9 +21,9 @@
 	background: #f3f3f3;
 	border: 1px solid #eee;
 	border-radius: 3px;
-	display: table;
+	display: flex;
 	margin: auto;
-	margin-right: 20px;
+	margin-right: 1vw;
 }
 .nav-right input, .nav-right button, .login-btn {
 	background: none;
@@ -31,7 +42,7 @@
 	font-size: 20px;
 	font-weight: bold;
 	margin: auto;
-	margin-left: 20px;
+	margin-left: 50px;
 }
 .navbar .nav-right {
 	margin: auto;
@@ -64,4 +75,14 @@
 	border-radius: 3px;
 	margin: auto;
 	max-height: 40px;
+}
+
+@media (max-width: 1000px) {
+	.navbar a {
+		display: none;
+		visibility: hidden;
+	}
+	.navbar .logo {
+		font-size: 12px;
+	}
 }

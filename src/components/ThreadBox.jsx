@@ -6,9 +6,10 @@ import AuthorHeader from "../components/AuthorHeader";
 
 const ThreadBox = props => {
 	const { data } = props;	// console.log(decodeHTML(data.media_embed.content))
+	const uri = process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "";
 	// console.log(data);
 	return (
-		<Link to={ window.location.pathname + `/${data.id}` } className="ThreadBox" >
+		<Link to={ uri + window.location.pathname + `/${data.id}` } className="ThreadBox" >
 
 
 			<small className="score">

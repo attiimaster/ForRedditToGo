@@ -1,17 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import config from "../config";
 import "./css/NavBar.css";
 
 const NavBar = props => {
-	const { CLIENT_ID, REDIRECT_URI, DURATION, SCOPE, SECRET_STRING } = config;
-	const { loggedIn, user } = props;
+	const { REACT_APP_DURATION, REACT_APP_SCOPE, REACT_APP_SECRET_STRING } = process.env;
+	const CLIENT_ID = process.env.NODE_ENV === "production" ? process.env.REACT_APP_CLIENT_ID : process.env.REACT_APP_CLIENT_ID_DEV;
+	const URI = process.env.NODE_ENV === "production" ? process.env.REACT_APP_URI : process.env.REACT_APP_URI_DEV;
+	const { loggedIn, user, handleSideBar } = props;
 
 	return (
 		<div className="navbar">
 			
-			<Link to="/" className="logo">For Reddit To Go</Link>		
+			<Link to="/x/" style={{ margin: "auto", marginLeft: "40px" }}><div className="logo">For Reddit To Go</div></Link>	
 			
+			<i onClick={ handleSideBar } className="fas fa-bars"></i>
 			<div className="nav-right">
 				<form>
 					<input type="text" placeholder="search reddit" />
@@ -20,7 +22,16 @@ const NavBar = props => {
 				{ loggedIn && user ?
 					<UserBox user={ user } />
 					:
-					<a className="login-btn" href={ `https://www.reddit.com/api/v1/authorize?client_id=${CLIENT_ID}&response_type=token&state=${SECRET_STRING}&redirect_uri=${REDIRECT_URI}&duration=${DURATION}&scope=${SCOPE}` }>Log in to Reddit</a>
+					<a className="login-btn"
+						href={ `https://www.reddit.com/api/v1/authorize
+						?client_id=${CLIENT_ID}
+						&response_type=token
+						&state=${REACT_APP_SECRET_STRING}
+						&redirect_uri=${URI}
+						&duration=${REACT_APP_DURATION}
+						&scope=${REACT_APP_SCOPE}` }>
+					    <i className="fas fa-user"></i>
+					</a>
 				}
 			</div>
 

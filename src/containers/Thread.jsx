@@ -4,20 +4,21 @@ import './css/Thread.css';
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
 import AuthorHeader from "../components/AuthorHeader";
+import Synth from "../components/Synth";
 
 import readOutLoud from "../helpers/readOutLoud";
 
 class Thread extends Component {
   	constructor() {
 		super();
-		this.state = { listing: null, loading: true }
+		this.state = { listing: null, loading: true, toRead: null }
 		this.HandleClick = this.HandleClick.bind(this);
   	}
   	componentDidMount() {
   		const path = window.location.pathname;
   		
-  		const subreddit = path.split("/")[2];
-  		const id = path.split("/")[3];
+  		const subreddit = path.split("/")[3];
+  		const id = path.split("/")[4];
   		
   		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json`)
   		.then(res => res.json())
@@ -25,23 +26,7 @@ class Thread extends Component {
   		.catch(err => this.setState({ listing: "ERROR", loading: false }))
   	}
   	HandleClick(e) {
-  		let toRead = [];
-  		const title =  this.state.listing[0].data.children[0].data.title;
-  		const post = this.state.listing[0].data.children[0].data.selftext;
-  		const comments = this.state.listing[1].data.children;
-
-		toRead.push(title);
-		toRead.push(post);
-  		comments.map((c, i) => toRead.push(c.data.body));
-
-  		console.log(toRead);
-
-  		//readOutLoudArray(toRead);
-
-  		const readOutLoudArray = message => {
-
-  		} 
-  		readOutLoud(toRead);
+  		readOutLoud(toRead(this.state.listing));
   	}
 
   	render() {
@@ -51,8 +36,10 @@ class Thread extends Component {
 			const threadInfo = listing[0].data.children[0];
 			const comments = listing[1].data.children;
 
+
 			return (
 			  	<div className="Thread">
+			  		<Synth toRead={ toRead(listing) } />
 			  		<ThreadTitle { ...threadInfo } onClick={ this.HandleClick } />
 			  		<ThreadCommentsContainer comments={ comments } />
 			  	</div>
@@ -79,8 +66,6 @@ const ThreadTitle = props => {
 			<header>
 				<h2>{ data.title }</h2>
 			</header>
-
-			<i className="fas fa-caret-right" onClick={ onClick }></i>
 
 			<p>{ data.selftext }</p>
 
@@ -113,4 +98,18 @@ const CommentBox = props => {
 			</div>
 		</div>
 	);
+}
+
+const toRead = listing => {
+	const title =  listing[0].data.children[0].data.title;
+	const post = listing[0].data.children[0].data.selftext;
+	const comments = listing[1].data.children;
+
+	// push title, post and comments to array in order and read out
+	let toRead = [];
+	toRead.push(title);
+	toRead.push(post);
+	comments.map((c, i) => toRead.push(c.data.body));
+
+	return toRead;
 }

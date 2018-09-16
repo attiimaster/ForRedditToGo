@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /src/config.js
+.env
 # testing
 /coverage
 
