@@ -1,0 +1,67 @@
+.navbar {
+	border-bottom: 1px solid #f3f3f3;
+	display: flex;
+	height: 50px;
+}
+.nav-right {
+	display: flex;
+}
+.nav-right form {
+	background: #f3f3f3;
+	border: 1px solid #eee;
+	border-radius: 3px;
+	display: table;
+	margin: auto;
+	margin-right: 20px;
+}
+.nav-right input, .nav-right button, .login-btn {
+	background: none;
+	border: none;
+	font-size: 16px;
+	margin: auto;
+	padding: 5px 8px;
+}
+.nav-right input {
+}
+.nav-right button {
+	border-left: 1px solid silver;
+}
+.navbar .logo {
+	color: #ff4500;
+	font-size: 20px;
+	font-weight: bold;
+	margin: auto;
+	margin-left: 20px;
+}
+.navbar .nav-right {
+	margin: auto;
+	margin-right: 10px;
+}
+.login-btn {
+	background: #ff4500;
+	border-radius: 3px;
+	color: white;
+	margin-left: 10px;
+}
+.UserBox {
+	border-radius: 3px;
+	color: #666;
+	display: flex;
+	margin-left: 10px;
+}
+.UserBox .name-karma-container {
+	margin: auto;
+	margin: 5px 13px;
+}
+.UserBox .name {
+	font-weight: 600;
+}
+.UserBox .karma {
+	color: #ff4500;
+	font-size: 90%;
+}
+.UserBox img {
+	border-radius: 3px;
+	margin: auto;
+	max-height: 40px;
+}

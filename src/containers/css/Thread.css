@@ -1,0 +1,41 @@
+/* --- Thread --- */
+.Thread {
+	margin: auto;
+	max-width: 1000px;
+	width: 90%
+}
+
+/* --- ThreadTitle --- */
+.ThreadTitle {
+	padding: 30px 10px;
+}
+
+/* --- CommentBox --- */
+.CommentBox {
+	border: 1px solid #eee;
+	border-top: none;
+	display: flex;
+	margin: auto;
+	position: relative;
+	padding: 10px 5px;
+}
+.CommentBox .score {
+	border-right: 1px solid #eee;
+	display: flex;
+	font-size: 20px;
+	width: 8%;
+}
+.CommentBox .score span {
+	margin: auto;
+}
+.CommentBox .content {
+	margin: auto 0;
+	padding: 0 10px;
+	width: 92%;
+}
+.CommentBox .author {
+	font-size: 15px;
+}
+.CommentBox small {
+	display: flex;
+}

@@ -1,0 +1,32 @@
+.ThreadBox {
+	border: 1px solid #eee;
+	border-top: none;
+	display: flex;
+	margin: auto;
+	position: relative;
+	padding: 10px 5px;
+}
+.ThreadBox .score {
+	border-right: 1px solid #eee;
+	display: flex;
+	font-size: 20px;
+	width: 8%;
+}
+.ThreadBox .score span {
+	margin: auto;
+}
+.ThreadBox .content {
+	margin: auto 0;
+	padding: 10px;
+	width: 92%;
+}
+
+.xyz {
+	font-size: 60%;
+	position: absolute;
+	top: 0;
+	right: -20%;
+}
+.xyz:hover {
+	background: white;
+}
