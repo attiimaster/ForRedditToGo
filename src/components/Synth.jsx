@@ -18,7 +18,7 @@ const Synth = ({ toRead }) => {
 			</div>
 			<div  className="synth-button">
 			<div className="inner">
-				<i className="fas fa-angle-double-right" onClick={ () => window.speechSynthesis.resume() } ></i>
+				<i className="fas fa-angle-double-right" onClick={ () => alert("SKIP: TO DO") } ></i>
 			</div>
 			</div>
 			<div  className="synth-button">

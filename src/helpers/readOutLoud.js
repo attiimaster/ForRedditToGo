@@ -14,6 +14,7 @@ const readOutLoud = (message) => {
 	// Listen for Events
 	speech.onend = () => console.log("SPEECH END!");
 	speech.onpause = () => console.log("SPEECH PAUSE!");
+	speech.onresume = () => console.log("SPEECH RESUME!");
 	speech.onerror = () => console.log("SPEECH ERROR!");
 	
 	// start playback
