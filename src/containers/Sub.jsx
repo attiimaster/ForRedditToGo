@@ -60,3 +60,4 @@ class Sub extends Component {
 }
 
 export default Sub;
+

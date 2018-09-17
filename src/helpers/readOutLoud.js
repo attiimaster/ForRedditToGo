@@ -3,7 +3,6 @@ const readOutLoud = (message) => {
 
 	const synth = window.speechSynthesis;
 	const voices = synth.getVoices();
-	console.log(voices);
 
 	// Set text and voice attributes
 	speech.text = message;
@@ -11,18 +10,13 @@ const readOutLoud = (message) => {
 	speech.rate = 1;
 	speech.pitch = 1;
 	speech.voice = voices[0];
+
+	// Listen for Events
+	speech.onend = () => console.log("SPEECH END!");
+	speech.onpause = () => console.log("SPEECH PAUSE!");
+	speech.onerror = () => console.log("SPEECH ERROR!");
 	
-	speech.onend = () => {
-		console.log("SPEECH END!")
-	}
-	speech.onpause = () => {
-		console.log("SPEECH PAUSE!")
-		console.log(speech)
-	}
-	speech.onerror = () => {
-		console.log("SPEECH ERROR!")
-		console.log(speech)
-	}
+	// start playback
 	synth.speak(speech);
 }
 

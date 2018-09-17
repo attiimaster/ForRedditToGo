@@ -7,6 +7,7 @@ import AuthorHeader from "../components/AuthorHeader";
 import Synth from "../components/Synth";
 
 import readOutLoud from "../helpers/readOutLoud";
+import convertToHoursAgo from "../helpers/convertToHoursAgo";
 
 class Thread extends Component {
   	constructor() {
@@ -86,20 +87,21 @@ const ThreadCommentsContainer = props => {
 }
 const CommentBox = props => {
 	const { data } = props;
-	const date = new Date(data.created_utc*1000).toString()
+	const hoursAgoStr = convertToHoursAgo(data.created_utc*1000);
 	return (
 		<div className="CommentBox">
 			<small className="score">
 				<span>{ data.score }</span>
 			</small>
 			<div className="content">
-				<div className="author"><b>{ data.author }</b> &#8226; { date.slice(4, 21) } </div>
+				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
 				<p>{ data.body }</p>
 			</div>
 		</div>
 	);
 }
 
+// makes array of strings to pass to speechSynthesis;
 const toRead = listing => {
 	const title =  listing[0].data.children[0].data.title;
 	const post = listing[0].data.children[0].data.selftext;
