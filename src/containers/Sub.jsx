@@ -14,6 +14,7 @@ class Sub extends Component {
   		const path = this.props.location.pathname;
       console.log(path)
   		const subreddit = path.split("/")[3];
+      console.log(subreddit)
   		
   		fetch(`https://www.reddit.com/r/${subreddit}/.json`)
   		.then(res => res.json())

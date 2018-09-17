@@ -37,10 +37,12 @@ class App extends Component {
         fetchUser(token)
         .then(res => res.json())
         .then(data => this.setState({ user: data }))
+        .catch(err => console.error(err))
 
   			fetchMySubs(token)
   			.then(res => res.json())
   			.then(data => this.setState({ subreddits: data.data.children, loggedIn: true }))
+        .catch(err => console.error(err))
   		
   		} else {
   			const accessToken = localStorage.getItem("access_token");
@@ -49,10 +51,12 @@ class App extends Component {
           fetchUser(accessToken)
           .then(res => res.json())
           .then(data => this.setState({ user: data }))
+          .catch(err => console.error(err))
 
   				fetchMySubs(accessToken)
   				.then(res => res.json())
   				.then(data => this.setState({ subreddits: data.data.children, loggedIn: true }))
+          .catch(err => console.error(err))
   			}
   		}
   	}
@@ -73,7 +77,9 @@ class App extends Component {
   	render() {
 		const { subreddits, loggedIn, user, sidebarIsOpen } = this.state;
     const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
-		return (
+		const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
+
+    return (
 			<Router>
 		  	<div className="App">
 				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } />
@@ -81,9 +87,9 @@ class App extends Component {
 				<SubRedditTab subreddits={ subreddits } isOpen={ sidebarIsOpen } />
 
 				<Switch>
-					<Route exact path="/x/" component={Home} />
-					<Route path="/x/r/:subreddit/:title" component={Thread} />
-					<Route path="/x/r" component={Sub} />
+					<Route exact path={ `${uri}/` } component={Home} />
+					<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
+					<Route path={ `${uri}/r` } component={Sub} />
 				</Switch>	
 
 		  	</div>

@@ -11,7 +11,7 @@ const NavBar = props => {
 	return (
 		<div className="navbar">
 			
-			<Link to="/x/" style={{ margin: "auto", marginLeft: "40px" }}><div className="logo">For Reddit To Go</div></Link>	
+			<Link to="/x/" className="link"><div className="logo">For Reddit To Go</div></Link>	
 			
 			<i onClick={ handleSideBar } className="fas fa-bars"></i>
 			<div className="nav-right">

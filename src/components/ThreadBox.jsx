@@ -9,7 +9,7 @@ const ThreadBox = props => {
 	const uri = process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "";
 	// console.log(data);
 	return (
-		<Link to={ uri + window.location.pathname + `/${data.id}` } className="ThreadBox" >
+		<Link to={ window.location.pathname + `/${data.id}` } className="ThreadBox" >
 
 
 			<small className="score">
