@@ -19,6 +19,9 @@ class Home extends Component {
 
           <header className="home-header">
               <h1>For Reddit, To Go</h1>
+              <br />
+              <br />
+              <h1>Sidebar & Link Update</h1>
               Listen to Reddit
           </header>
 

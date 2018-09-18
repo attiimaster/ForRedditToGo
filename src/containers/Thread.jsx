@@ -5,6 +5,7 @@ import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
 import AuthorHeader from "../components/AuthorHeader";
 import Synth from "../components/Synth";
+import SortBox from "../components/SortBox";
 
 import readOutLoud from "../helpers/readOutLoud";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
@@ -13,11 +14,10 @@ class Thread extends Component {
   	constructor() {
 		super();
 		this.state = { listing: null, loading: true, toRead: null }
-		this.HandleClick = this.HandleClick.bind(this);
+		this.handleSort = this.handleSort.bind(this);
   	}
   	componentDidMount() {
-  		const path = window.location.pathname;
-  		
+  		const path = this.props.location.pathname;
   		const subreddit = path.split("/")[3];
   		const id = path.split("/")[4];
   		
@@ -26,8 +26,18 @@ class Thread extends Component {
   		.then(data => this.setState({ listing: data, loading: false }))
   		.catch(err => this.setState({ listing: "ERROR", loading: false }))
   	}
-  	HandleClick(e) {
-  		readOutLoud(toRead(this.state.listing));
+
+  	handleSort(e) {
+  		console.log(e.target.value);
+  		const path = this.props.location.pathname;
+  		const subreddit = path.split("/")[3];
+  		const id = path.split("/")[4];
+  		
+  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/${e.target.value}/.json`)
+  		.then(res => res.json())
+  		.then(data => this.setState({ listing: data, loading: false }))
+  		.catch(err => this.setState({ listing: "ERROR", loading: false }))
+
   	}
 
   	render() {
@@ -41,8 +51,8 @@ class Thread extends Component {
 			return (
 			  	<div className="Thread">
 			  		<Synth toRead={ toRead(listing) } />
-			  		<ThreadTitle { ...threadInfo } onClick={ this.HandleClick } />
-			  		<ThreadCommentsContainer comments={ comments } />
+			  		<ThreadTitle { ...threadInfo } onClick={ this.handleClick } />
+			  		<ThreadCommentsContainer comments={ comments } handleSort={ this.handleSort } />
 			  	</div>
 			);
 		
@@ -57,9 +67,7 @@ class Thread extends Component {
 
 export default Thread;
 
-const ThreadTitle = props => {
-	const { data, onClick } = props;
-
+const ThreadTitle = ({ data }) => {
 	return (
 		<article className="ThreadTitle">
 			<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
@@ -77,16 +85,17 @@ const ThreadTitle = props => {
 		</article>
 	);
 }
-const ThreadCommentsContainer = props => {
-	const { comments } = props; 
+
+const ThreadCommentsContainer = ({ comments, handleSort }) => {
 	return (
 		<div>
+			<SortBox onChange={ handleSort } />
 			{ comments.map((c, i) => <CommentBox key={i} { ...c } />) }
 		</div>
 	);
 }
-const CommentBox = props => {
-	const { data } = props;
+
+const CommentBox = ({ data }) => {
 	const hoursAgoStr = convertToHoursAgo(data.created_utc*1000);
 	return (
 		<div className="CommentBox">

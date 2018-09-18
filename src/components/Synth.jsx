@@ -8,7 +8,7 @@ const Synth = ({ toRead }) => {
 		<div className="Synth">
 			<div  className="synth-button">
 			<div className="inner">
-				<i className="fas fa-play" onClick={ () => window.speechSynthesis.pending === true ? window.speechSynthesis.resume() : readOutLoud(toRead) } ></i>
+				<i className="fas fa-play" onClick={ () => window.speechSynthesis.pending ? window.speechSynthesis.resume() : readOutLoud(toRead) } ></i>
 			</div>
 			</div>
 			<div  className="synth-button">

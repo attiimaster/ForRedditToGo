@@ -35,7 +35,7 @@
 	  	-webkit-backface-visibility: hidden;
 		z-index: 2;
 		opacity: 1;
-		width: 98vw;
+		width: 100vw;
 	}
 	.synth-button {
 		background: rgb(255, 100, 100);

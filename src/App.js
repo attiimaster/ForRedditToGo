@@ -13,54 +13,57 @@ import Search from "./containers/Search";
 
 import NavBar from "./components/NavBar";
 import SubRedditTab from "./components/SubRedditTab";
+      
+const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
 class App extends Component {
   	constructor() {
 		super();
-		this.state = { mySubreddits: null, loggedIn: false, sidebarIsOpen: false }
+		this.state = { user: null, mySubreddits: null, loggedIn: false, sidebarIsOpen: false }
     this.handleSideBar = this.handleSideBar.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   	}
   	componentDidMount() {
   		// if (accessToken)
+      const accessToken = localStorage.getItem("access_token");
 
-  		// parse url
-		//access_token, token_type, state, expires_in, scope
-  		const token = getHashValue("access_token");
-  		const state = getHashValue("state");
+      if (accessToken) {
 
-  		// validate request and origin
-  		// if error
-  		if (token && state === process.env.REACT_APP_SECRET_STRING) {
-  			console.log("successfully logged in");
-  			localStorage.setItem("access_token", token)
-  			
-  			// fetch subscribed subs
-        fetchUser(token)
+        // fetch user info
+        fetchUser(accessToken)
         .then(res => res.json())
         .then(data => this.setState({ user: data }))
         .catch(err => console.error(err))
 
-  			fetchMySubs(token)
-  			.then(res => res.json())
-  			.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
+        fetchMySubs(accessToken)
+        .then(res => res.json())
+        .then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
         .catch(err => console.error(err))
-  		
-  		} else {
-  			const accessToken = localStorage.getItem("access_token");
 
-  			if (accessToken) {
-          fetchUser(accessToken)
+      } else {
+
+  		  // parse url
+		    // values: access_token, token_type, state, expires_in, scope
+  		  const token = getHashValue("access_token");
+  		  const state = getHashValue("state");
+  
+  		  // validate request and origin
+  		  if (token && state === process.env.REACT_APP_SECRET_STRING) {
+  		  	console.log("successfully logged in");
+  		  	localStorage.setItem("access_token", token);
+  		  	
+  		  	// fetch user info
+          fetchUser(token)
           .then(res => res.json())
           .then(data => this.setState({ user: data }))
           .catch(err => console.error(err))
-
-  				fetchMySubs(accessToken)
-  				.then(res => res.json())
-  				.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
+  
+  		  	fetchMySubs(token)
+  		  	.then(res => res.json())
+  		  	.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
           .catch(err => console.error(err))
-  			}
-  		}
+  		  }
+      }
   	}
     handleSideBar(e) {
       console.log("handleSideBar")
@@ -73,14 +76,12 @@ class App extends Component {
       e.preventDefault();
       const query = e.target[0].value;
       console.log(query);
-      const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
       history.push(`${uri}/search/${query}`)
     }
 
   	render() {
 		const { mySubreddits, loggedIn, user, sidebarIsOpen } = this.state;
     const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
-		const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
     return (
 			<Router history={ history }>
@@ -122,14 +123,4 @@ const fetchMySubs = (token) => {
     }
   }
   return fetch(`https://oauth.reddit.com/subreddits/mine/subscriber`, options)
-}
-
-const fetchSearch = (query) => {
-  const token = localStorage.getItem("access_token");
-  const options = {
-    headers: {
-      Authorization: `bearer ${token}`
-    }
-  }
-  return fetch(`https://www.reddit.com/search.json?q=${query}`, options)
 }

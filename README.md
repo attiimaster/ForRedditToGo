@@ -9,10 +9,15 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 **Features to be implemented for MVP:** 
  - save threads
- - sort subreddits and threads
+ - fetch more content when user reaches bottom of current feed
  - skip feature (?)
 
+
 **Features to improve:**
+
+*sort feature:*
+ - add sort to search
+
 *search feature:* 
  - adjust number of results 
  - sorting options
