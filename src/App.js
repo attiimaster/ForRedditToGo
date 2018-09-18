@@ -17,7 +17,7 @@ import SubRedditTab from "./components/SubRedditTab";
 class App extends Component {
   	constructor() {
 		super();
-		this.state = { subreddits: null, loggedIn: false, sidebarIsOpen: false }
+		this.state = { mySubreddits: null, loggedIn: false, sidebarIsOpen: false }
     this.handleSideBar = this.handleSideBar.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   	}
@@ -43,7 +43,7 @@ class App extends Component {
 
   			fetchMySubs(token)
   			.then(res => res.json())
-  			.then(data => this.setState({ subreddits: data.data.children, loggedIn: true }))
+  			.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
         .catch(err => console.error(err))
   		
   		} else {
@@ -57,12 +57,13 @@ class App extends Component {
 
   				fetchMySubs(accessToken)
   				.then(res => res.json())
-  				.then(data => this.setState({ subreddits: data.data.children, loggedIn: true }))
+  				.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
           .catch(err => console.error(err))
   			}
   		}
   	}
     handleSideBar(e) {
+      console.log("handleSideBar")
       this.state.sidebarIsOpen ? 
         this.setState({ sidebarIsOpen: false })
         :
@@ -77,7 +78,7 @@ class App extends Component {
     }
 
   	render() {
-		const { subreddits, loggedIn, user, sidebarIsOpen } = this.state;
+		const { mySubreddits, loggedIn, user, sidebarIsOpen } = this.state;
     const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
 		const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
@@ -86,7 +87,7 @@ class App extends Component {
 		  	<div className="App">
 				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
 
-				<SubRedditTab subreddits={ subreddits } isOpen={ sidebarIsOpen } />
+				<SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
 
 				<Switch>
 					<Route exact path={ `${uri}/` } component={Home} />

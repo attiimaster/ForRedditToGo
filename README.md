@@ -6,6 +6,7 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 **Note:** This is a work in progress and features may not function as intended. 
 
+
 **Features to be implemented for MVP:** 
  - save threads
  - sort subreddits and threads
@@ -21,5 +22,6 @@ Uses text to speech so I can listen to Reddit while doing things.
  - implement pauses between different sections (comments, post),
  - skip feature
  - announcements (eg: `u/${user} writes`)
+
 
 **Link:** https://attiimaster.github.io/ForRedditToGo

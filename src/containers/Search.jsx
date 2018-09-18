@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./css/Search.css";
 
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
+
+const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
 class Search extends Component {
 	constructor() {
@@ -53,7 +56,7 @@ class Search extends Component {
 				<div className="Search">
 	
 					<header className="SearchTitle">
-						<h2>Search results for { query }</h2>
+						<h2>Search results for <u>{ query }</u>:</h2>
 					</header>
 	
 					<section>
@@ -77,6 +80,7 @@ export default Search;
 
 const SubRedditBoxAlt = ({ data }) => {
 	return (
+		<Link to={ `${uri}/r/${data.display_name}` } >
 		<div className="SubRedditBoxAlt">
 			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
 			
@@ -85,7 +89,8 @@ const SubRedditBoxAlt = ({ data }) => {
 				<small>{ data.subscribers } Subscribers</small>
 			</div>
 
-			<small className="description">{ data.public_description }</small>
+			<small className="description">{ data.public_description || data.title }</small>
 		</div>
+		</Link>
 	);
 }

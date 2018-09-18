@@ -4,24 +4,21 @@ import "./css/SubRedditTab.css";
 
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
-const SubRedditTab  = ({ subreddits, isOpen }) => {
+const SubRedditTab  = ({ subreddits, isOpen, handleSideBar }) => {
 	return (
 		<div className={ isOpen ? "SubRedditTab SubRedditTab-active" : "SubRedditTab" }>
 			<Link to={ `${uri}/` }><div className="logo">For Reddit To Go</div></Link>	
-			{ subreddits && subreddits.map((sub, i) => <SubRedditBox key={i} { ...sub } />)}
+			{ subreddits && subreddits.map((sub, i) => <SubRedditBox handleSideBar={ handleSideBar } key={i} { ...sub } />)}
 		</div>
 	);
 }
 
-const SubRedditBox = ({ data }) => {
+const SubRedditBox = ({ data, handleSideBar }) => {
 
 	return (
-		<Link to={ `${uri}/r/${data.display_name}` } className="subreddit-box">
+		<Link to={ `${uri}/r/${data.display_name}` } onClick={ handleSideBar } className="subreddit-box">
 			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
 			<h3>{ data.display_name_prefixed }</h3>
-			{/*<p>{ data.description }</p>
-			<div>{ data.id }</div>
-			<div>{ data.subscribers }</div>*/}
 		</Link>
 	);
 }
