@@ -11,28 +11,30 @@ const NavBar = props => {
 	return (
 		<div className="navbar">
 			
-			<Link to="/x/" className="link"><div className="logo">For Reddit To Go</div></Link>	
-			
 			<i onClick={ handleSideBar } className="fas fa-bars"></i>
-			<div className="nav-right">
-				<form onSubmit={ onSubmit } >
-					<input type="text" placeholder="search reddit" />
-					<button type="submit"><i className="fas fa-search"></i></button>
-				</form>
-				{ loggedIn && user ?
-					<UserBox user={ user } />
-					:
-					<a className="login-btn"
-						href={ `https://www.reddit.com/api/v1/authorize
-						?client_id=${CLIENT_ID}
-						&response_type=token
-						&state=${REACT_APP_SECRET_STRING}
-						&redirect_uri=${URI}
-						&duration=${REACT_APP_DURATION}
-						&scope=${REACT_APP_SCOPE}` }>
-					    <i className="fas fa-user"></i>
-					</a>
-				}
+			
+			<Link to="/x/" className="link"><div className="logo">For Reddit To Go</div></Link>	
+
+			<form onSubmit={ onSubmit } >
+				<input type="text" placeholder="search reddit" />
+				<button type="submit"><i className="fas fa-search"></i></button>
+			</form>
+
+			<div className="login-user-field">
+			{ loggedIn && user ?
+				<UserBox user={ user } />
+				:
+				<a className="login-btn"
+					href={ `https://www.reddit.com/api/v1/authorize
+					?client_id=${CLIENT_ID}
+					&response_type=token
+					&state=${REACT_APP_SECRET_STRING}
+					&redirect_uri=${URI}
+					&duration=${REACT_APP_DURATION}
+					&scope=${REACT_APP_SCOPE}` }>
+				    <i className="fas fa-user"></i>
+				</a>
+			}
 			</div>
 
 		</div>
@@ -48,7 +50,7 @@ const UserBox = ({ user }) => {
 				<div className="name">{ user.name }</div>
 				<div className="karma">{ user.karma } Karma</div>
 			</div>
-			<img src={ user.img } />
+			<img src={ user.img } alt="user_image" />
 		</div>
 	);
 }

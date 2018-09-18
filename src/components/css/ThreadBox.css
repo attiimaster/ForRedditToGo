@@ -22,6 +22,7 @@
 }
 
 .xyz {
+	display: none;
 	font-size: 60%;
 	position: absolute;
 	top: 0;
@@ -29,4 +30,18 @@
 }
 .xyz:hover {
 	background: white;
+}
+
+@media (max-width: 666px) {
+	.ThreadBox {
+		border: none;
+		border-top: 1px solid #eee;
+		padding: 0;
+	}
+	.ThreadBox .score {
+		display: none;
+	}
+	.ThreadBox .content {
+		width: 100%;
+	}
 }

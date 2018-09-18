@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import './css/Home.css';
 
-import readOutLoud from "../helpers/readOutLoud";
 
 class Home extends Component {
   	constructor(props) {

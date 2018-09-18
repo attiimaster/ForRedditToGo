@@ -1,4 +1,5 @@
 const readOutLoud = (message) => {
+	console.log("readOutLoud");
     const speech = new SpeechSynthesisUtterance();
 
 	const synth = window.speechSynthesis;
@@ -12,6 +13,7 @@ const readOutLoud = (message) => {
 	speech.voice = voices[0];
 
 	// Listen for Events
+	speech.onstart = () => console.log("SPEECH START!");
 	speech.onend = () => console.log("SPEECH END!");
 	speech.onpause = () => console.log("SPEECH PAUSE!");
 	speech.onresume = () => console.log("SPEECH RESUME!");

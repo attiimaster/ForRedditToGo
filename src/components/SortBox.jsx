@@ -4,6 +4,7 @@ import "./css/SortBox.css";
 const SortBox = ({ onChange }) => {
 	return (
 		<div className="SortBox">
+			<span>Sort by</span>
 			<select onChange={ onChange } >
 				<option value="hot">Hot</option>
 				<option value="top">Top</option>

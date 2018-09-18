@@ -23,10 +23,32 @@ class App extends Component {
     this.handleSideBar = this.handleSideBar.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   	}
+
   	componentDidMount() {
-  		// if (accessToken)
       const accessToken = localStorage.getItem("access_token");
 
+  		// check and parse url | values: access_token, token_type, state, expires_in, scope
+  		const token = getHashValue("access_token");
+  		const state = getHashValue("state");
+  
+  		// validate request and origin
+  		if (token && state === process.env.REACT_APP_SECRET_STRING) {
+  			console.log("successfully logged in");
+  			localStorage.setItem("access_token", token);
+  			
+  			// fetch user info
+        fetchUser(token)
+        .then(res => res.json())
+        .then(data => this.setState({ user: data }))
+        .catch(err => console.error(err))
+  
+  			fetchMySubs(token)
+  			.then(res => res.json())
+  			.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
+        .catch(err => console.error(err))
+  		}
+
+      // if no params in url check localStorage
       if (accessToken) {
 
         // fetch user info
@@ -39,39 +61,17 @@ class App extends Component {
         .then(res => res.json())
         .then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
         .catch(err => console.error(err))
-
-      } else {
-
-  		  // parse url
-		    // values: access_token, token_type, state, expires_in, scope
-  		  const token = getHashValue("access_token");
-  		  const state = getHashValue("state");
-  
-  		  // validate request and origin
-  		  if (token && state === process.env.REACT_APP_SECRET_STRING) {
-  		  	console.log("successfully logged in");
-  		  	localStorage.setItem("access_token", token);
-  		  	
-  		  	// fetch user info
-          fetchUser(token)
-          .then(res => res.json())
-          .then(data => this.setState({ user: data }))
-          .catch(err => console.error(err))
-  
-  		  	fetchMySubs(token)
-  		  	.then(res => res.json())
-  		  	.then(data => this.setState({ mySubreddits: data.data.children, loggedIn: true }))
-          .catch(err => console.error(err))
-  		  }
       }
   	}
+
     handleSideBar(e) {
-      console.log("handleSideBar")
+      console.log("handleSideBar");
       this.state.sidebarIsOpen ? 
         this.setState({ sidebarIsOpen: false })
         :
         this.setState({ sidebarIsOpen: true });
     }
+
   	handleSearch(e) {
       e.preventDefault();
       const query = e.target[0].value;
@@ -80,26 +80,26 @@ class App extends Component {
     }
 
   	render() {
-		const { mySubreddits, loggedIn, user, sidebarIsOpen } = this.state;
-    const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
-
-    return (
-			<Router history={ history }>
-		  	<div className="App">
-				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
-
-				<SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
-
-				<Switch>
-					<Route exact path={ `${uri}/` } component={Home} />
-					<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
-          <Route path={ `${uri}/r` } component={Sub} />
-          <Route path={ `${uri}/search/:query` } component={Search} />
-				</Switch>	
-
-		  	</div>
-		  	</Router>
-		);
+		  const { mySubreddits, loggedIn, user, sidebarIsOpen } = this.state;
+      const sanitizedUser = user ? { name: user.name, karma: user.comment_karma, img: user.icon_img } : null;
+  
+      return (
+		  	<Router history={ history }>
+		    	<div className="App">
+		  		<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
+  
+		  		<SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
+  
+		  		<Switch>
+		  			<Route exact path={ `${uri}/` } component={Home} />
+		  			<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
+            <Route path={ `${uri}/r` } component={Sub} />
+            <Route path={ `${uri}/search/:query` } component={Search} />
+		  		</Switch>	
+  
+		    	</div>
+		    	</Router>
+		  );
   	}
 }
 

@@ -30,7 +30,7 @@
 }
 .CommentBox .content {
 	margin: auto 0;
-	padding: 0 10px;
+	padding: 10px;
 	width: 92%;
 }
 .CommentBox .author {
@@ -38,4 +38,18 @@
 }
 .CommentBox small {
 	display: flex;
+}
+
+@media (max-width: 666px) {
+	.CommentBox {
+		border: none;
+		border-top: 1px solid #eee;
+		padding: 0;
+	}
+	.CommentBox .score {
+		display: none;
+	}
+	.CommentBox .content {
+		width: 100%;
+	}
 }

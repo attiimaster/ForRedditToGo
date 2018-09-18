@@ -4,13 +4,11 @@ import "./css/ThreadBox.css";
 
 import AuthorHeader from "../components/AuthorHeader";
 
-const ThreadBox = props => {
-	const { data } = props;	// console.log(decodeHTML(data.media_embed.content))
-	const uri = process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "";
+const ThreadBox = ({ data }) => {
+	// console.log(decodeHTML(data.media_embed.content))
 	// console.log(data);
 	return (
 		<Link to={ window.location.pathname + `/${data.id}` } className="ThreadBox" >
-
 
 			<small className="score">
 				<span>{ data.score }</span>
@@ -26,14 +24,13 @@ const ThreadBox = props => {
 				</small>
 			</div>
 
-			
-<div className="xyz">
-{ data.selftext ? <p>data.selftext</p> : null }	
-{ data.url ? <p>data.url</p> : null }					{/*  data.url */}
-{ data.media ? <p>data.media</p> : null }				{/* data.media.toString() */}
-{ data.media_embed ? <p>data.media_embed</p> : null }	{/* decodeHTML(data.media_embed.content) */}
-{ data.preview ? <p>data.preview</p> : null }			{/* data.preview */}
-</div>
+			<div className="xyz">
+			{ data.selftext ? <p>data.selftext</p> : null }	
+			{ data.url ? <p>data.url</p> : null }					{/*  data.url */}
+			{ data.media ? <p>data.media</p> : null }				{/* data.media.toString() */}
+			{ data.media_embed ? <p>data.media_embed</p> : null }	{/* decodeHTML(data.media_embed.content) */}
+			{ data.preview ? <p>data.preview</p> : null }			{/* data.preview */}
+			</div>
 
 		</Link>
 	);
