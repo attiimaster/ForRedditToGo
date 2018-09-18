@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import history from "./helpers/history";
 import './App.css';
 
 // import config from "./config";
@@ -8,6 +9,7 @@ import getHashValue from "./helpers/getHashValue";
 import Home from "./containers/Home";
 import Sub from "./containers/Sub";
 import Thread from "./containers/Thread";
+import Search from "./containers/Search";
 
 import NavBar from "./components/NavBar";
 import SubRedditTab from "./components/SubRedditTab";
@@ -17,7 +19,7 @@ class App extends Component {
 		super();
 		this.state = { subreddits: null, loggedIn: false, sidebarIsOpen: false }
     this.handleSideBar = this.handleSideBar.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   	}
   	componentDidMount() {
   		// if (accessToken)
@@ -66,12 +68,12 @@ class App extends Component {
         :
         this.setState({ sidebarIsOpen: true });
     }
-  	handleSubmit(e) {
+  	handleSearch(e) {
       e.preventDefault();
-      fetch("https://www.reddit.com/")
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
+      const query = e.target[0].value;
+      console.log(query);
+      const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
+      history.push(`${uri}/search/${query}`)
     }
 
   	render() {
@@ -80,16 +82,17 @@ class App extends Component {
 		const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
     return (
-			<Router>
+			<Router history={ history }>
 		  	<div className="App">
-				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } />
+				<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
 
 				<SubRedditTab subreddits={ subreddits } isOpen={ sidebarIsOpen } />
 
 				<Switch>
 					<Route exact path={ `${uri}/` } component={Home} />
 					<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
-					<Route path={ `${uri}/r` } component={Sub} />
+          <Route path={ `${uri}/r` } component={Sub} />
+          <Route path={ `${uri}/search/:query` } component={Search} />
 				</Switch>	
 
 		  	</div>
@@ -118,4 +121,14 @@ const fetchMySubs = (token) => {
     }
   }
   return fetch(`https://oauth.reddit.com/subreddits/mine/subscriber`, options)
+}
+
+const fetchSearch = (query) => {
+  const token = localStorage.getItem("access_token");
+  const options = {
+    headers: {
+      Authorization: `bearer ${token}`
+    }
+  }
+  return fetch(`https://www.reddit.com/search.json?q=${query}`, options)
 }

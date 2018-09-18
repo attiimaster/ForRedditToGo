@@ -6,7 +6,7 @@ const NavBar = props => {
 	const { REACT_APP_DURATION, REACT_APP_SCOPE, REACT_APP_SECRET_STRING } = process.env;
 	const CLIENT_ID = process.env.NODE_ENV === "production" ? process.env.REACT_APP_CLIENT_ID : process.env.REACT_APP_CLIENT_ID_DEV;
 	const URI = process.env.NODE_ENV === "production" ? process.env.REACT_APP_URI : process.env.REACT_APP_URI_DEV;
-	const { loggedIn, user, handleSideBar } = props;
+	const { loggedIn, user, handleSideBar, onSubmit } = props;
 
 	return (
 		<div className="navbar">
@@ -15,7 +15,7 @@ const NavBar = props => {
 			
 			<i onClick={ handleSideBar } className="fas fa-bars"></i>
 			<div className="nav-right">
-				<form>
+				<form onSubmit={ onSubmit } >
 					<input type="text" placeholder="search reddit" />
 					<button type="submit"><i className="fas fa-search"></i></button>
 				</form>

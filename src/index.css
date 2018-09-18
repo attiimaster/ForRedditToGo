@@ -7,7 +7,7 @@ body {
   	font-family: sans-serif;
   	overflow-y: scroll;
 }
-p {
+p, small {
 	line-height: 1.6;
 	padding: 5px 0;
 }

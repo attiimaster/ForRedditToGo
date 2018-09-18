@@ -1,0 +1,31 @@
+.Search {
+	margin: auto;
+	max-width: 1000px;
+	width: 90%
+}
+.SearchTitle {
+	padding: 30px 10px;
+}
+.SubRedditBoxAlt {
+	border-top: 1px solid #eee;
+	display: inline-flex;
+	margin: auto;
+	padding: 5px;
+	width: 100%;
+}
+.SubRedditBoxAlt * {
+	margin: auto;
+}
+.SubRedditBoxAlt p, small {
+	padding: 0;
+}
+.SubRedditBoxAlt .subreddit-box-img {}
+.SubRedditBoxAlt .title {
+	margin-left: 10px;
+	width: 20%;
+}
+.SubRedditBoxAlt .description {
+	margin-right: 0;
+	width: 60%;
+	text-align: left;
+}

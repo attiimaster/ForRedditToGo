@@ -13,13 +13,12 @@ const SubRedditTab  = ({ subreddits, isOpen }) => {
 	);
 }
 
-const SubRedditBox = props => {
-	const { data } = props;
+const SubRedditBox = ({ data }) => {
 
 	return (
 		<Link to={ `${uri}/r/${data.display_name}` } className="subreddit-box">
 			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
-			<header><h3>{ data.display_name_prefixed }</h3></header>
+			<h3>{ data.display_name_prefixed }</h3>
 			{/*<p>{ data.description }</p>
 			<div>{ data.id }</div>
 			<div>{ data.subscribers }</div>*/}

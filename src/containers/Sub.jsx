@@ -24,9 +24,10 @@ class Sub extends Component {
   	componentDidUpdate() {
   		const path = this.props.location.pathname;
   		const subreddit = path.split("/")[3];
+      const { loading, currentSub } = this.state;
 
-  		if (this.state.currentSub !== subreddit) {
-        if (!this.state.loading) { this.setState({ loading: true }); }
+  		if (!loading && currentSub !== subreddit) {
+        if (!loading) { this.setState({ loading: true }); }
   			
         fetch(`https://www.reddit.com/r/${subreddit}/.json`)
   			.then(res => res.json())
@@ -46,10 +47,13 @@ class Sub extends Component {
 
       return (
           <div className="Sub">
-            <div className="SubTitle">
+
+            <header className="SubTitle">
               <h2>r/{ children[0].data.subreddit }</h2>
-            </div>
+            </header>
+
             { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
+
           </div>
       );
     
