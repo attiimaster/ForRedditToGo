@@ -22,7 +22,7 @@ const readOutLoud = (message) => {
 	speech.pitch = 1;
 	speech.voice = voices[0];
 
-	// Listen for Events
+	// Register Event Handlers
 	speech.onstart = () => {
 		console.log("SPEECH START!");
 		print("SPEECH started.");

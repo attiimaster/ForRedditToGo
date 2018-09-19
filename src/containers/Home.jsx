@@ -16,11 +16,17 @@ class Home extends Component {
 		  	<div className="Home">
 
           <header className="home-header">
+              <br />
+              <br />
               <h1>For Reddit, To Go</h1>
               <br />
               <br />
-              <h1>Sidebar & Link Update</h1>
-              Listen to Reddit
+              <h3>Listen to Reddit while doing stuff.</h3>
+              <br />
+              <br />
+              <h1>Synth Update</h1>
+              <br />
+              <br />
           </header>
 
 		  	</div>
