@@ -1,4 +1,6 @@
-const readOutLoud = (message) => {
+import print from "../helpers/print";
+
+export const readOutLoud = (message) => {
 	console.log("readOutLoud");
     const speech = new SpeechSynthesisUtterance();
 
@@ -7,6 +9,7 @@ const readOutLoud = (message) => {
 	console.log(voices);
 	console.log(window.speechSynthesis.getVoices());
 
+	// log voices
 	const log = document.getElementById("log");
 	
 	for (let i=0; i<voices.length; i++) {
@@ -50,9 +53,3 @@ const readOutLoud = (message) => {
 
 export default readOutLoud;
 
-// print to Log
-const print = toPrint => {
-	const log = document.getElementById("log");
-	log.insertAdjacentHTML("beforeend", `<small><b>${toPrint}</b></small>`);
-}
-    

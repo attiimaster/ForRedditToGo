@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import "./css/Synth.css";
 
-import readOutLoud from "../helpers/readOutLoud";
+import readOutLoud from "../services/speech.service.js";
+import print from "../helpers/print";
 
 class Synth extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { logIsOpen: false, toRead: "Test Phrase" };
+		this.state = { logIsOpen: false, toRead: ["Test", "Phrase"] };
 		this.handleLog = this.handleLog.bind(this);
 		this.handlePlayButton = this.handlePlayButton.bind(this);
 		this.handleSkipButton = this.handleSkipButton.bind(this);
@@ -69,6 +70,17 @@ class Synth extends Component {
 
 	render() {
 		const { logIsOpen, synthState } = this.state;
+
+		// log character count for test purposes
+		const add = arr => {
+			let sum = 0;
+			arr.map(str => str && (sum += str.length));
+
+			return sum;
+		}
+		console.log(`array length: ${this.state.toRead.length}`);
+		console.log(`array char count: ${add(this.state.toRead)}`);
+
 		return (
 			<div className="Synth">
 
@@ -99,31 +111,3 @@ const SynthBtn = ({ icon, onClick }) => {
 		</div>
 	);
 }
-
-// print to Log
-const print = toPrint => {
-	const log = document.getElementById("log");
-	log.insertAdjacentHTML("beforeend", `<small><b>${toPrint}</b></small>`);
-}
-
-// not used currently
-/*
-const playbutton = (synth, toRead) => {
-	console.log(synth);
-	const playbtn = document.getElementById("playbtn");
-	console.log(playbtn);
-
-	if (!synth.speaking) {
-		readOutLoud(toRead);
-		playbtn.className = "fas fa-pause";
-	} else if (synth.paused) {
-		synth.resume();
-		playbtn.className = "fas fa-pause";
-	} else if (synth.speaking && !synth.paused) {
-		synth.pause();
-		playbtn.className = "fas fa-play";
-	} else { 
-		alert("ERROR");
-	};
-}
-*/
