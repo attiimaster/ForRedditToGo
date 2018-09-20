@@ -15,3 +15,9 @@ a {
 	color: #777;
 	text-decoration: none;
 }
+
+@media (max-width: 600px) {
+	p, small {
+		line-height: 1.2;
+	}
+}

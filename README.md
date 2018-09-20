@@ -9,14 +9,12 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 ##### Features to be implemented for MVP: 
  - fetch more content when user reaches bottom of current feed
- - skip feature (?)
+ - decide on how to do comments and answers to comments
+ - synth: work out the details
+ - basic frontpage
 
 
-##### Features that could make sense:
- - save threads
-
-
-##### Features to improve:
+##### Features to improve for MVP:
 
 **sort feature:** 
  - add sort to search
@@ -29,7 +27,15 @@ Uses text to speech so I can listen to Reddit while doing things.
 **synth controller:** 
  - implement pauses between different sections (comments, post),
  - skip feature
+ - read answers
  - announcements (eg: `u/${user} writes`)
+
+
+##### Features that could make sense:
+ - save threads
+
+
+
 
 
 Link: https://attiimaster.github.io/ForRedditToGo

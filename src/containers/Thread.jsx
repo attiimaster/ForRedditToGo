@@ -28,7 +28,6 @@ class Thread extends Component {
   	}
 
   	handleSort(e) {
-  		console.log(e.target.value);
   		const path = this.props.location.pathname;
   		const subreddit = path.split("/")[3];
   		const id = path.split("/")[4];
@@ -36,7 +35,7 @@ class Thread extends Component {
   		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/${e.target.value}/.json`)
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, loading: false }))
-  		.catch(err => this.setState({ listing: "ERROR", loading: false }))
+  		.catch(err => this.setState({ listing: err, loading: false }))
 
   	}
 
@@ -46,7 +45,6 @@ class Thread extends Component {
 		if (listing) {
 			const threadInfo = listing[0].data.children[0];
 			const comments = listing[1].data.children;
-
 
 			return (
 			  	<div className="Thread">
@@ -105,6 +103,8 @@ const CommentBox = ({ data }) => {
 			<div className="content">
 				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
 				<p>{ data.body }</p>
+
+				{ data.replies !== "" && data.replies.data.children.map((r, i) => <CommentBox { ...r } />) }
 			</div>
 		</div>
 	);

@@ -75,7 +75,6 @@ class App extends Component {
   	handleSearch(e) {
       e.preventDefault();
       const query = e.target[0].value;
-      console.log(query);
       history.push(`${uri}/search/${query}`)
     }
 

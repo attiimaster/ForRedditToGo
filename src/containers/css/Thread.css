@@ -2,6 +2,7 @@
 .Thread {
 	margin: auto;
 	max-width: 1000px;
+	padding-bottom: 30vw;
 	width: 90%
 }
 
@@ -20,7 +21,6 @@
 	padding: 10px 5px;
 }
 .CommentBox .score {
-	border-right: 1px solid #eee;
 	display: flex;
 	font-size: 20px;
 	width: 8%;
@@ -29,6 +29,7 @@
 	margin: auto;
 }
 .CommentBox .content {
+	border-left: 1px solid #eee;
 	margin: auto 0;
 	padding: 10px;
 	width: 92%;
@@ -40,7 +41,7 @@
 	display: flex;
 }
 
-@media (max-width: 666px) {
+@media (max-width: 600px) {
 	.CommentBox {
 		border: none;
 		border-top: 1px solid #eee;
@@ -50,6 +51,7 @@
 		display: none;
 	}
 	.CommentBox .content {
+		border-left: 1px solid silver;
 		width: 100%;
 	}
 }

@@ -39,9 +39,9 @@ const readOutLoud = (message) => {
 		console.log("SPEECH RESUME!");
 		print("SPEECH resumed.");
 	}
-	speech.onerror = () => {
+	speech.onerror = (e) => {
 		console.log("SPEECH ERROR!");
-		print("SPEECH ERROR!");
+		print(`SPEECH ERROR! ${e.error}`);
 	}
 	
 	// start playback
