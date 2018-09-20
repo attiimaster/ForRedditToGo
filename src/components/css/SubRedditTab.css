@@ -1,28 +1,54 @@
 .SubRedditTab {
 	background: #555;
+	box-shadow: 0px 0px 10px 1px silver;
 	color: white;
-	position: fixed;
-  	top: 50px;
-	left: 0;
-	bottom: 0;
-	width: 0px;
+	opacity: 0;
 	overflow: hidden;
 	overflow-y: auto;
 	transition: all 0.3s ease;
-	z-index: 3;
+	width: 0px;
+
+	position: fixed;
+  	top: 0px;
+	left: 0;
+	bottom: 0;
+	z-index: 5;
 }
-.SubRedditTab .logo {
+.sub-reddit-tab-top {
+	border-bottom: 1px solid #eee;
+	display: flex;
+	opacity: 0;
+	padding: 10px 0;
+	transition: all 0.2s ease;
+} 
+.sub-reddit-tab-top i {
+	cursor: pointer;
+	font-size: 25px;
+	margin: auto;
+	margin-right: 10px;
+	transition: all 0.3s ease;
+} 
+.sub-reddit-tab-top .logo {
 	color: #ff4500;
 	font-size: 24px;
 	font-weight: bold;
-	margin: 8px;
-	text-align: right;
+	margin: auto;
+	margin-left: 10px;
+	transition: all 0.2s ease;
+	white-space: nowrap;
 }
 .SubRedditTab-active {
 	background: white;
 	border: 1px solid #eee;
 	color: #555;
+	opacity: 1;
 	width: 320px;
+}
+.SubRedditTab-active .sub-reddit-tab-top {
+	opacity: 1;
+}
+.SubRedditTab-active .sub-reddit-tab-top i {
+	transform: rotate(720deg);
 }
 
 .subreddit-box {

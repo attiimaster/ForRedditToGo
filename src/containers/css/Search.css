@@ -6,7 +6,10 @@
 .SearchTitle {
 	padding: 30px 10px;
 }
-.search-results {}
+.search-results {
+	background: white;
+	padding: 10px;
+}
 .search-results h3 {
 	padding: 0 0 10px 10px;
 }

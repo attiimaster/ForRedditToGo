@@ -5,6 +5,7 @@ import "./css/Search.css";
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
+import MoreButton from "../components/MoreButton";
 
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
@@ -61,9 +62,10 @@ class Search extends Component {
 	
 					<section className="search-results">
 						<h3>Subreddits</h3>
-						{ subreddits.data.children[0] ? subreddits.data.children.map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
+						{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
+						<MoreButton onClick={ () => "" } text="results" />
 					</section>
-					<div style={{ width: "80%", margin: "20px auto", borderTop: "1px solid #555" }}></div>
+					<div style={{ width: "100%", margin: "20px auto", borderTop: "1px solid silver" }}></div>
 					<section className="search-results">
 						<h3>Posts</h3>
 						{ posts.data.children[0] ? posts.data.children.map((c, i) => <ThreadBox { ...c } />) : <small>Wow, much empty o.O</small> }

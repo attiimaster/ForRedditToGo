@@ -41,6 +41,7 @@
 }
 .navbar button {
 	border-left: 1px solid silver;
+	cursor: pointer;
 }
 .navbar .logo {
 	color: #ff4500;

@@ -26,7 +26,8 @@ export const readOutLoud = (message) => {
 	speech.voice = voices[0];
 
 	// Register Event Handlers
-	speech.onstart = () => {
+	speech.onstart = (e) => {
+		console.log(e)
 		console.log("SPEECH START!");
 		print("SPEECH started.");
 	}
@@ -44,7 +45,7 @@ export const readOutLoud = (message) => {
 	}
 	speech.onerror = (e) => {
 		console.log("SPEECH ERROR!");
-		print(`SPEECH ERROR! ${e.error}`);
+		print(`SPEECH ERROR! ${e.toString()}`);
 	}
 	
 	// start playback

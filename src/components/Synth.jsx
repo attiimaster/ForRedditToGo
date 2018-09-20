@@ -79,7 +79,9 @@ class Synth extends Component {
 			return sum;
 		}
 		console.log(`array length: ${this.state.toRead.length}`);
+		print(`array length: ${this.state.toRead.length}`);
 		console.log(`array char count: ${add(this.state.toRead)}`);
+		print(`array char count: ${add(this.state.toRead)}`);
 
 		return (
 			<div className="Synth">

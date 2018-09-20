@@ -84,20 +84,21 @@ class App extends Component {
   
       return (
 		  	<Router history={ history }>
-		    	<div className="App">
-		  		<NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
-  
-		  		<SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
-  
-		  		<Switch>
-		  			<Route exact path={ `${uri}/` } component={Home} />
-		  			<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
-            <Route path={ `${uri}/r` } component={Sub} />
-            <Route path={ `${uri}/search/:query` } component={Search} />
-		  		</Switch>	
-  
+		    	
+          <div className="App">
+		  		  <NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
+    
+		  		  <SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
+    
+		  		  <Switch>
+		  		  	<Route exact path={ `${uri}/` } component={Home} />
+		  		  	<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
+              <Route path={ `${uri}/r` } component={Sub} />
+              <Route path={ `${uri}/search/:query` } component={Search} />
+		  		  </Switch>	
 		    	</div>
-		    	</Router>
+          
+		    </Router>
 		  );
   	}
 }

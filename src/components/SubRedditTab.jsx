@@ -7,11 +7,17 @@ const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 const SubRedditTab  = ({ subreddits, isOpen, handleSideBar }) => {
 	return (
 		<div className={ isOpen ? "SubRedditTab SubRedditTab-active" : "SubRedditTab" }>
-			<Link to={ `${uri}/` }><div className="logo">For Reddit To Go</div></Link>	
+			<div className="sub-reddit-tab-top">
+				<Link className="logo" to={ `${uri}/` }>For Reddit To Go</Link>
+				<i className="fas fa-times" onClick={ handleSideBar }></i>
+			</div>	
 			{ subreddits && subreddits.map((sub, i) => <SubRedditBox handleSideBar={ handleSideBar } key={i} { ...sub } />)}
 		</div>
 	);
 }
+
+export default SubRedditTab;
+
 
 const SubRedditBox = ({ data, handleSideBar }) => {
 
@@ -22,5 +28,3 @@ const SubRedditBox = ({ data, handleSideBar }) => {
 		</Link>
 	);
 }
-
-export default SubRedditTab;
