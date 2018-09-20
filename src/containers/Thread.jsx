@@ -7,7 +7,6 @@ import AuthorHeader from "../components/AuthorHeader";
 import Synth from "../components/Synth";
 import SortBox from "../components/SortBox";
 
-import readOutLoud from "../helpers/readOutLoud";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
 
 class Thread extends Component {
@@ -21,18 +20,19 @@ class Thread extends Component {
   		const subreddit = path.split("/")[3];
   		const id = path.split("/")[4];
   		
-  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json`)
+  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json?limit=100`)
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, loading: false }))
   		.catch(err => this.setState({ listing: "ERROR", loading: false }))
   	}
 
   	handleSort(e) {
+    	this.setState({ loading: true });
   		const path = this.props.location.pathname;
   		const subreddit = path.split("/")[3];
   		const id = path.split("/")[4];
   		
-  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/${e.target.value}/.json`)
+  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json?sort=${e.target.value}&limit=100`)
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, loading: false }))
   		.catch(err => this.setState({ listing: err, loading: false }))
@@ -42,7 +42,10 @@ class Thread extends Component {
   	render() {
 		const { listing, loading } = this.state;
 
-		if (listing) {
+		if (loading) {
+			return ( <LoadingScreen /> );
+
+	  	} else if (listing) {
 			const threadInfo = listing[0].data.children[0];
 			const comments = listing[1].data.children;
 
@@ -54,10 +57,7 @@ class Thread extends Component {
 			  	</div>
 			);
 		
-		} else if (loading) {
-			return ( <LoadingScreen /> );
-
-	  	} else {
+		} else {
 	  		return ( <ErrorBox /> );
 	  	}
   	}
@@ -87,7 +87,7 @@ const ThreadTitle = ({ data }) => {
 const ThreadCommentsContainer = ({ comments, handleSort }) => {
 	return (
 		<div>
-			<SortBox onChange={ handleSort } />
+			<SortBox onChange={ handleSort } values={ [ "Best", "Top", "New", "Controversial",  "Old" ] } />
 			{ comments.map((c, i) => <CommentBox key={i} { ...c } />) }
 		</div>
 	);
@@ -104,7 +104,16 @@ const CommentBox = ({ data }) => {
 				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
 				<p>{ data.body }</p>
 
-				{ data.replies !== "" && data.replies.data.children.map((r, i) => <CommentBox { ...r } />) }
+				<div>
+					<small>
+						<span>{ `${data.replies ? data.replies.data.children.length : 0} Comments` }</span>
+					</small>
+					<small className="score-mobile">
+						<span>{ `${data.score} Upvotes` }</span>
+					</small>
+				</div>
+				<br />
+				{ data.replies && data.replies.data.children.map((r, i) => <CommentBox { ...r } key={i} />) }
 			</div>
 		</div>
 	);

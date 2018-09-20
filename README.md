@@ -9,7 +9,7 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 ##### Features to be implemented for MVP: 
  - fetch more content when user reaches bottom of current feed
- - decide on how to do comments and answers to comments
+ - decide on how to do comments and answers to comments (eg. RecursiveCommentBox)
  - synth: work out the details
  - basic frontpage
 

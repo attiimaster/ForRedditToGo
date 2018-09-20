@@ -18,10 +18,14 @@ const ThreadBox = ({ data }) => {
 				
 				<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
 
-				<br/>
-				<small>
-					<span>{ data.num_comments } Comments</span>
-				</small>
+				<div>
+					<small>
+						<span>{ `${data.num_comments} Comments` }</span>
+					</small>
+					<small className="score-mobile">
+						<span>{ `${data.score} Upvotes` }</span>
+					</small>
+				</div>
 			</div>
 
 			<div className="xyz">

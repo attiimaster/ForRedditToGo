@@ -24,7 +24,7 @@ class Home extends Component {
               <h3>Listen to Reddit while doing stuff.</h3>
               <br />
               <br />
-              <h1>Nav Update</h1>
+              <h1>Boxes & Sort Update</h1>
               <br />
               <br />
           </header>

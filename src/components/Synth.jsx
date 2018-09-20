@@ -22,7 +22,6 @@ class Synth extends Component {
 	// button handlers
 	handlePlayButton(e) {
 		// playbutton(window.speechSynthesis, this.state.toRead);
-		const playbtn = document.getElementById("playbtn");
 		const synth = window.speechSynthesis;
 		
 		// differentiate between
@@ -69,7 +68,7 @@ class Synth extends Component {
 	}
 
 	render() {
-		const { toRead, logIsOpen, synthState } = this.state;
+		const { logIsOpen, synthState } = this.state;
 		return (
 			<div className="Synth">
 
@@ -108,6 +107,7 @@ const print = toPrint => {
 }
 
 // not used currently
+/*
 const playbutton = (synth, toRead) => {
 	console.log(synth);
 	const playbtn = document.getElementById("playbtn");
@@ -126,3 +126,4 @@ const playbutton = (synth, toRead) => {
 		alert("ERROR");
 	};
 }
+*/

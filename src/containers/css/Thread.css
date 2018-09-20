@@ -25,6 +25,9 @@
 	font-size: 20px;
 	width: 8%;
 }
+.CommentBox .score-mobile {
+	display: none;
+}
 .CommentBox .score span {
 	margin: auto;
 }
@@ -37,21 +40,24 @@
 .CommentBox .author {
 	font-size: 15px;
 }
-.CommentBox small {
-	display: flex;
-}
 
 @media (max-width: 600px) {
 	.CommentBox {
 		border: none;
-		border-top: 1px solid #eee;
 		padding: 0;
 	}
 	.CommentBox .score {
 		display: none;
 	}
+	.CommentBox .score-mobile {
+		display: inline-block;
+		margin-left: 20px;
+	}
 	.CommentBox .content {
 		border-left: 1px solid silver;
 		width: 100%;
 	}
+.CommentBox .author {
+	font-size: 80%;
+}
 }

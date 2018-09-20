@@ -1,15 +1,12 @@
 import React from "react";
 import "./css/SortBox.css";
 
-const SortBox = ({ onChange }) => {
+const SortBox = ({ onChange, values }) => {
 	return (
 		<div className="SortBox">
 			<span>Sort by</span>
 			<select onChange={ onChange } >
-				<option value="hot">Hot</option>
-				<option value="top">Top</option>
-				<option value="new">New</option>
-				<option value="controversial">Contoversial</option>
+				{ values && values.map((v, i) => <option value={ v.toLowerCase() } key={i} >{ v }</option>) }
 			</select>
 		</div>
 	);

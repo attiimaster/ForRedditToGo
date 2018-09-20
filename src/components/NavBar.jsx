@@ -6,11 +6,7 @@ class NavBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { isHidden: false };    
-		this.onScroll = () => {
-      		const { isHidden } = this.state;
-			console.log("onsc")      
-			console.log("w.s", window.scrollY)      
-			console.log("t.p", this.prev)      
+		this.onScroll = () => {  
   		    if (window.scrollY > this.prev) {
 				this.setState({ isHidden: true });
   		    } else {

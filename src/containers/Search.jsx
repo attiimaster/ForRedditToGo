@@ -34,12 +34,12 @@ class Search extends Component {
   		if (!loading && query !== newQuery) {
         	if (!loading) { this.setState({ loading: true }); }
   			
-  			const posts = await fetch(`https://www.reddit.com/search.json?q=${newQuery}`);
     		const subreddits = await fetch(`https://www.reddit.com/subreddits/search.json?q=${newQuery}`);
+  			const posts = await fetch(`https://www.reddit.com/search.json?q=${newQuery}`);
 	
     		this.setState({
-				posts: await posts.json(), 
-    			subreddits: await subreddits.json(), 
+    			subreddits: await subreddits.json(),
+				posts: await posts.json(),  
     			loading: false, 
     			query: newQuery
     		})	
@@ -51,7 +51,7 @@ class Search extends Component {
 		if (loading) {
     	  	return ( <LoadingScreen /> );
 	
-    	} else if (posts && subreddits || subreddits || posts) {
+    	} else if ((posts && subreddits) || subreddits || posts) {
 			return (
 				<div className="Search">
 	
@@ -59,17 +59,20 @@ class Search extends Component {
 						<h2>Search results for <u>{ query }</u>:</h2>
 					</header>
 	
-					<section>
-						{ subreddits && subreddits.data.children.map((c, i) => <SubRedditBoxAlt { ...c } />) }
+					<section className="search-results">
+						<h3>Subreddits</h3>
+						{ subreddits.data.children[0] ? subreddits.data.children.map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
 					</section>
 					<div style={{ width: "80%", margin: "20px auto", borderTop: "1px solid #555" }}></div>
-					<section>
-						{ posts && posts.data.children.map((c, i) => <ThreadBox { ...c } />) }
+					<section className="search-results">
+						<h3>Posts</h3>
+						{ posts.data.children[0] ? posts.data.children.map((c, i) => <ThreadBox { ...c } />) : <small>Wow, much empty o.O</small> }
 					</section>
 	
 				</div>
 			);
 
+// if status code || ganz weg
 		} else {
 			return (<ErrorBox />);
 		}

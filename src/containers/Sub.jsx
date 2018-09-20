@@ -37,6 +37,7 @@ class Sub extends Component {
   }
   
   handleSort(e) {
+    this.setState({ loading: true });
     const path = this.props.location.pathname;
     const subreddit = path.split("/")[3];
     
@@ -62,7 +63,7 @@ class Sub extends Component {
             <h2>r/{ children[0].data.subreddit }</h2>
           </header>
 
-          <SortBox onChange={ this.handleSort } />
+          <SortBox onChange={ this.handleSort } values={[ "Hot", "New", "Controversial", "Top", "Rising" ]} />
           { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
 
         </div>

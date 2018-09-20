@@ -12,6 +12,9 @@
 	font-size: 20px;
 	width: 8%;
 }
+.ThreadBox .score-mobile {
+	display: none;
+}
 .ThreadBox .score span {
 	margin: auto;
 }
@@ -32,7 +35,7 @@
 	background: white;
 }
 
-@media (max-width: 666px) {
+@media (max-width: 600px) {
 	.ThreadBox {
 		border: none;
 		border-top: 1px solid #eee;
@@ -40,6 +43,10 @@
 	}
 	.ThreadBox .score {
 		display: none;
+	}
+	.ThreadBox .score-mobile {
+		display: inline-block;
+		margin-left: 20px;
 	}
 	.ThreadBox .content {
 		width: 100%;
