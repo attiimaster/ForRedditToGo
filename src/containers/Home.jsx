@@ -7,9 +7,7 @@ class Home extends Component {
 		super(props);
 		this.state = {}
   	}
-  	componentDidMount() {
-      // readOutLoud("For Reddit, to GO");
-    }
+  	componentDidMount() {}
 
   	render() {
 		return (
@@ -24,7 +22,7 @@ class Home extends Component {
               <h3>Listen to Reddit while doing stuff.</h3>
               <br />
               <br />
-              <h1>subreddit tab & search update</h1>
+              <h1>synth fixx update</h1>
               <br />
               <br />
           </header>

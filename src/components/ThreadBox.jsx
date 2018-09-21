@@ -4,11 +4,14 @@ import "./css/ThreadBox.css";
 
 import AuthorHeader from "../components/AuthorHeader";
 
+const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
+
 const ThreadBox = ({ data }) => {
+	console.log(data)
 	// console.log(decodeHTML(data.media_embed.content))
 	// console.log(data);
 	return (
-		<Link to={ window.location.pathname + `/${data.id}` } className="ThreadBox" >
+		<Link to={ `${uri}/r/${data.subreddit}/${data.id}` } className="ThreadBox" >
 
 			<small className="score">
 				<span>{ data.score }</span>
