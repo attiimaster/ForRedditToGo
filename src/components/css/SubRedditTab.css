@@ -43,6 +43,7 @@
 	color: #555;
 	opacity: 1;
 	width: 320px;
+	max-width: 100%;
 }
 .SubRedditTab-active .sub-reddit-tab-top {
 	opacity: 1;

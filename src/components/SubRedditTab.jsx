@@ -8,7 +8,7 @@ const SubRedditTab  = ({ subreddits, isOpen, handleSideBar }) => {
 	return (
 		<div className={ isOpen ? "SubRedditTab SubRedditTab-active" : "SubRedditTab" }>
 			<div className="sub-reddit-tab-top">
-				<Link className="logo" to={ `${uri}/` }>For Reddit To Go</Link>
+				<Link className="logo" to={ `${uri}/` } onClick={ handleSideBar }>For Reddit To Go</Link>
 				<i className="fas fa-times" onClick={ handleSideBar }></i>
 			</div>	
 			{ subreddits && subreddits.map((sub, i) => <SubRedditBox handleSideBar={ handleSideBar } key={i} { ...sub } />)}

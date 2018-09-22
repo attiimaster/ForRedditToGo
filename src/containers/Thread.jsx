@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Parser from "html-react-parser";
 import './css/Thread.css';
 
 import ErrorBox from "../components/ErrorBox";
@@ -8,6 +9,7 @@ import Synth from "../components/Synth";
 import SortBox from "../components/SortBox";
 
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
+import decodeHtml from "../helpers/decodeHtml";
 
 class Thread extends Component {
   	constructor() {
@@ -75,7 +77,7 @@ const ThreadTitle = ({ data }) => {
 				<h2>{ data.title }</h2>
 			</header>
 
-			<p>{ data.selftext }</p>
+			<div>{ Parser(decodeHtml(data.selftext_html)) }</div>
 
 			<small>
 				<span  className="subreddit">{ data.num_comments } Comments</span>
@@ -103,7 +105,7 @@ const CommentBox = ({ data }) => {
 			</small>
 			<div className="content">
 				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
-				<p>{ data.body }</p>
+				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
 				<div>
 					<small>

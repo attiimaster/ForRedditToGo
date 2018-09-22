@@ -7,32 +7,43 @@ import print from "../helpers/print";
 class Synth extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { logIsOpen: false, listing: ["Test", "Phrase"], synthState: "OFF" };
+		this.state = { 
+			logIsOpen: false, 
+			listing: null,
+			readmode: "STANDARD", // STANDARD, TOP_COMMENTS, COMMENT_TREE
+			script: null,
+			position: null,
+			synthState: "OFF"
+		};
 		this.handleLog = this.handleLog.bind(this);
-		this.handlePlayButton = this.handlePlayButton.bind(this);
-		this.handleSkipButton = this.handleSkipButton.bind(this);
-		this.handleStopButton = this.handleStopButton.bind(this);
-		this.handleTestButton = this.handleTestButton.bind(this);
+		this.play = this.play.bind(this);
+		this.skip = this.skip.bind(this);
+		this.stop = this.stop.bind(this);
 	}
 	componentDidMount() {
-		console.log(this.props)
 		const { listing } = this.props;
 		listing && this.setState({ listing });
 	}
 
 	// button handlers
-	handlePlayButton(e) {
-		// playbutton(window.speechSynthesis, this.state.listing);
+	play(e) {
+		const { listing, position } = this.state;
 		const synth = window.speechSynthesis;
 		
 		// differentiate between
 		// START || PAUSE || RESUME
 		if (!synth.speaking) {
 			print("START EVENT");
-			threadToArray(this.state.listing).map(text => {text && readOut(text) && print(text.length)});
-			print(`array length: ${this.state.listing.length}`);
-			print(`array char count: ${add(this.state.listing)} (32,767 max)`);
-			this.setState({ synthState: "ON" });
+			const script = threadToArray(listing);
+			print(`array length: ${listing.length}`);
+			print(`array char count: ${add(script)} (32,767 max)`);
+			this.setState({ synthState: "ON", script, position: 0 });
+
+			script.map(text => {
+				text && readOut(text, (err, e) => {
+					this.setState({ position: this.state.position + 1 });
+				});
+			});
 		} else if (synth.paused) {
 			print("RESUME EVENT");
 			synth.resume();
@@ -42,26 +53,35 @@ class Synth extends Component {
 			synth.pause();
 			this.setState({ synthState: "PAUSE" });
 		} else { 
-			print("ERROR EVENT");
+			print("PLAY DEFAULT EVENT");
 			synth.cancel();
 			this.setState({ synthState: "OFF" });
 		};
 	}
-	handleSkipButton(e) {
+	skip(e) {
 		print("SKIP EVENT");
-		alert("SKIP: TO DO");
+		const { script, position } = this.state;
+		const skip = position + 1;
+		
+		if (script) {
+			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
+	
+			// slice complete script at current position + 1 and map to readOut
+			script.slice(skip, script.length).map(text => {
+				text && readOut(text, (err, e) => {
+					this.setState({ position: this.state.position + 1 });
+				});
+			});
+		} else {
+			console.error(`SKIP ERROR:\nscript: ${script}\nposition: ${position}`);
+		}
 	}
-	handleStopButton(e) {
+	stop(e) {
 		const synth = window.speechSynthesis;
 		// synth.paused && synth.resume(); evtl ? 
 		print("STOP EVENT");
 		synth.cancel();
-		this.setState({ synthState: "OFF" });
-	}
-	handleTestButton(e) {
-		print("TEST EVENT");
-		readOut(this.state.listing);
-		this.setState({ synthState: "ON" });
+		this.setState({ synthState: "OFF", script: null, position: null });
 	}
 
 	handleLog(e) {
@@ -80,13 +100,11 @@ class Synth extends Component {
 				<i onClick={ this.handleLog } className="fas fa-bars"></i>
 				<div id="log" className={ logIsOpen ? "" : "hidden" }></div>
 				
-				<SynthBtn icon={ synthState === "ON" ? "fas fa-pause" : "fas fa-play" } onClick={ this.handlePlayButton } />
+				<SynthBtn icon={ synthState === "ON" ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
 
-				<SynthBtn icon="fas fa-angle-double-right" onClick={ this.handleSkipButton } />
+				<SynthBtn icon="fas fa-forward" onClick={ this.skip } />
 
-				<SynthBtn icon="fas fa-stop" onClick={ this.handleStopButton } />
-
-				<SynthBtn icon="fas fa-volume-down" onClick={ this.handleTestButton } />
+				<SynthBtn icon="fas fa-stop" onClick={ this.stop } />
 
 			</div>
 		);
@@ -107,7 +125,7 @@ const SynthBtn = ({ icon, onClick }) => {
 
 
 
-// log character count for test purposes
+// sum of character count of an array for test purposes
 const add = arr => {
 	let sum = 0;
 	arr.map(str => str && (sum += str.length));
@@ -155,8 +173,8 @@ const add = arr => {
 		//
 		callback
 	}
-
 */
+
 // temporary solution
 let toReadArray = [];
 
@@ -168,13 +186,12 @@ const threadToArray = listing => {
 	const comments = listing[1].data.children;
 
 	// push title, post and comments to array in order and read out
-	toReadArray.push(title);
-	toReadArray.push(post);
+	title && toReadArray.push(title);
+	post && toReadArray.push(post);
 
 	// push comments and replies to array
 	comments.map((c, i) => {
-		toReadArray.push(` ? ${c.data.author} comments: ? `);
-		toReadArray.push(c.data.body);
+		toReadArray.push(` ? ${c.data.author} comments: ? ` + c.data.body);
 		pushReplies(c.data.replies);
 	});
 	return toReadArray;
@@ -195,8 +212,7 @@ const pushReplies = replies => {
 			if (c.kind !== "more") {
 
 				// if not, push reply body to array
-				toReadArray.push(` ? ${c.data.author} replies: ? `);
-				toReadArray.push(c.data.body);
+				toReadArray.push(` ? ${c.data.author} replies: ? ` + c.data.body);
 
 				// call self with the replies of the reply
 				pushReplies(c.data.replies);
