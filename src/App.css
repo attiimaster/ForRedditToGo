@@ -67,5 +67,9 @@
 	display: block;
 	font-size: 90%;
 	margin: auto;
-	padding: 1px 30px;
+	padding: 2px 30px;
+	transition: all 0.2s ease;
+}
+.MoreButton:hover {
+	padding: 2px 32px;
 }

@@ -15,7 +15,10 @@ a {
 	color: #777;
 	text-decoration: none;
 }
-
+iframe {
+	border: 1px solid #eee;
+	max-width: 100%;
+}
 @media (max-width: 600px) {
 	p, small {
 		line-height: 1.2;

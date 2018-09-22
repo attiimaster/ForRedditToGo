@@ -63,7 +63,7 @@ class Search extends Component {
 					<section className="search-results">
 						<h3>Subreddits</h3>
 						{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
-						<MoreButton onClick={ () => "" } text="results" />
+						<MoreButton onClick={ () => "" } text="Show more results" />
 					</section>
 					
 					<div style={{ width: "100%", margin: "20px auto", borderTop: "1px solid silver" }}></div>

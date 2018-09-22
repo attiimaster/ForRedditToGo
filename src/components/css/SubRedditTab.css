@@ -37,6 +37,16 @@
 	transition: all 0.2s ease;
 	white-space: nowrap;
 }
+.SubRedditTab .not-logged-in {
+	font-size: 0px;
+	padding-top: 60px;
+	text-align: center;
+	transition: all 0.3s ease;
+}
+.SubRedditTab-active .not-logged-in {
+	font-size: 20px;
+	padding-top: 50px;
+}
 .SubRedditTab-active {
 	background: white;
 	border: 1px solid #eee;
@@ -49,7 +59,7 @@
 	opacity: 1;
 }
 .SubRedditTab-active .sub-reddit-tab-top i {
-	transform: rotate(720deg);
+	transform: rotate(1440deg);
 }
 
 .subreddit-box {

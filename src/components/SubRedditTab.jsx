@@ -4,7 +4,7 @@ import "./css/SubRedditTab.css";
 
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
-const SubRedditTab  = ({ subreddits, isOpen, handleSideBar }) => {
+const SubRedditTab  = ({ subreddits, isOpen, handleSideBar, loggedIn }) => {
 	return (
 		<div className={ isOpen ? "SubRedditTab SubRedditTab-active" : "SubRedditTab" }>
 			<div className="sub-reddit-tab-top">
@@ -12,6 +12,7 @@ const SubRedditTab  = ({ subreddits, isOpen, handleSideBar }) => {
 				<i className="fas fa-times" onClick={ handleSideBar }></i>
 			</div>	
 			{ subreddits && subreddits.map((sub, i) => <SubRedditBox handleSideBar={ handleSideBar } key={i} { ...sub } />)}
+			{ !subreddits && <div className="not-logged-in">Log in to see a list of your subscribed subreddits.</div> }
 		</div>
 	);
 }
