@@ -89,13 +89,14 @@ const SubRedditBoxAlt = ({ data }) => {
 	return (
 		<Link to={ `${uri}/r/${data.display_name}` } >
 		<div className="SubRedditBoxAlt">
-			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
-			
-			<div className="title">
-				<p><b>{ data.display_name_prefixed }</b></p>
-				<small>{ data.subscribers } Subscribers</small>
+			<div className="head">
+				<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
+				
+				<div className="title">
+					<p><b>{ data.display_name_prefixed }</b></p>
+					<small>{ data.subscribers } Subscribers</small>
+				</div>
 			</div>
-
 			<small className="description">{ data.public_description || data.title }</small>
 		</div>
 		</Link>

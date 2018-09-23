@@ -10,7 +10,8 @@ Uses text to speech so I can listen to Reddit while doing things.
 ##### Features to be implemented for MVP: 
  - fetch more content when user reaches bottom of current feed
  - basic frontpage
- - figure out synth (readmode or sth);
+ - figure out synth (readmode or sth)
+ - check different reddit post options (link, image, video, text)
 
 
 ##### Features to improve for MVP:
@@ -19,11 +20,9 @@ Uses text to speech so I can listen to Reddit while doing things.
  - sorting options
  - search subreddit
 
+
 ##### Features that could make sense:
  - save threads
-
-
-
 
 
 Link: https://attiimaster.github.io/ForRedditToGo

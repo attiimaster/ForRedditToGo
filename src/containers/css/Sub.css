@@ -1,8 +1,16 @@
 .Sub {
+	background: #f3f3f3;
 	margin: auto;
 	max-width: 1000px;
 	width: 90%
 }
 .SubTitle {
-	padding: 30px 10px;
+	background: white;
+	padding: 30px 20px;
+}
+
+@media (max-width: 600px) {
+	.Sub {
+		width: 100%;
+	}
 }

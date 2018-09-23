@@ -1,31 +1,34 @@
 /* --- Thread --- */
 .Thread {
+	background: #f3f3f3;
 	margin: auto;
 	max-width: 1000px;
 	padding-bottom: 30vw;
-	width: 90%
+	width: 90%;
 }
 .Thread header {
 	margin: 10px auto;
 }
 
-/* --- ThreadTitle --- */
-.ThreadTitle {
-	padding: 30px 10px;
+/* --- ThreadHead --- */
+.ThreadHead {
+	background: white;
+	padding: 30px 20px;
 }
-.ThreadTitle .stats {
+.ThreadHead .stats {
 	display: block;
 	margin: 10px auto;
 }
 
 /* --- CommentBox --- */
 .CommentBox {
+	background: white;
 	border: 1px solid #eee;
 	border-top: none;
 	display: flex;
-	margin: auto;
+	margin: 2px auto;
 	position: relative;
-	padding: 10px 5px;
+	padding: 10px 1vw;
 }
 .CommentBox .score {
 	display: flex;
@@ -43,16 +46,19 @@
 	margin: auto 0;
 	padding: 10px;
 	padding-right: 0;
-	width: 92%;
+		width: 100%;
 }
 .CommentBox .author {
 	font-size: 15px;
 }
 
 @media (max-width: 600px) {
+	.Thread {
+		width: 100%;
+	}
 	.CommentBox {
 		border: none;
-		padding: 0;
+		adding: 0;
 	}
 	.CommentBox .score {
 		display: none;
@@ -63,9 +69,8 @@
 	}
 	.CommentBox .content {
 		border-left: 1px solid silver;
-		width: 100%;
 	}
-.CommentBox .author {
-	font-size: 80%;
-}
+	.CommentBox .author {
+		font-size: 80%;
+	}
 }

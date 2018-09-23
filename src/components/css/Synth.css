@@ -1,6 +1,8 @@
 .Synth {
-	border: 1px solid #555;
 	display: inline-flex;
+	position: fixed;
+	bottom: 0;
+	left: 0;
 }
 .Synth p {
 	border: 1px solid #555;

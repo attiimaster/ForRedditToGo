@@ -15,8 +15,24 @@
 	border-top: 1px solid #eee;
 	display: inline-flex;
 	margin: auto;
-	padding: 5px;
 	width: 100%;
+}
+.SubRedditBoxAlt .head {
+	display: flex;
+	padding: 5px;
+	min-width: 30%;
+}
+.SubRedditBoxAlt .subreddit-box-img {}
+.SubRedditBoxAlt .title {
+	margin-left: 10px;
+	width: 20%;
+	white-space: nowrap;
+}
+.SubRedditBoxAlt .description {
+	margin-right: 0;
+	padding: 5px;
+	width: 60%;
+	text-align: left;
 }
 .SubRedditBoxAlt * {
 	margin: auto;
@@ -24,13 +40,14 @@
 .SubRedditBoxAlt p, small {
 	padding: 0;
 }
-.SubRedditBoxAlt .subreddit-box-img {}
-.SubRedditBoxAlt .title {
-	margin-left: 10px;
-	width: 20%;
-}
-.SubRedditBoxAlt .description {
-	margin-right: 0;
-	width: 60%;
-	text-align: left;
+
+@media (max-width: 800px) {
+	.SubRedditBoxAlt {
+		display: block;
+	}
+	.SubRedditBoxAlt .description {
+		display: block;
+		margin: auto 10px;
+		width: 100%;
+	}
 }

@@ -45,7 +45,7 @@ class Thread extends Component {
 
   	render() {
 		const { listing, loading, sort } = this.state;
-
+		console.log(listing)
 		if (loading) {
 			return ( <LoadingScreen /> );
 
@@ -56,7 +56,7 @@ class Thread extends Component {
 			return (
 			  	<div className="Thread">
 			  		<Synth listing={ listing } />
-			  		<ThreadTitle { ...threadInfo } onClick={ this.handleClick } />
+			  		<ThreadHead { ...threadInfo } onClick={ this.handleClick } />
 			  		<ThreadCommentsContainer comments={ comments } sort={ sort } handleSort={ this.handleSort } />
 			  	</div>
 			);
@@ -69,19 +69,20 @@ class Thread extends Component {
 
 export default Thread;
 
-const ThreadTitle = ({ data }) => {
+const ThreadHead = ({ data }) => {
 	return (
-		<article className="ThreadTitle">
+		<article className="ThreadHead">
 			<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
 
 			<header>
 				<h2>{ data.title }</h2>
 			</header>
 
-			{ data.media && <iframe src={ data.media.reddit_video.scrubber_media_url } width={ data.media.reddit_video.width } ></iframe> }
+			{ data.media && data.media.reddit_video && <iframe src={ data.media.reddit_video.scrubber_media_url } width={ data.media.reddit_video.width } ></iframe> }
+			{ data.preview && data.preview.reddit_video_preview && <iframe src={ data.preview.reddit_video_preview.scrubber_media_url } ></iframe> }
 			{ data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) }
 			{ data.selftext_html && <div>{ Parser(decodeHtml(data.selftext_html)) }</div> }
-			{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>Click Me! :D</div></a> }
+			{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
 
 			<small className="stats">
 				<span>{ data.num_comments } Comments</span>
@@ -109,7 +110,7 @@ const CommentBox = ({ data }) => {
 			</small>
 			<div className="content">
 				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
-				<p><div>{ Parser(decodeHtml(data.body_html)) }</div></p>
+				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
 				<div>
 					<small>
