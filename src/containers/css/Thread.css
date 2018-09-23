@@ -5,10 +5,17 @@
 	padding-bottom: 30vw;
 	width: 90%
 }
+.Thread header {
+	margin: 10px auto;
+}
 
 /* --- ThreadTitle --- */
 .ThreadTitle {
 	padding: 30px 10px;
+}
+.ThreadTitle .stats {
+	display: block;
+	margin: 10px auto;
 }
 
 /* --- CommentBox --- */

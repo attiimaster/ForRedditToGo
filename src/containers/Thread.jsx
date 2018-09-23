@@ -70,9 +70,6 @@ class Thread extends Component {
 export default Thread;
 
 const ThreadTitle = ({ data }) => {
-	console.log(data);
-	data.media && console.log("data.media");
-	data.url && console.log("data.url");
 	return (
 		<article className="ThreadTitle">
 			<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
@@ -81,15 +78,14 @@ const ThreadTitle = ({ data }) => {
 				<h2>{ data.title }</h2>
 			</header>
 
-
 			{ data.media && <iframe src={ data.media.reddit_video.scrubber_media_url } width={ data.media.reddit_video.width } ></iframe> }
 			{ data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) }
 			{ data.selftext_html && <div>{ Parser(decodeHtml(data.selftext_html)) }</div> }
-			{ data.url && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url }</div></a> }
+			{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>Click Me! :D</div></a> }
 
-			<small>
-				<span  className="subreddit">{ data.num_comments } Comments</span>
-				<span  className="subreddit"> - { data.score } Upvotes</span>
+			<small className="stats">
+				<span>{ data.num_comments } Comments</span>
+				<span> - { data.score } Upvotes</span>
 			</small>
 		</article>
 	);
@@ -113,7 +109,7 @@ const CommentBox = ({ data }) => {
 			</small>
 			<div className="content">
 				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
-				<div>{ Parser(decodeHtml(data.body_html)) }</div>
+				<p><div>{ Parser(decodeHtml(data.body_html)) }</div></p>
 
 				<div>
 					<small>

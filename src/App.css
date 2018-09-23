@@ -69,6 +69,8 @@
 	margin: auto;
 	padding: 2px 30px;
 	transition: all 0.2s ease;
+	max-width: 300px;
+	width: 90%;
 }
 .MoreButton:hover {
 	padding: 2px 32px;

@@ -12,6 +12,9 @@
 	font-size: 20px;
 	width: 8%;
 }
+.ThreadBox h3 {
+	margin: 7px auto;
+}
 .ThreadBox .score-mobile {
 	display: none;
 }
@@ -25,7 +28,7 @@
 }
 
 .xyz {
-	display: none;
+	isplay: none;
 	font-size: 60%;
 	position: absolute;
 	top: 0;
