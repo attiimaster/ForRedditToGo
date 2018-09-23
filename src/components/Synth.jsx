@@ -16,6 +16,7 @@ class Synth extends Component {
 			synthState: "OFF"
 		};
 		this.handleLog = this.handleLog.bind(this);
+		this.handleReadMode = this.handleReadMode.bind(this);
 		this.play = this.play.bind(this);
 		this.skip = this.skip.bind(this);
 		this.stop = this.stop.bind(this);
@@ -27,14 +28,14 @@ class Synth extends Component {
 
 	// button handlers
 	play(e) {
-		const { listing, position } = this.state;
+		const { listing, position, readmode } = this.state;
 		const synth = window.speechSynthesis;
 		
 		// differentiate between
 		// START || PAUSE || RESUME
 		if (!synth.speaking) {
 			print("START EVENT");
-			const script = threadToArray(listing);
+			const script = threadToArray(listing, readmode);
 			print(`array length: ${listing.length}`);
 			print(`array char count: ${add(script)} (32,767 max)`);
 			this.setState({ synthState: "ON", script, position: 0 });
@@ -91,21 +92,33 @@ class Synth extends Component {
 		this.setState({ logIsOpen: true }); 
 	}
 
+	handleReadMode(e) {
+		this.setState({ readmode: e.target.value });
+	}
+
 	render() {
-		const { logIsOpen, synthState } = this.state;
+		const { logIsOpen, synthState, readmode } = this.state;
 
 		return (
 			<div className="Synth">
 
 				<i onClick={ this.handleLog } className="fas fa-bars"></i>
 				<div id="log" className={ logIsOpen ? "" : "hidden" }></div>
-				
-				<SynthBtn icon={ synthState === "ON" ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
+			
+				<div className="readmode">Mode: 
+					<select onChange={ this.handleReadMode } value={ readmode } >
+						<option value="STANDARD">Standard</option>
+						<option value="TOP_COMMENTS">Top comments only</option>
+					</select>
+				</div>
 
-				<SynthBtn icon="fas fa-forward" onClick={ this.skip } />
-
-				<SynthBtn icon="fas fa-stop" onClick={ this.stop } />
-
+				<div className="container">	
+					<SynthBtn icon={ synthState === "ON" ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
+	
+					<SynthBtn icon="fas fa-forward" onClick={ this.skip } />
+	
+					<SynthBtn icon="fas fa-stop" onClick={ this.stop } />
+				</div>
 			</div>
 		);
 	}
@@ -133,53 +146,11 @@ const add = arr => {
 	return sum;
 }
 
-/*
-	this.state = { 
-		listing: data, 
-		parsedListing: parsedListing, 
-		current: text,
-		readmode: { TOPCOMMENTS || STANDARD || COMMENTTREE },
-		{ ...else }
-	}
-	
-	skip() {
-		const { parsedListing, current } = this.state;
-		synth.cancel();
-		new = parsedListing.slice(current, .length)
-		this.setState({ parsedListing: new, current: 0 });
-		parsedListing.map(text => readOut(text, cb))
-	}
-
-	play() {
-		check readmode;
-
-		if readmode {
-			parseListing();
-		}
-		let i = 0;
-		synth.readOut(parsedListing[i], (i) => {
-			this.setState({ current: i || text })
-		});
-	}
-	
-	speech.onend() { ???
-		const { current } = this.state;
-		const new = current.slice(1, current.length);
-		this.setState({ current: new });
-
-		//
-		return arr number
-
-		//
-		callback
-	}
-*/
-
 // temporary solution
 let toReadArray = [];
 
 // makes array of strings to pass to speechSynthesis;
-const threadToArray = listing => {
+const threadToArray = (listing, readmode) => {
 	toReadArray = [];
 	const title =  listing[0].data.children[0].data.title;
 	const post = listing[0].data.children[0].data.selftext;
@@ -192,7 +163,11 @@ const threadToArray = listing => {
 	// push comments and replies to array
 	comments.map((c, i) => {
 		toReadArray.push(` ? ${c.data.author} comments: ? ` + c.data.body);
-		pushReplies(c.data.replies);
+		console.log(this.state)
+		
+		if (readmode === "STANDARD") {
+			pushReplies(c.data.replies);
+		}
 	});
 	return toReadArray;
 }

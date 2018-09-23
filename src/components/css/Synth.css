@@ -1,8 +1,11 @@
 .Synth {
-	display: inline-flex;
 	position: fixed;
 	bottom: 0;
 	left: 0;
+}
+.Synth .container {
+	display: inline-flex;
+	width: 100%;
 }
 .Synth p {
 	border: 1px solid #555;
@@ -91,5 +94,26 @@
 	.Synth i {
 		color: white;
 		font-size: 24px;
+	}
+	.Synth .readmode {
+		color: white;
+		display: inline-block;
+		font-size: 12px;
+		font-weight: bold;
+		margin-bottom: 5px;
+		padding: 2px;
+	}
+	.Synth .readmode select {
+		appearance: none;
+		background: none;
+		border: none;
+		color: white;
+		font-size: 12px;
+		font-weight: bold;
+	}
+	select:: -ms-expand {
+		display: none;
+	}
+	.Synth .readmode option {
 	}
 }
