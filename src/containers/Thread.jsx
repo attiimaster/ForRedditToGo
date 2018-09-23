@@ -45,7 +45,7 @@ class Thread extends Component {
 
   	render() {
 		const { listing, loading, sort } = this.state;
-		console.log(listing)
+		
 		if (loading) {
 			return ( <LoadingScreen /> );
 
