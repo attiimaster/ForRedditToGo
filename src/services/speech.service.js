@@ -47,6 +47,7 @@ export const readOut = (message, done) => {
 
 	// Register Event Handlers
 	speech.onstart = (e) => {
+		print(`array char count: ${message.length} (32,767 max)`);
 		console.log(e)
 		console.log("SPEECH START!");
 		print("SPEECH started.");

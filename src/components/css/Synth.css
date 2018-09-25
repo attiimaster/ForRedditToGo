@@ -86,6 +86,7 @@
 	.synth-button .inner {
 		border-radius: 50%;
 		box-shadow: inset 0px 0px 7px 1px black;
+		cursor: pointer;
 		display: flex;
 		margin: auto;
 		height: 75%;

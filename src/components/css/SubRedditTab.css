@@ -1,5 +1,5 @@
 .SubRedditTab {
-	background: #555;
+	background: white;
 	box-shadow: 0px 0px 10px 1px silver;
 	color: white;
 	opacity: 0;
@@ -48,7 +48,6 @@
 	padding-top: 50px;
 }
 .SubRedditTab-active {
-	background: white;
 	border: 1px solid #eee;
 	color: #555;
 	opacity: 1;
@@ -59,7 +58,7 @@
 	opacity: 1;
 }
 .SubRedditTab-active .sub-reddit-tab-top i {
-	transform: rotate(1440deg);
+	transform: rotate(360deg);
 }
 
 .subreddit-box {

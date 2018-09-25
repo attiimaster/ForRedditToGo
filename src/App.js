@@ -65,7 +65,6 @@ class App extends Component {
   	}
 
     handleSideBar(e) {
-      console.log("handleSideBar");
       this.state.sidebarIsOpen ? 
         this.setState({ sidebarIsOpen: false })
         :

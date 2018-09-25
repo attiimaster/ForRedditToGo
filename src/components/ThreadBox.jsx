@@ -9,7 +9,6 @@ import decodeHtml from "../helpers/decodeHtml";
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
 const ThreadBox = ({ data }) => {
-	console.log(data)
 	return (
 		<Link to={ `${uri}/r/${data.subreddit}/${data.id}` } className="ThreadBox" >
 

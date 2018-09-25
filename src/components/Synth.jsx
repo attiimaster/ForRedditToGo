@@ -13,11 +13,12 @@ class Synth extends Component {
 			readmode: "STANDARD", // STANDARD, TOP_COMMENTS, COMMENT_TREE
 			script: null,
 			position: null,
-			synthState: "OFF"
+			isOn: false
 		};
 		this.handleLog = this.handleLog.bind(this);
 		this.handleReadMode = this.handleReadMode.bind(this);
 		this.play = this.play.bind(this);
+		this.back = this.back.bind(this);
 		this.skip = this.skip.bind(this);
 		this.stop = this.stop.bind(this);
 	}
@@ -29,60 +30,88 @@ class Synth extends Component {
 	// button handlers
 	play(e) {
 		const { listing, position, readmode } = this.state;
+
 		const synth = window.speechSynthesis;
 		
-		// differentiate between
-		// START || PAUSE || RESUME
+		// START
 		if (!synth.speaking) {
 			print("START EVENT");
-			const script = threadToArray(listing, readmode);
-			print(`array length: ${listing.length}`);
-			print(`array char count: ${add(script)} (32,767 max)`);
-			this.setState({ synthState: "ON", script, position: 0 });
 
+			// convert listing to an array of strings
+			// where each item represents one title, post, comment or reply
+			const script = threadToArray(listing, readmode);
+
+			// push all items onto the utterance queue with a callback
 			script.map(text => {
 				text && readOut(text, (err, e) => {
 					this.setState({ position: this.state.position + 1 });
 				});
 			});
+
+			// set state to track position for back and skip functionality
+			this.setState({ isOn: true, script, position: 0 });
+
+		// RESUME
 		} else if (synth.paused) {
 			print("RESUME EVENT");
 			synth.resume();
-			this.setState({ synthState: "ON" });
+			this.setState({ isOn: true });
+
+		// PAUSE
 		} else if (synth.speaking && !synth.paused) {
 			print("PAUSE EVENT");
 			synth.pause();
-			this.setState({ synthState: "PAUSE" });
+			this.setState({ isOn: false });
+
+		// DEFAULT
 		} else { 
 			print("PLAY DEFAULT EVENT");
 			synth.cancel();
-			this.setState({ synthState: "OFF" });
+			this.setState({ isOn: false });
 		};
+	}
+	back(e) {
+		print("BACK EVENT");
+		const { script, position } = this.state;
+		const last = position < 2 ? 0 : position - 1;
+
+		if (script) {
+			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
+
+			// slice complete script at current position - 1 and map to readOut
+			script.slice(last, script.length).map(text => {
+				text && readOut(text, (err, e) => {
+					this.state.isOn && this.setState({ position: this.state.position + 1 });
+				});
+			});
+			this.setState({ position: last - 1 }); // see the cancel() comment 
+		} else {
+			console.error(`BACK ERROR:\nscript: ${script}\nposition: ${position}`);
+		}
 	}
 	skip(e) {
 		print("SKIP EVENT");
 		const { script, position } = this.state;
-		const skip = position + 1;
-		
+		const next = position + 1;
+
 		if (script) {
 			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
 	
 			// slice complete script at current position + 1 and map to readOut
-			script.slice(skip, script.length).map(text => {
+			script.slice(next, script.length).map(text => {
 				text && readOut(text, (err, e) => {
-					this.setState({ position: this.state.position + 1 });
+					this.state.isOn && this.setState({ position: this.state.position + 1 });
 				});
 			});
+			// this.setState({ position: next });
 		} else {
 			console.error(`SKIP ERROR:\nscript: ${script}\nposition: ${position}`);
 		}
 	}
 	stop(e) {
-		const synth = window.speechSynthesis;
-		// synth.paused && synth.resume(); evtl ? 
 		print("STOP EVENT");
-		synth.cancel();
-		this.setState({ synthState: "OFF", script: null, position: null });
+		window.speechSynthesis.cancel();
+		this.setState({ isOn: false, script: null, position: null });
 	}
 
 	handleLog(e) {
@@ -97,7 +126,7 @@ class Synth extends Component {
 	}
 
 	render() {
-		const { logIsOpen, synthState, readmode } = this.state;
+		const { logIsOpen, isOn, readmode } = this.state;
 
 		return (
 			<div className="Synth">
@@ -113,8 +142,10 @@ class Synth extends Component {
 				</div>
 
 				<div className="container">	
-					<SynthBtn icon={ synthState === "ON" ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
+					<SynthBtn icon={ isOn ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
 	
+					<SynthBtn icon="fas fa-backward" onClick={ this.back } />
+
 					<SynthBtn icon="fas fa-forward" onClick={ this.skip } />
 	
 					<SynthBtn icon="fas fa-stop" onClick={ this.stop } />
@@ -129,8 +160,8 @@ export default Synth;
 const SynthBtn = ({ icon, onClick }) => {
 	return (
 		<div  className="synth-button">
-			<div className="inner">
-				<i className={ icon } id="playbtn" onClick={ onClick } ></i>
+			<div className="inner" onClick={ onClick } >
+				<i className={ icon } id="playbtn"></i>
 			</div>
 		</div>
 	);
@@ -138,32 +169,24 @@ const SynthBtn = ({ icon, onClick }) => {
 
 
 
-// sum of character count of an array for test purposes
-const add = arr => {
-	let sum = 0;
-	arr.map(str => str && (sum += str.length));
-
-	return sum;
-}
-
 // temporary solution
 let toReadArray = [];
+	const cleanString = str => str.replace(/[^\w\s.:,_]/gi, '') 
 
 // makes array of strings to pass to speechSynthesis;
 const threadToArray = (listing, readmode) => {
 	toReadArray = [];
+
 	const title =  listing[0].data.children[0].data.title;
 	const post = listing[0].data.children[0].data.selftext;
 	const comments = listing[1].data.children;
-
 	// push title, post and comments to array in order and read out
-	title && toReadArray.push(title);
-	post && toReadArray.push(post);
+	title && toReadArray.push(cleanString(title));
+	post && toReadArray.push(cleanString(post));
 
 	// push comments and replies to array
 	comments.map((c, i) => {
-		toReadArray.push(` ? ${c.data.author} comments: ? ` + c.data.body);
-		console.log(this.state)
+		toReadArray.push(` ${c.data.author} comments: ? ` + c.data.body);
 		
 		if (readmode === "STANDARD") {
 			pushReplies(c.data.replies);
@@ -187,7 +210,7 @@ const pushReplies = replies => {
 			if (c.kind !== "more") {
 
 				// if not, push reply body to array
-				toReadArray.push(` ? ${c.data.author} replies: ? ` + c.data.body);
+				toReadArray.push(` ${c.data.author} replies: ? ` + cleanString(c.data.body));
 
 				// call self with the replies of the reply
 				pushReplies(c.data.replies);
