@@ -64,9 +64,10 @@ class Sub extends Component {
             <h2>r/{ children[0].data.subreddit }</h2>
           </header>
 
-          <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top", "Rising" ]} />
-          { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
-
+          <div className="container">
+            <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top", "Rising" ]} />
+            { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
+          </div>
         </div>
       );
     

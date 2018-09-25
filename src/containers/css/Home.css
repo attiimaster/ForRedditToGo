@@ -1,8 +1,47 @@
 .Home {
 	margin: auto;
-	max-width: 1000px;
-	width: 90%
 }
-.home-header {
+.home-banner {
+	background-image: url("/images/walker.png");
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: contain;
+	color: #ff4500;
+	display: flex;
 	text-align: center;
+	height: 300px;
+	width: 100%;
+}
+.banner-text {
+	margin: auto;
+}
+
+.frontpage-section {
+	background: white;
+	margin: auto;
+	padding: 20px 10vw;
+}
+
+.contact-form {
+	margin: 20px auto;
+	max-width: 500px;
+	width: 90%;
+}
+.contact-form input, .contact-form textarea {
+	display: block;	
+	font-size: 18px;
+	padding: 3px;
+	width: 100%;
+}
+
+@media (max-width: 700px) {
+	.banner-text {
+		margin-left: 2vw;
+		text-shadow: 0 0 5px white;
+	}
+	.banner-text h1, .banner-text h3 {
+	}
+	.frontpage-section {
+		padding: 20px 0;
+	}
 }

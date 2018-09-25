@@ -73,18 +73,18 @@ class Synth extends Component {
 	back(e) {
 		print("BACK EVENT");
 		const { script, position } = this.state;
-		const last = position < 2 ? 0 : position - 1;
+		const previous = position < 2 ? 0 : position - 1;
 
 		if (script) {
 			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
 
 			// slice complete script at current position - 1 and map to readOut
-			script.slice(last, script.length).map(text => {
+			script.slice(previous, script.length).map(text => {
 				text && readOut(text, (err, e) => {
 					this.state.isOn && this.setState({ position: this.state.position + 1 });
 				});
 			});
-			this.setState({ position: last - 1 }); // see the cancel() comment 
+			this.setState({ position: previous - 1 }); // see the cancel() comment 
 		} else {
 			console.error(`BACK ERROR:\nscript: ${script}\nposition: ${position}`);
 		}

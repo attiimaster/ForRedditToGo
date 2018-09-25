@@ -7,7 +7,10 @@ body {
   	font-family: sans-serif;
   	overflow-y: scroll;
 }
-p, small {
+h1, h2, h3 {
+	padding: 10px 0;
+}
+p, small, li {
 	line-height: 1.6;
 	padding: 5px 0;
 }
@@ -20,7 +23,14 @@ iframe {
 	max-width: 100%;
 }
 @media (max-width: 600px) {
-	p, small {
+	p, small, li {
 		line-height: 1.2;
 	}
+}
+
+.container {
+	background: #f3f3f3;
+	margin: auto;
+	max-width: 1000px;
+	width: 90%;
 }

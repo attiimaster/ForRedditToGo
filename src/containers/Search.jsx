@@ -60,18 +60,20 @@ class Search extends Component {
 						<h2>Search results for <u>{ query }</u>:</h2>
 					</header>
 	
-					<section className="search-results">
-						<h3>Subreddits</h3>
-						{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
-						<MoreButton onClick={ () => "" } text="Show more results" />
-					</section>
-					
-					<div style={{ width: "100%", margin: "20px auto", borderTop: "1px solid silver" }}></div>
-					
-					<section className="search-results">
-						<h3>Posts</h3>
-						{ posts.data.children[0] ? posts.data.children.map((c, i) => <ThreadBox { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
-					</section>
+					<div className="container">
+						<section className="search-results">
+							<h3>Subreddits</h3>
+							{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
+							<MoreButton onClick={ () => "" } text="Show more results" />
+						</section>
+						
+						<div style={{ width: "100%", margin: "20px auto", borderTop: "1px solid silver" }}></div>
+						
+						<section className="search-results">
+							<h3>Posts</h3>
+							{ posts.data.children[0] ? posts.data.children.map((c, i) => <ThreadBox { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
+						</section>
+					</div>
 	
 				</div>
 			);

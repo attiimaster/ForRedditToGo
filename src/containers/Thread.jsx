@@ -56,8 +56,10 @@ class Thread extends Component {
 			return (
 			  	<div className="Thread">
 			  		<Synth listing={ listing } />
-			  		<ThreadHead { ...threadInfo } onClick={ this.handleClick } />
-			  		<ThreadCommentsContainer comments={ comments } sort={ sort } handleSort={ this.handleSort } />
+			  		<div className="container">
+			  			<ThreadHead { ...threadInfo } onClick={ this.handleClick } />
+			  			<ThreadCommentsContainer comments={ comments } sort={ sort } handleSort={ this.handleSort } />
+			  		</div>
 			  	</div>
 			);
 		
