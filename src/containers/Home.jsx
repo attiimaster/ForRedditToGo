@@ -47,6 +47,7 @@ class Home extends Component {
               <p>If you find any bugs or have suggestions please feel free to contact me. I built this project for myself to use, but if people find it useful I would be stoked to improve it.</p>
               
               <form className="contact-form">
+                <h4>NOT FUNCTIONAL CURRENTLY</h4>
                 <input type="text" placeholder="Enter name" />
                 <input type="text" placeholder="Enter email" />
                 <textarea placeholder="Enter your message" />
