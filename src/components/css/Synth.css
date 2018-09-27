@@ -3,7 +3,7 @@
 	bottom: 0;
 	left: 0;
 }
-.Synth .container {
+.Synth .synth-btn-container {
 	display: inline-flex;
 	width: 100%;
 }

@@ -2,46 +2,54 @@
 	margin: auto;
 }
 .home-banner {
-	background-image: url("/images/walker.png");
-	background-repeat: no-repeat;
-	background-position: right;
-	background-size: contain;
 	color: #ff4500;
 	display: flex;
 	text-align: center;
 	height: 300px;
 	width: 100%;
 }
+.home-banner img {
+	height: 100%;
+}
 .banner-text {
+	font-family: "amatic sc";
+	font-size: 30px;
+	letter-spacing: 1px;
 	margin: auto;
 }
 
 .frontpage-section {
 	background: white;
 	margin: auto;
-	padding: 20px 10vw;
+	padding: 20px 1vw;
 }
 
-.contact-form {
+.socialmedia-icons {
+	display: block;
 	margin: 20px auto;
-	max-width: 500px;
-	width: 90%;
+	text-align: center;
 }
-.contact-form input, .contact-form textarea {
-	display: block;	
-	font-size: 18px;
-	padding: 3px;
-	width: 100%;
+.socialmedia-icons i {
+	font-size: 20px;
+	margin: 20px;
 }
 
 @media (max-width: 700px) {
 	.banner-text {
-		margin-left: 2vw;
+		font-size: 20px;
 		text-shadow: 0 0 5px white;
 	}
 	.banner-text h1, .banner-text h3 {
 	}
 	.frontpage-section {
-		padding: 20px 0;
+		padding: 20px 20px;
 	}
+.socialmedia-icons {
+	border: 2px solid #666;
+	border-radius: 2px;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	max-width: 500px;
+}
 }

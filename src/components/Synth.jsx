@@ -141,7 +141,7 @@ class Synth extends Component {
 					</select>
 				</div>
 
-				<div className="container">	
+				<div className="synth-btn-container">	
 					<SynthBtn icon={ isOn ? "fas fa-pause" : "fas fa-play" } onClick={ this.play } />
 	
 					<SynthBtn icon="fas fa-backward" onClick={ this.back } />
