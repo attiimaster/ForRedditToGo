@@ -81,17 +81,20 @@
 	margin: auto;
 	max-height: 40px;
 }
-.logout {
+.logout-btn {
 	background: white;
-	border: 1px solid tomato;
+	cursor: pointer;
+	height: 0px;
+	overflow-y: hidden;
 	opacity: 0.1;
 	position: absolute;
-	bottom: -60%;
+	top: 100%;
 	right: 0;
 	transition: all 0.2s ease;
 }
-.UserBox:hover .logout {
-	border: 1px solid tomato;
+.UserBox:hover .logout-btn {
+	border: 1px solid #eee;
+	height: 30px;
 	opacity: 1;
 }
 
