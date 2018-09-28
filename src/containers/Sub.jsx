@@ -39,6 +39,7 @@ class Sub extends Component {
   
   handleSort(e) {
     this.setState({ loading: true, sort: e.target.value });
+    
     const path = this.props.location.pathname;
     const subreddit = path.split("/")[3];
     
@@ -65,7 +66,7 @@ class Sub extends Component {
           </header>
 
           <div className="container">
-            <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top", "Rising" ]} />
+            <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top" ]} />
             { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
           </div>
         </div>

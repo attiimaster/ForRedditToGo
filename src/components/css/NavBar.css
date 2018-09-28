@@ -40,7 +40,7 @@
 .navbar input {
 	width: 100%;
 }
-.navbar button {
+.navbar form button {
 	border-left: 1px solid silver;
 	cursor: pointer;
 }
@@ -80,6 +80,19 @@
 	border-radius: 3px;
 	margin: auto;
 	max-height: 40px;
+}
+.logout {
+	background: white;
+	border: 1px solid tomato;
+	opacity: 0.1;
+	position: absolute;
+	bottom: -60%;
+	right: 0;
+	transition: all 0.2s ease;
+}
+.UserBox:hover .logout {
+	border: 1px solid tomato;
+	opacity: 1;
 }
 
 .hide {

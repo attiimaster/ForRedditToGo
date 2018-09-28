@@ -4,6 +4,7 @@
 .home-banner {
 	color: #ff4500;
 	display: flex;
+	margin-bottom: 20px;
 	text-align: center;
 	height: 300px;
 	width: 100%;

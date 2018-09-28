@@ -73,6 +73,7 @@ const UserBox = ({ user }) => {
 				<div className="karma">{ user.karma } Karma</div>
 			</div>
 			<img src={ user.img } alt="user_image" />
+			<button onClick={ () => localStorage.removeItem("access_token") } className="logout">Logout</button>
 		</div>
 	);
 }

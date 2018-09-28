@@ -32,6 +32,7 @@ class Thread extends Component {
 
   	handleSort(e) {
     	this.setState({ loading: true, sort: e.target.value });
+    	
   		const path = this.props.location.pathname;
   		const subreddit = path.split("/")[3];
   		const id = path.split("/")[4];

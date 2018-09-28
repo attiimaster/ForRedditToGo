@@ -3,7 +3,7 @@
 	border: 1px solid #eee;
 	border-top: none;
 	display: flex;
-	margin: auto;
+	margin: 3px auto;
 	position: relative;
 	padding: 10px 1vw;
 }
@@ -31,7 +31,6 @@
 @media (max-width: 600px) {
 	.ThreadBox {
 		border: none;
-		border-top: 1px solid #eee;
 	}
 	.ThreadBox .score {
 		display: none;
