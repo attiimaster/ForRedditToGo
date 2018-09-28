@@ -9,7 +9,7 @@ import SortBox from "../components/SortBox";
 class Sub extends Component {
   constructor() {
 		super();
-		this.state = { listing: null, currentSub: null, loading: true, sort: "Hot" };
+		this.state = { listing: null, currentSub: null, loading: true, sort: { value: "Hot", top: "Hour" } };
     this.handleSort = this.handleSort.bind(this);
   }
 
@@ -17,7 +17,7 @@ class Sub extends Component {
   	const path = this.props.location.pathname;
   	const subreddit = path.split("/")[3];
   	
-  	fetch(`https://www.reddit.com/r/${subreddit}/.json`)
+  	fetch(`https://www.reddit.com/r/${subreddit}/.json?limit=100`)
   	.then(res => res.json())
   	.then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
   	.catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
@@ -30,7 +30,7 @@ class Sub extends Component {
   	if (!loading && currentSub !== subreddit) {
       if (!loading) { this.setState({ loading: true }); }
   		
-      fetch(`https://www.reddit.com/r/${subreddit}/${sort}.json`)
+      fetch(`https://www.reddit.com/r/${subreddit}/${sort}/.json?limit=100`)
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
   		.catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
@@ -38,12 +38,13 @@ class Sub extends Component {
   }
   
   handleSort(e) {
-    this.setState({ loading: true, sort: e.target.value });
-    
+    this.setState({ loading: true, sort: { value: e.target.form[0].value, top: e.target.form[1].value } });
     const path = this.props.location.pathname;
     const subreddit = path.split("/")[3];
-    
-    fetch(`https://www.reddit.com/r/${subreddit}/${e.target.value}/.json`)
+
+    const top = e.target.form[0].value === "top" ? `&t=${e.target.form[1].value}` : "";
+
+    fetch(`https://www.reddit.com/r/${subreddit}/${e.target.form[0].value}/.json?limit=100${top}`)
     .then(res => res.json())
     .then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
     .catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))

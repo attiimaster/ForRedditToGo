@@ -6,3 +6,10 @@
 	margin: auto;
 	margin-left: 10px;
 }
+
+.SortBox-top {
+	opacity: 0;
+}
+.SortBox-top-active {
+	opacity: 1 !important;
+}

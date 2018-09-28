@@ -8,7 +8,7 @@ import LoadingScreen from "../components/LoadingScreen";
 class Home extends Component {
   constructor(props) {
 	super(props);
-	this.state = { listing: null, loading: true, sort: "hot" };
+	this.state = { listing: null, loading: true, sort: { value: "Hot", top: "Hour" } };
   this.handleSort = this.handleSort.bind(this);
   }
   componentDidMount() {
@@ -17,7 +17,7 @@ class Home extends Component {
     if (mySubreddits && loggedIn) {
       const arr = mySubreddits.map(sub => sub.data.display_name);
 
-      fetch(`https://www.reddit.com/r/${arr.join("+")}/${this.state.sort}.json`)
+      fetch(`https://www.reddit.com/r/${arr.join("+")}/.json?limit=100`)
       .then(res => res.json())
       .then(data => this.setState({ listing: data, loading: false }))
       .catch(err => console.error(err))
@@ -26,14 +26,16 @@ class Home extends Component {
     }
   }
   handleSort(e) {
-    this.setState({ loading: true, sort: e.target.value });
+    this.setState({ loading: true, sort: { value: e.target.form[0].value, top: e.target.form[1].value } });
 
     const { mySubreddits, loggedIn } = this.props;
 
     if (mySubreddits && loggedIn) {
       const arr = mySubreddits.map(sub => sub.data.display_name);
 
-      fetch(`https://www.reddit.com/r/${arr.join("+")}/${e.target.value}.json`)
+      const top = e.target.form[0].value === "top" ? `&t=${e.target.form[1].value}` : "";
+
+      fetch(`https://www.reddit.com/r/${arr.join("+")}/${e.target.form[0].value}.json?limit=100${top}`)
       .then(res => res.json())
       .then(data => this.setState({ listing: data, loading: false }))
       .catch(err => console.error(err))
