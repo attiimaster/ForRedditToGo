@@ -5,7 +5,7 @@
 }
 body {
 	font-family: "open sans";
-  	overflow-y: scroll;
+  	verflow-y: scroll;
 }
 h1, h2, h3 {
 	color: #333;
@@ -31,6 +31,7 @@ iframe {
 	background: #f3f3f3;
 	margin: auto;
 	max-width: 1000px;
+	overflow-x: hidden;
 	width: 90%;
 }
 
