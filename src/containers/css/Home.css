@@ -1,8 +1,8 @@
 .Home {
+	color: #333;
 	margin: auto;
 }
 .home-banner {
-	color: #ff4500;
 	display: flex;
 	margin-bottom: 20px;
 	text-align: center;
@@ -17,6 +17,9 @@
 	font-size: 30px;
 	letter-spacing: 1px;
 	margin: auto;
+}
+.banner-text h1 {
+	color: #ff4500;
 }
 
 .frontpage-section {

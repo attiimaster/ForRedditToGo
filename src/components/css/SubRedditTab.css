@@ -5,14 +5,22 @@
 	opacity: 0;
 	overflow: hidden;
 	overflow-y: auto;
+	transform: translateX(-320px);
 	transition: all 0.3s ease;
-	width: 0px;
+	max-width: 100%;
+	width: 320px;
 
 	position: fixed;
   	top: 0px;
 	left: 0;
 	bottom: 0;
 	z-index: 5;
+}
+.SubRedditTab-active {
+	border: 1px solid #eee;
+	color: #555;
+	opacity: 1;
+	transform: translateX(0px);
 }
 .sub-reddit-tab-top {
 	border-bottom: 1px solid #eee;
@@ -47,13 +55,6 @@
 .SubRedditTab-active .not-logged-in {
 	font-size: 20px;
 	padding-top: 50px;
-}
-.SubRedditTab-active {
-	border: 1px solid #eee;
-	color: #555;
-	opacity: 1;
-	width: 320px;
-	max-width: 100%;
 }
 .SubRedditTab-active .sub-reddit-tab-top {
 	opacity: 1;

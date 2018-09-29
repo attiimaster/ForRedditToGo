@@ -112,7 +112,7 @@ const CommentBox = ({ data }) => {
 				<span>{ data.score }</span>
 			</small>
 			<div className="content">
-				<div className="author"><b>{ data.author }</b> &#8226; { hoursAgoStr } </div>
+				<small className="author">{ data.author } &#8226; { hoursAgoStr } </small>
 				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
 				<div>

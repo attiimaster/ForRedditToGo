@@ -1,8 +1,11 @@
 .SortBox {
+	color: #999;
 	margin: auto;
 	padding: 5px 20px;
 }
 .SortBox select {
+	ppearance: none;
+	color: #999;
 	margin: auto;
 	margin-left: 10px;
 }

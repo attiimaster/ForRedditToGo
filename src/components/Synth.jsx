@@ -171,7 +171,7 @@ const SynthBtn = ({ icon, onClick }) => {
 
 // temporary solution
 let toReadArray = [];
-	const cleanString = str => str.replace(/[^\w\s.:,_]/gi, '') 
+	const cleanString = str => str.replace(/[^\w\s.:,_$@%;-=!?]/gi, '') 
 
 // makes array of strings to pass to speechSynthesis;
 const threadToArray = (listing, readmode) => {
@@ -186,7 +186,7 @@ const threadToArray = (listing, readmode) => {
 
 	// push comments and replies to array
 	comments.map((c, i) => {
-		toReadArray.push(` ${c.data.author} comments: ? ` + c.data.body);
+		toReadArray.push(` ${c.data.author} comments: ? ` + cleanString(c.data.body));
 		
 		if (readmode === "STANDARD") {
 			pushReplies(c.data.replies);
