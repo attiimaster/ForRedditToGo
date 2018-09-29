@@ -29,7 +29,7 @@ const ThreadBox = ({ data }) => {
 				{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
 
 
-				<div style={{ marginTop: "4px" }}>
+				<div className="commentsAndReplies_tb">
 					<small>
 						<span>{ `${data.num_comments} Comments` }</span>
 					</small>

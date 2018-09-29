@@ -100,7 +100,7 @@
 }
 
 .hide {
-  top: -50px;
+  transform: translateY(-50px);
 }
 
 @media (max-width: 1000px) {

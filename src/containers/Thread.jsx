@@ -115,7 +115,7 @@ const CommentBox = ({ data }) => {
 				<small className="author">{ data.author } &#8226; { hoursAgoStr } </small>
 				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
-				<div>
+				<div className="commentsAndReplies">
 					<small>
 						<span>{ `${data.replies ? data.replies.data.children.length : 0} Replies` }</span>
 					</small>

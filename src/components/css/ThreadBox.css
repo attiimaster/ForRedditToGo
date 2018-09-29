@@ -28,6 +28,12 @@
 	padding: 10px;
 	width: 100%;
 }
+.commentsAndReplies_tb {
+	margin-top: 4px;
+}
+.commentsAndReplies_tb small {
+	color: #555;
+}
 
 @media (max-width: 600px) {
 	.ThreadBox {

@@ -8,8 +8,8 @@ const AuthorHeader = props => {
 	const { r, author, date } = props;
 	const hoursAgoStr = convertToHoursAgo(date*1000);
 	return (
-		<small>
-			<span  className="subreddit"><Link to={ `${uri}/${r}` }><b>{ r }</b></Link></span>
+		<small className="AuthorHeader">
+			<span  className="subreddit"><Link to={ `${uri}/${r}` }>{ r }</Link></span>
 			<span  className="author"> &#8226; Posted by u/{ author }</span>
 			<span  className="time"> &#8226; { hoursAgoStr }</span>
 		</small>

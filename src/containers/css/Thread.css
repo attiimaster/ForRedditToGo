@@ -49,6 +49,9 @@
 		width: 100%;
 }
 .CommentBox .author {}
+.commentsAndReplies small {
+	color: #555;
+}
 
 @media (max-width: 600px) {
 	.Thread {

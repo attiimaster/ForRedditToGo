@@ -24,3 +24,7 @@
 .MoreButton:hover {
 	padding: 2px 32px;
 }
+
+.AuthorHeader .subreddit {
+	color: #555;
+}
