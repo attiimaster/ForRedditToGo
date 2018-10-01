@@ -171,7 +171,7 @@ const SynthBtn = ({ icon, onClick }) => {
 
 // temporary solution
 let toReadArray = [];
-	const cleanString = str => str.replace(/[^\w\s.:,_$@%;-=!?]/gi, '') 
+const cleanString = str => str ? str.replace(/[^\w\s.:,_$@%;-=!?]/gi, '') : null;
 
 // makes array of strings to pass to speechSynthesis;
 const threadToArray = (listing, readmode) => {
@@ -180,6 +180,7 @@ const threadToArray = (listing, readmode) => {
 	const title =  listing[0].data.children[0].data.title;
 	const post = listing[0].data.children[0].data.selftext;
 	const comments = listing[1].data.children;
+
 	// push title, post and comments to array in order and read out
 	title && toReadArray.push(cleanString(title));
 	post && toReadArray.push(cleanString(post));

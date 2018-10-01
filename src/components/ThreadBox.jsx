@@ -22,7 +22,7 @@ const ThreadBox = ({ data }) => {
 				{ data && <h3>{ data.title }</h3> }
 				{ data.selftext && <p>{ data.selftext.slice(0, 140) }</p> }				
 
-				{ data.media && data.media.reddit_video && <iframe src={ data.media.reddit_video.scrubber_media_url } width={ data.media.reddit_video.width } ></iframe> }
+				{ data.media && data.media.reddit_video && <div className="media-wrapper"><iframe className="media" src={ data.media.reddit_video.scrubber_media_url } ></iframe></div> }
 				{/* data.preview && data.preview.reddit_video_preview && <iframe src={ data.preview.reddit_video_preview.scrubber_media_url } ></iframe> */}
 				{ data.media && "media" }
 				{ data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) }

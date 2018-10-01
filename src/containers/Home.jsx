@@ -60,7 +60,7 @@ class Home extends Component {
             listing ? 
             <div className="container">
               <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top" ]} />
-              { listing.data.children.map((post, i) => <ThreadBox { ...post } />) }
+              { listing.data.children.map((post, i) => <ThreadBox { ...post } key={i} />) }
             </div>
             :
             <Sections />
