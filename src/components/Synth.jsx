@@ -207,10 +207,10 @@ const pushReplies = replies => {
 		// loop over children
 		children.map((c, i) => {
 
-			// check that kind !== "more"
+			// check if actual replies and not just links to fetch more replies
 			if (c.kind !== "more") {
 
-				// if not, push reply body to array
+				// if it is push reply body to array
 				toReadArray.push(` ${c.data.author} replies: ? ` + cleanString(c.data.body));
 
 				// call self with the replies of the reply
