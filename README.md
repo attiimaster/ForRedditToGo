@@ -9,8 +9,8 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 ##### Features to be implemented for MVP: 
  - fetch more content when user reaches bottom of current feed
- - check different reddit posts (link, image, video, text)
- - more replies (get complete comment tree)
+ - handle all different kinds of reddit posts (link, image, video, text)
+ - get more replies (get complete comment tree)
 
 
 ##### Features to improve:
@@ -22,10 +22,12 @@ Uses text to speech so I can listen to Reddit while doing things.
 
 ##### Features that could make sense:
  - save threads
+ - vote
+ - comment (although the app really is for situations when you do not want to look at your phone)
 
 
 Notes for self:
-Home, Sub, Search are redundant: each has handleSort, that is like the componentDidMount function 
+Home, Sub, Search are redundant: each has handleSort, that is similar to the componentDidMount function 
 
 
 Link: https://attiimaster.github.io/ForRedditToGo
