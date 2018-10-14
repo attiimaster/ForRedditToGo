@@ -47,7 +47,6 @@ class Thread extends Component {
   		const name = e.target.attributes.name.value;
   		const dir = e.target.className === "fas fa-arrow-up" ? "1" : "-1";
   		const token = localStorage.getItem("access_token");
-  		console.log(token)
 
   		fetch(`https://oauth.reddit.com/api/vote?id=${name}&dir=${dir}`, {
   			method: "POST",
@@ -64,7 +63,6 @@ class Thread extends Component {
 
   	render() {
 		const { listing, loading, sort } = this.state;
-		console.log(listing)
 		if (loading) {
 			return ( <LoadingScreen /> );
 
@@ -94,7 +92,6 @@ class Thread extends Component {
 export default Thread;
 
 const ThreadHead = ({ data, handleVote }) => {
-	console.log(data)
 	return (
 		<article className="ThreadHead">
 			<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />

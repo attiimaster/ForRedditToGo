@@ -74,7 +74,7 @@ const UserBox = ({ user }) => {
 				<div className="karma">{ user.karma } Karma</div>
 			</div>
 			<img src={ user.img } alt="user_image" />
-			<button onClick={ () => {localStorage.removeItem("access_token");history.push("/")} } className="logout-btn">Logout</button>
+			<button onClick={ () => {localStorage.removeItem("access_token");history.push("/ForRedditToGo")} } className="logout-btn">Logout</button>
 		</div>
 	);
 }
