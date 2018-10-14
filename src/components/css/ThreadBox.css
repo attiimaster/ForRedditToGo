@@ -36,10 +36,10 @@
 	height: 100%;
 	width: 100%;
 }
-.commentsAndReplies_tb {
+.ThreadBox .stats {
 	margin-top: 4px;
 }
-.commentsAndReplies_tb small {
+.ThreadBox .stats small {
 	color: #555;
 }
 

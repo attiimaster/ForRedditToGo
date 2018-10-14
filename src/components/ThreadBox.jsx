@@ -29,12 +29,16 @@ const ThreadBox = ({ data }) => {
 				{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
 
 
-				<div className="commentsAndReplies_tb">
+				<div className="stats">
 					<small>
 						<span>{ `${data.num_comments} Comments` }</span>
 					</small>
 					<small className="score-mobile">
-						<span>{ `${data.score} Upvotes` }</span>
+						<span>
+							<i className="fas fa-arrow-up"></i>
+							{ ` ${data.score} Upvotes ` }
+							<i className="fas fa-arrow-down"></i>
+						</span>
 					</small>
 				</div>
 			</div>

@@ -63,7 +63,7 @@ class Sub extends Component {
         <div className="Sub">
 
           <header className="SubTitle">
-            <h2>r/{ children[0].data.subreddit }</h2>
+            <h2>r/{ children[0] && children[0].data.subreddit }</h2>
           </header>
 
           <div className="container">

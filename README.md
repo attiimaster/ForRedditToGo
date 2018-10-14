@@ -11,6 +11,7 @@ Uses text to speech so I can listen to Reddit while doing things.
  - fetch more content when user reaches bottom of current feed
  - handle all different kinds of reddit posts (link, image, video, text)
  - get more replies (get complete comment tree)
+ - REFACTORING
 
 
 ##### Features to improve:

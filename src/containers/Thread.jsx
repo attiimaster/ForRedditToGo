@@ -41,12 +41,30 @@ class Thread extends Component {
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, loading: false }))
   		.catch(err => this.setState({ listing: err, loading: false }))
+  	}
 
+  	handleVote(e) {
+  		const name = e.target.attributes.name.value;
+  		const dir = e.target.className === "fas fa-arrow-up" ? "1" : "-1";
+  		const token = localStorage.getItem("access_token");
+  		console.log(token)
+
+  		fetch(`https://oauth.reddit.com/api/vote?id=${name}&dir=${dir}`, {
+  			method: "POST",
+  		  	headers: {
+  		  	  Authorization: `bearer ${token}`
+  		  	}
+  		})
+  		.catch(err => console.error(err))
+  		.then(res => res.json())
+  		.then(data => console.log(data))	
+
+  		e.target.className += " orange"
   	}
 
   	render() {
 		const { listing, loading, sort } = this.state;
-		
+		console.log(listing)
 		if (loading) {
 			return ( <LoadingScreen /> );
 
@@ -58,9 +76,12 @@ class Thread extends Component {
 			  	<div className="Thread">
 			  		<Synth listing={ listing } />
 			  		<div className="container">
-			  			<ThreadHead { ...threadInfo } onClick={ this.handleClick } />
-			  			<ThreadCommentsContainer comments={ comments } sort={ sort } handleSort={ this.handleSort } />
-			  		</div>
+			  			<ThreadHead { ...threadInfo } handleVote={ this.handleVote } />
+						<div>
+							<SortBox onChange={ this.handleSort } active={ this.state.sort } values={[ "Best", "Top", "New", "Controversial",  "Old" ]} />
+							{ comments && comments.map((c, i) => <CommentBox key={i} { ...c } handleVote={ this.handleVote } />) }
+						</div>
+					</div>
 			  	</div>
 			);
 		
@@ -72,7 +93,8 @@ class Thread extends Component {
 
 export default Thread;
 
-const ThreadHead = ({ data }) => {
+const ThreadHead = ({ data, handleVote }) => {
+	console.log(data)
 	return (
 		<article className="ThreadHead">
 			<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
@@ -87,40 +109,38 @@ const ThreadHead = ({ data }) => {
 			{ data.selftext_html && <div>{ Parser(decodeHtml(data.selftext_html)) }</div> }
 			{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
 
-			<small className="stats">
-				<span>{ data.num_comments } Comments</span>
-				<span> - { data.score } Upvotes</span>
-			</small>
+			<div className="stats">
+				<small>{ data.num_comments } Comments</small>
+				<small className="score">
+					<span>
+						<i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote }></i>
+						{ ` ${data.score} Upvotes ` }
+						<i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote }></i>
+					</span>
+				</small>
+			</div>
 		</article>
 	);
 }
 
-const ThreadCommentsContainer = ({ comments, handleSort, sort }) => {
-	return (
-		<div>
-			<SortBox onChange={ handleSort } active={ sort } values={[ "Best", "Top", "New", "Controversial",  "Old" ]} />
-			{ comments.map((c, i) => <CommentBox key={i} { ...c } />) }
-		</div>
-	);
-}
-
-const CommentBox = ({ data }) => {
+const CommentBox = ({ data, handleVote }) => {
 	const hoursAgoStr = convertToHoursAgo(data.created_utc*1000);
 	return (
 		<div className="CommentBox">
-			<small className="score">
-				<span>{ data.score }</span>
-			</small>
 			<div className="content">
 				<small className="author">{ data.author } &#8226; { hoursAgoStr } </small>
 				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
-				<div className="commentsAndReplies">
+				<div className="stats">
 					<small>
 						<span>{ `${data.replies ? data.replies.data.children.length : 0} Replies` }</span>
 					</small>
-					<small className="score-mobile">
-						<span>{ `${data.score} Upvotes` }</span>
+					<small className="score">
+						<span>
+							<i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote }></i>
+							{ ` ${data.score} Upvotes ` }
+							<i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote }></i>
+						</span>
 					</small>
 				</div>
 				<br />

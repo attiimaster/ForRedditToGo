@@ -85,7 +85,7 @@ class App extends Component {
 		  	<Router history={ history }>
 		    	
           <div className="App">
-		  		  <NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } loggedIn={ loggedIn } />
+		  		  <NavBar loggedIn={ loggedIn } user={ sanitizedUser } handleSideBar={ this.handleSideBar } onSubmit={ this.handleSearch } />
     
 		  		  <SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
     

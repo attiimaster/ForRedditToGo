@@ -29,7 +29,7 @@ class Synth extends Component {
 
 	// button handlers
 	play(e) {
-		const { listing, position, readmode } = this.state;
+		const { listing, readmode } = this.state;
 
 		const synth = window.speechSynthesis;
 		

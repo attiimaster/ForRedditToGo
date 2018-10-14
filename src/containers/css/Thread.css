@@ -14,62 +14,42 @@
 	padding: 30px 20px;
 }
 .ThreadHead .stats {
-	display: block;
+	color: #555;
 	margin: 10px auto;
+}
+.ThreadHead .score {
+	display: inline-block;
+	margin-left: 20px;
 }
 
 /* --- CommentBox --- */
 .CommentBox {
 	background: white;
-	border: 1px solid #eee;
 	border-top: none;
 	color: #333;
 	display: flex;
-	margin: 5px auto;
+	margin: auto;
 	position: relative;
-	padding: 10px 1vw;
 }
 .CommentBox .score {
-	display: flex;
-	font-size: 20px;
-	width: 8%;
-}
-.CommentBox .score-mobile {
-	display: none;
-}
-.CommentBox .score span {
-	margin: auto;
+	color: #555;
+	display: inline-block;
+	margin-left: 20px;
 }
 .CommentBox .content {
-	border-left: 1px solid #eee;
+	border-left: 1px solid silver;
 	margin: auto 0;
 	padding: 10px;
-	padding-left: 5px;
-	padding-right: 0;
-		width: 100%;
+	width: 100%;
 }
 .CommentBox .author {}
-.commentsAndReplies small {
+.stats small {
 	color: #555;
 }
 
 @media (max-width: 600px) {
 	.Thread {
 		width: 100%;
-	}
-	.CommentBox {
-		border: none;
-		adding: 0;
-	}
-	.CommentBox .score {
-		display: none;
-	}
-	.CommentBox .score-mobile {
-		display: inline-block;
-		margin-left: 20px;
-	}
-	.CommentBox .content {
-		border-left: 1px solid silver;
 	}
 	.CommentBox .author {}
 }
