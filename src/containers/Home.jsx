@@ -98,7 +98,7 @@ const Sections = () => {
       <section className="frontpage-section">
         <h1>How to use / main features</h1>
         <p>When reading a thread a user may use the synthesizer buttons to control the speech synthesis. Pressing <b>PLAY</b> will read the thread from beginning to end. You may skip or relisten to individual posts by using the <b>BACK</b> / <b>SKIP</b> buttons respectively. <b>STOP</b> will halt and cancel all queued messages.</p>
-        <p>You may also select a <b>READMODE</b>. For now there is <b>STANDARD</b> and <b>TOP COMMENTS ONLY</b>. <b>STANDARD</b> will read the thread as is with all comments including some (or all, depending on the volume) high rated replies, while <b>TOP COMMENTS ONLY</b> only reads, well, top comments.</p>
+        <p>You may also select a <b>READMODE</b>. For now there is <b>STANDARD</b> and <b>TOP CMNTS</b>. <b>STANDARD</b> will read the thread as is with all comments including some (or all, depending on the volume) high rated replies, while <b>TOP CMNTS</b> only reads out comments without reading out any replies.</p>
         <p>Comments get initialized with the phrase: <i>USERNAME comments...</i> while replies get initialized with <i>USERNAME replies...</i></p>
       </section>
   
