@@ -107,8 +107,8 @@ const Sections = () => {
         <p>If you find any bugs or have suggestions please feel free to contact me on my page or on github. I built this project for myself initially, but figured some people might find it useful. I would be stoked to improve <b>For Reddit, To Go</b> for others aswell.</p>
         
         <div className="socialmedia-icons">
-          <a href="https://attiimaster.github.io/go" target="_blank" rel="noopener noreferrer"><i className="fas fa-envelope"></i></a>
-          <a href="https://github.com/attiimaster/ForRedditToGo" target="_blank" rel="noopener noreferrer"><i className="fab fa-github"></i></a>
+          <a href="https://raphaelmayer.github.io/go" target="_blank" rel="noopener noreferrer"><i className="fas fa-envelope"></i></a>
+          <a href="https://github.com/raphaelmayer/ForRedditToGo" target="_blank" rel="noopener noreferrer"><i className="fab fa-github"></i></a>
         </div>
       </section>
     </div>
