@@ -20,14 +20,13 @@ const ThreadBox = ({ data }) => {
 				<AuthorHeader r={ data.subreddit_name_prefixed } author={ data.author } date={ data.created_utc } />
 
 				{ data && <h3>{ data.title }</h3> }
-				{ data.selftext && <p>{ data.selftext.slice(0, 140) }</p> }				
+				{ data.selftext ? <p className="selftext">{ data.selftext }</p> : <p>{ "This post contains media only. Follow the link to find out more." }</p> }				
 
-				{ data.media && data.media.reddit_video && <div className="media-wrapper"><iframe className="media" src={ data.media.reddit_video.scrubber_media_url } ></iframe></div> }
+				{/* data.media && data.media.reddit_video && <div className="media-wrapper"><iframe className="media" src={ data.media.reddit_video.scrubber_media_url } ></iframe></div> */}
 				{/* data.preview && data.preview.reddit_video_preview && <iframe src={ data.preview.reddit_video_preview.scrubber_media_url } ></iframe> */}
-				{ data.media && "media" }
-				{ data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) }
+				{/* data.media && "media" */}
+				{/* data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) */}
 				{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
-
 
 				<div className="stats">
 					<small>

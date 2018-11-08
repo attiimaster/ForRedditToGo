@@ -9,7 +9,7 @@ import SortBox from "../components/SortBox";
 class Sub extends Component {
   constructor() {
 		super();
-		this.state = { listing: null, currentSub: null, loading: true, sort: { value: "Hot", top: "Hour" } };
+		this.state = { listing: null, currentSub: null, loading: true, sort: { value: "hot", top: "hour" } };
     this.handleSort = this.handleSort.bind(this);
   }
 
@@ -29,8 +29,10 @@ class Sub extends Component {
     const { loading, currentSub, sort } = this.state;
   	if (!loading && currentSub !== subreddit) {
       if (!loading) { this.setState({ loading: true }); }
+
+      const top = sort.value === "top" ? `&t=${sort.top}` : "";
   		
-      fetch(`https://www.reddit.com/r/${subreddit}/${sort}/.json?limit=100`)
+      fetch(`https://www.reddit.com/r/${subreddit}/${sort.value}/.json?limit=100${top}`)
   		.then(res => res.json())
   		.then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
   		.catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
@@ -56,7 +58,7 @@ class Sub extends Component {
 		if (loading) {
       return ( <LoadingScreen /> );
 
-    } else if (listing) {
+    } else if (listing && listing.data) {
       const children = listing.data.children;
 
       return (

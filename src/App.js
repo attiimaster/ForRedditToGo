@@ -25,6 +25,9 @@ class App extends Component {
   	}
 
   	componentDidMount() {
+
+
+
       const accessToken = localStorage.getItem("access_token");
 
   		// check and parse url | values: access_token, token_type, state, expires_in, scope
