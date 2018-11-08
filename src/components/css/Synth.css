@@ -1,24 +1,83 @@
 .Synth {
+	background: white;
+	border-top: 1px solid #f3f3f3;
+	box-shadow: 0px 0px 6px 1px silver;
+	padding: 0 3px;
 	position: fixed;
 	bottom: 0;
 	left: 0;
+	right: 0;
+  	-webkit-backface-visibility: hidden;
+	z-index: 2;
 }
-.Synth .synth-btn-container {
+.synth-btn-container {
 	display: inline-flex;
 	width: 100%;
 }
-.Synth p {
-	border: 1px solid #555;
-	display: inline-flex;
-}
-.synth-button {
-	border-radius: 50%;
+.synth-btn {
+	cursor: pointer;
 	display: flex;
-	margin: auto;
+	font-size: 24px;
+	height: 40px;
+	margin: auto 1px;
+	padding: 3px 0;
+	transition: all 0.2s ease;
+	width: 100%;
+}
+.synth-btn:hover {
+	font-size: 26px;
+	text-shadow: 0px 0px 10px orange;
 }
 .Synth i {
-	font-size: 30px;
+	color: #ff4500;
+	font-size: inherit;
 	margin: auto;
+}
+.Synth .readmode {
+	color: #ff4500;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	margin-bottom: 5px;
+	padding: 2px;
+}
+.Synth .readmode select {
+	appearance: none;
+	background: none;
+	border: 1px solid #d8d8d8;
+	border-top: none !important;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	color: #ff4500;
+	cursor: pointer;
+	font-family: "open sans";
+	font-size: 12px;
+	font-weight: bold;
+	margin-left: 3px;
+	padding-right: 8px; /* to counteract weird padding left */
+	text-align: center;
+	text-transform: uppercase;
+	transition: all 0.2s ease;
+	width: 110px;
+}
+.readmode select:hover {
+	border: 1px solid #4285f4;
+}
+.readmode select:focus {
+	border: 1px solid #4285f4;
+}
+.readmode select::-ms-expand {
+	display: none;
+}
+.synth-name {
+	color: #ff4500;
+	font-family: "lovers quarrel";
+	font-size: 30px;
+	position: absolute;
+	top: 0;
+	right: 3px;
+	text-shadow: 2px 0px 2px #999;
 }
 #log {
 	background: white;
@@ -43,78 +102,14 @@
 	display: none;
 }
 .Synth .fa-bars {
+	color: white;
 	position: absolute;
-	top: 10px;
-	right: 30px;
+	top: 0px;
+	right: 3px;
 	z-index: 30;
+}
+.Synth .readmode option {
 }
 
 @media (max-width: 1000px) {
-	.Synth {
-		background:
-			linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
-			linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
-			linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
-			linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
-			linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
-			linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
-		background-color: #131313;
-		background-size: 20px 20px;
-
-		border-top-left-radius: 10px;
-		border-top-right-radius: 10px;
-		border-bottom: none;
-		padding: 10px;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-	  	-webkit-backface-visibility: hidden;
-		z-index: 2;
-		opacity: 1;
-		width: 100vw;
-	}
-	.synth-button {
-		background: rgb(255, 100, 100);
-		box-shadow: inset 0px 0px 10px 1px black;
-		border-radius: 50%;
-		display: flex;
-		margin: auto;
-		height: 20vw;
-		width: 20vw;
-	}
-	.synth-button .inner {
-		border-radius: 50%;
-		box-shadow: inset 0px 0px 7px 1px black;
-		cursor: pointer;
-		display: flex;
-		margin: auto;
-		height: 75%;
-		width: 75%;
-	}
-	.Synth i {
-		color: white;
-		font-size: 24px;
-	}
-	.Synth .readmode {
-		color: white;
-		display: inline-block;
-		font-size: 12px;
-		font-weight: bold;
-		margin-bottom: 5px;
-		padding: 2px;
-	}
-	.Synth .readmode select {
-		appearance: none;
-		background: none;
-		border: none;
-		color: white;
-		font-size: 12px;
-		font-weight: bold;
-	}
-	.readmode select::-ms-expand {
-		display: none;
-	}
-	.Synth .readmode option {
-	}
 }

@@ -84,7 +84,9 @@ class Synth extends Component {
 					this.state.isOn && this.setState({ position: this.state.position + 1 });
 				});
 			});
+			
 			this.setState({ position: previous - 1 }); // see the cancel() comment 
+
 		} else {
 			console.error(`BACK ERROR:\nscript: ${script}\nposition: ${position}`);
 		}
@@ -132,12 +134,14 @@ class Synth extends Component {
 			<div className="Synth">
 
 				<i onClick={ this.handleLog } className="fas fa-bars"></i>
-				<div id="log" className={ logIsOpen ? "" : "hidden" }></div>
+				<div id="log" className={ logIsOpen ? "" : "hidden" }><p><u>DebugLog</u></p></div>
+				<div className="synth-name">Synthesizer 2000</div>
 			
 				<div className="readmode">Mode: 
 					<select onChange={ this.handleReadMode } value={ readmode } >
+						<i className="fas fa-ellipsis-h"></i>
 						<option value="STANDARD">Standard</option>
-						<option value="TOP_COMMENTS">Top comments only</option>
+						<option value="TOP_COMMENTS">Top cmnts</option>
 					</select>
 				</div>
 
@@ -159,10 +163,8 @@ export default Synth;
 
 const SynthBtn = ({ icon, onClick }) => {
 	return (
-		<div  className="synth-button">
-			<div className="inner" onClick={ onClick } >
-				<i className={ icon } id="playbtn"></i>
-			</div>
+		<div  className="synth-btn" onClick={ onClick } >
+			<i className={ icon } id="playbtn"></i>
 		</div>
 	);
 }
