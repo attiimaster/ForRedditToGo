@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import history from "../helpers/history";
 import "./css/NavBar.css";
 
+const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
+
 class NavBar extends Component {
 	constructor(props) {
 		super(props);
@@ -35,7 +37,7 @@ class NavBar extends Component {
 				
 				<i onClick={ handleSideBar } className="fas fa-bars"></i>
 				
-				<Link to="/x/" className="link"><div className="logo">For Reddit To Go</div></Link>	
+				<Link to={`${uri}/`} className="link"><div className="logo">For Reddit To Go</div></Link>	
 	
 				<form onSubmit={ onSubmit } >
 					<input type="text" placeholder="search reddit" />
