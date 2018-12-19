@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Parser from "html-react-parser";
+// import Parser from "html-react-parser";
 import "./css/ThreadBox.css";
 
 import AuthorHeader from "../components/AuthorHeader";
-import decodeHtml from "../helpers/decodeHtml";
+// import decodeHtml from "../helpers/decodeHtml";
 
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 

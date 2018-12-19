@@ -5,7 +5,6 @@
 	display: flex;
 	margin: 5px auto;
 	position: relative;
-	padding: 0px 1vw;
 }
 .ThreadBox .score {
 	border-right: 1px solid #eee;
@@ -29,7 +28,8 @@
 	width: 100%;
 }
 .ThreadBox .selftext {
-	height: 60px;
+	font-size: 13px;
+	height: 70px;
 	overflow-y: hidden;
 }
 .ThreadBox .media-wrapper {
@@ -65,6 +65,6 @@
 		width: 100%;
 	}
 	.ThreadBox .stats {
-		box-shadow: 0px -10px 20px 10px white;
+		box-shadow: 0px -10px 40px 10px white;
 	}
 }

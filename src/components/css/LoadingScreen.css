@@ -15,8 +15,8 @@
 	margin: auto;
 }
 .LoadingScreen .spinner {
-    border: 8px solid #f3f3f3; /* Light grey */
-    border-top: 8px solid #ff4500; /* Blue */
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid #ff4500; /* Blue */
     border-radius: 50%;
     height: 80px;
 	margin: 50px;

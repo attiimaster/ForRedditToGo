@@ -76,7 +76,7 @@ class Thread extends Component {
 			  		<div className="container">
 			  			<ThreadHead { ...threadInfo } handleVote={ this.handleVote } />
 						<div>
-							<SortBox onChange={ this.handleSort } active={ this.state.sort } values={[ "Best", "Top", "New", "Controversial",  "Old" ]} />
+							<SortBox onChange={ this.handleSort } active={ sort } values={[ "Best", "Top", "New", "Controversial",  "Old" ]} />
 							{ comments && comments.map((c, i) => <CommentBox key={i} { ...c } handleVote={ this.handleVote } />) }
 						</div>
 					</div>
