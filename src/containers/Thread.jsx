@@ -17,6 +17,7 @@ class Thread extends Component {
 		super();
 		this.state = { listing: null, loading: true, toRead: null, sort: "Best" }
 		this.handleSort = this.handleSort.bind(this);
+		this.handleMore = this.handleMore.bind(this);
   	}
   	
   	componentDidMount() {
@@ -60,6 +61,19 @@ class Thread extends Component {
 
   		e.target.className += " orange"
   	}
+  	handleMore(e, id) {
+  		const { listing } = this.state;
+  		console.log(listing);
+
+  		// fetch replies
+
+  		// traverse listing to find matching id and append
+  		// or
+  		// save nested location somehow for easy inserting
+
+  		// comments: listing[1].data.children.data
+  		// replies: replies.data.children.data
+  	}
 
   	render() {
 		const { listing, loading, sort } = this.state;
@@ -77,7 +91,7 @@ class Thread extends Component {
 			  			<ThreadHead { ...threadInfo } handleVote={ this.handleVote } />
 						<div>
 							<SortBox onChange={ this.handleSort } active={ sort } values={[ "Best", "Top", "New", "Controversial",  "Old" ]} />
-							{ comments && comments.map((c, i) => <CommentBox key={i} { ...c } handleVote={ this.handleVote } />) }
+							{ comments && comments.map((c, i) => <CommentBox key={i} { ...c } handleVote={ this.handleVote } handleMore={ this.handleMore } />) }
 						</div>
 					</div>
 			  	</div>
@@ -120,7 +134,7 @@ const ThreadHead = ({ data, handleVote }) => {
 	);
 }
 
-const CommentBox = ({ data, handleVote }) => {
+const CommentBox = ({ data, handleVote, handleMore }) => {
 	const hoursAgoStr = convertToHoursAgo(data.created_utc*1000);
 	return (
 		<div className="CommentBox">
@@ -142,7 +156,12 @@ const CommentBox = ({ data, handleVote }) => {
 				</div>
 				<br />
 				{/* loop over replies and check if reply === comment || link id to more*/}
-				{ data.replies && data.replies.data.children.map((r, i) => r.kind === "more" ? <MoreButton key={i} onClick={ () => "" } text={ `${r.data.count} more replies` } /> : <CommentBox { ...r } key={i} />) }
+				{
+					data.replies && data.replies.data.children.map((r, i) => r.kind === "more" ? 
+						<MoreButton key={i} { ...r } onClick={ handleMore } text={ `${r.data.count} more replies` } />
+						:
+						<CommentBox { ...r } key={i} />)
+				}
 			</div>
 		</div>
 	);
