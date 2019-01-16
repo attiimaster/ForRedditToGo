@@ -12,7 +12,7 @@ class Synth extends Component {
 			listing: null,
 			readmode: "STANDARD", // STANDARD, TOP_COMMENTS, COMMENT_TREE
 			script: null,
-			position: null,
+			position: 0,
 			isOn: false
 		};
 		this.handleLog = this.handleLog.bind(this);
@@ -29,12 +29,10 @@ class Synth extends Component {
 
 	// button handlers
 	play(e) {
-		const { listing, readmode } = this.state;
-
-		const synth = window.speechSynthesis;
+		const { listing, position, readmode } = this.state;
 		
 		// START
-		if (!synth.speaking) {
+		if (!window.speechSynthesis.speaking) {
 			print("START EVENT");
 
 			// convert listing to an array of strings
@@ -42,53 +40,36 @@ class Synth extends Component {
 			const script = threadToArray(listing, readmode);
 
 			// push all items onto the utterance queue with a callback
-			script.map(text => {
-				text && readOut(text, (err, e) => {
-					this.setState({ position: this.state.position + 1 });
-				});
+			mapScriptToUtteranceQueue(position, script, (err, e) => {
+				this.setState({ position: this.state.position + 1 });
 			});
 
 			// set state to track position for back and skip functionality
-			this.setState({ isOn: true, script, position: 0 });
-
-		// RESUME
-		} else if (synth.paused) {
-			print("RESUME EVENT");
-			synth.resume();
-			this.setState({ isOn: true });
+			this.setState({ isOn: true, script, position });
 
 		// PAUSE
-		} else if (synth.speaking && !synth.paused) {
-			print("PAUSE EVENT");
-			synth.pause();
-			this.setState({ isOn: false });
+		} else {
+			print("TOGGLE PAUSE EVENT");
+			window.speechSynthesis.cancel();
 
-		// DEFAULT
-		} else { 
-			print("PLAY DEFAULT EVENT");
-			synth.cancel();
-			this.setState({ isOn: false });
-		};
+			// cancel() increments position once, see readOut callback
+			this.setState({ isOn: false, position: position - 1 });  
+		}
 	}
 	back(e) {
 		print("BACK EVENT");
 		const { script, position } = this.state;
 		const previous = position < 2 ? 0 : position - 1;
 
-		if (script) {
-			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
-
-			// slice complete script at current position - 1 and map to readOut
-			script.slice(previous, script.length).map(text => {
-				text && readOut(text, (err, e) => {
-					this.state.isOn && this.setState({ position: this.state.position + 1 });
-				});
-			});
-			
-			this.setState({ position: previous - 1 }); // see the cancel() comment 
-
+		mapScriptToUtteranceQueue(previous, script, (err, e) => {
+			this.setState({ position: this.state.position + 1 });
+		});
+		
+		// cancel() increments position once, see readOut callback 	
+		if (window.speechSynthesis.speaking) {
+			this.setState({ position: previous - 1, isOn: true });  
 		} else {
-			console.error(`BACK ERROR:\nscript: ${script}\nposition: ${position}`);
+			this.setState({ position: previous, isOn: true });  
 		}
 	}
 	skip(e) {
@@ -96,31 +77,29 @@ class Synth extends Component {
 		const { script, position } = this.state;
 		const next = position + 1;
 
-		if (script) {
-			window.speechSynthesis.cancel(); // cancel sets position + 1 (see: readOut callback)
-	
-			// slice complete script at current position + 1 and map to readOut
-			script.slice(next, script.length).map(text => {
-				text && readOut(text, (err, e) => {
-					this.state.isOn && this.setState({ position: this.state.position + 1 });
-				});
-			});
-			// this.setState({ position: next });
+		mapScriptToUtteranceQueue(next, script, (err, e) => {
+			this.setState({ position: this.state.position + 1 });
+		});
+
+		// cancel() increments position once, see readOut callback
+		if (window.speechSynthesis.speaking) {
+			this.setState({ position: next - 1, isOn: true });
 		} else {
-			console.error(`SKIP ERROR:\nscript: ${script}\nposition: ${position}`);
+			this.setState({ position: next, isOn: true });
 		}
 	}
 	stop(e) {
 		print("STOP EVENT");
+		const { isOn } = this.state;
 		window.speechSynthesis.cancel();
-		this.setState({ isOn: false, script: null, position: null });
+
+		// cancel() increments position once, see readOut callback
+		// isOn to prevent multiple clicks
+		isOn && this.setState({ isOn: false, position: -1, script: null }); 
 	}
 
 	handleLog(e) {
-		this.state.logIsOpen ? 
-		this.setState({ logIsOpen: false })
-		:
-		this.setState({ logIsOpen: true }); 
+		this.setState({ logIsOpen: !this.state.logIsOpen });
 	}
 
 	handleReadMode(e) {
@@ -128,7 +107,7 @@ class Synth extends Component {
 	}
 
 	render() {
-		const { logIsOpen, isOn, readmode } = this.state;
+		const { logIsOpen, isOn, readmode, position, script } = this.state;
 
 		return (
 			<div className="Synth">
@@ -143,6 +122,7 @@ class Synth extends Component {
 						<option value="STANDARD">Standard</option>
 						<option value="TOP_COMMENTS">Top cmnts</option>
 					</select>
+					<span className="position">{ `${position} / ${script && script.length || " - " }` }</span>
 				</div>
 
 				<div className="synth-btn-container">	
@@ -173,7 +153,7 @@ const SynthBtn = ({ icon, onClick }) => {
 
 // temporary solution
 let toReadArray = [];
-const cleanString = str => str ? str.replace(/[^\w\s.:,_$@%;-=!?]/gi, '') : null;
+const cleanString = str => str ? str.replace(/[^\w\s.:,_$@%;-=`´'/!?]/gi, '') : null;
 
 // makes array of strings to pass to speechSynthesis;
 const threadToArray = (listing, readmode) => {
@@ -220,4 +200,18 @@ const pushReplies = replies => {
 			};
 		});
 	}
+}
+
+function mapScriptToUtteranceQueue(position, script, done) {
+	window.speechSynthesis.cancel();
+
+	// slice complete script at new position and map to readOut
+	script.slice(position, script.length).map(text => {
+		text && readOut(text, (err, e) => {
+			
+			if (err) console.error(err);
+
+			done(null, e);
+		});
+	});
 }

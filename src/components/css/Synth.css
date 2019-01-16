@@ -70,6 +70,9 @@
 .readmode select::-ms-expand {
 	display: none;
 }
+.Synth .position {
+	margin-left: 50px;
+}
 .synth-name {
 	color: #ff4500;
 	font-family: "lovers quarrel";
