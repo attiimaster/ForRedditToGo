@@ -1,10 +1,12 @@
 import React from "react";
 
-const MoreButton = (props) => {
-	const { onClick, text } = props;
-	const parent_id = props.data.parent_id;
+const MoreButton = ({ onClick, text, data }) => {
+	// data && to prevent crash when using the search feature
+	const children = data && data.children;
+	const parentId = data && data.parent_id;
+
 	return (
-		<button onClick={ e => onClick(e, parent_id) } className="MoreButton">{ `${text}` }</button>
+		<button onClick={ e => onClick(e, children, parentId) } className="MoreButton">{ `${text}` }</button>
 	);
 }
 
