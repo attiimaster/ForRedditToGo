@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./css/Synth.css";
 
-import readOut from "../services/speech.service.js";
+import { readOut, convertListingToScript } from "../services/speech.service.js";
 import print from "../helpers/print";
 
 class Synth extends Component {
@@ -37,7 +37,7 @@ class Synth extends Component {
 
 			// convert listing to an array of strings
 			// where each item represents one title, post, comment or reply
-			const script = threadToArray(listing, readmode);
+			const script = convertListingToScript(listing, readmode);
 
 			// push all items onto the utterance queue with a callback
 			mapScriptToUtteranceQueue(position, script, (err, e) => {
@@ -147,59 +147,6 @@ const SynthBtn = ({ icon, onClick }) => {
 			<i className={ icon } id="playbtn"></i>
 		</div>
 	);
-}
-
-
-
-// temporary solution
-let toReadArray = [];
-const cleanString = str => str ? str.replace(/[^\w\s.:,_$@%;-=`´'/!?]/gi, '') : null;
-
-// makes array of strings to pass to speechSynthesis;
-const threadToArray = (listing, readmode) => {
-	toReadArray = [];
-
-	const title =  listing[0].data.children[0].data.title;
-	const post = listing[0].data.children[0].data.selftext;
-	const comments = listing[1].data.children;
-
-	// push title, post and comments to array in order and read out
-	title && toReadArray.push(cleanString(title));
-	post && toReadArray.push(cleanString(post));
-
-	// push comments and replies to array
-	comments.map((c, i) => {
-		toReadArray.push(` ${c.data.author} comments: ? ` + cleanString(c.data.body));
-		
-		if (readmode === "STANDARD") {
-			pushReplies(c.data.replies);
-		}
-	});
-	return toReadArray;
-}
-
-// recursive function
-const pushReplies = replies => {
-
-	if (replies && replies.kind !== "more") {
-
-		// the replies object is a "listing" and NOT the actual array
-		const children = replies.data.children;
-
-		// loop over children
-		children.map((c, i) => {
-
-			// check if actual replies and not just links to fetch more replies
-			if (c.kind !== "more") {
-
-				// if it is push reply body to array
-				toReadArray.push(` ${c.data.author} replies: ? ` + cleanString(c.data.body));
-
-				// call self with the replies of the reply
-				pushReplies(c.data.replies);
-			};
-		});
-	}
 }
 
 function mapScriptToUtteranceQueue(position, script, done) {

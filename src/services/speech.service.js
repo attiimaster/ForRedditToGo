@@ -5,7 +5,13 @@ let voice;
 
 // load voices, and try again if it fails
 let tries = 0;
-const loadVoices = () => {
+
+if ('speechSynthesis' in window) {
+  synth = window.speechSynthesis;
+  loadVoices();
+}
+
+function loadVoices() {
 	tries++;
 	const voices = synth.getVoices();
 	if (voices.length) {
@@ -22,12 +28,9 @@ const loadVoices = () => {
 	}
 }
 
-if ('speechSynthesis' in window) {
-  synth = window.speechSynthesis;
-  loadVoices();
-}
+// takes string and starts reading out lout
 // done takes (err, event)
-export const readOut = (message, done) => {
+export function readOut(message, done) {
 	console.log("readOut");
     const speech = new SpeechSynthesisUtterance(message);
 
@@ -75,4 +78,58 @@ export const readOut = (message, done) => {
 	synth.speak(speech);
 }
 
-export default readOut;
+// makes array of strings to pass to speechSynthesis;
+export function convertListingToScript(listing, readmode) {
+	let script = [];
+
+	const title =  listing[0].data.children[0].data.title;
+	const post = listing[0].data.children[0].data.selftext;
+	const comments = listing[1].data.children;
+
+	// push title, post and comments to array in order and read out
+	title && script.push(cleanString(title));
+	post && script.push(cleanString(post));
+
+	// push comments and replies to array
+	comments.map((c, i) => {
+		script.push(` ${c.data.author} comments: ? ` + cleanString(c.data.body));
+		
+		if (readmode === "STANDARD") {
+			pushReplies(c.data.replies, script);
+		}
+	});
+	return script;
+}
+
+// recursively add replies to script array
+function pushReplies(replies, script) {
+
+	if (replies && replies.kind !== "more") {
+
+		// the replies object is a "listing" and NOT the actual array
+		const children = replies.data.children;
+
+		// loop over children
+		children.map((child, i) => {
+
+			// check if actual replies and not just links to fetch more replies
+			if (child.kind !== "more") {
+
+				// if it is push reply body to array
+				script.push(` ${child.data.author} replies: ? ` + cleanString(child.data.body));
+
+				// call self with the replies of the reply
+				pushReplies(child.data.replies, script);
+			};
+		});
+	}
+	
+}
+
+// remove special symbols from strings by defining what NOT to remove
+function cleanString(str) {
+	if (!str) {
+		return null;
+	}
+	return str.replace(/[^\w\s.:,_$@%;-=`´'/!?]/gi, '');
+}

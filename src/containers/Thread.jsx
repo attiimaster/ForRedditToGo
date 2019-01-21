@@ -9,7 +9,7 @@ import Synth from "../components/Synth";
 import SortBox from "../components/SortBox";
 import MoreButton from "../components/MoreButton";
 
-import { findIdInListing } from "../services/user.service.js";
+import { findIdInListing, findInListingAndInsert } from "../services/user.service.js";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
 import decodeHtml from "../helpers/decodeHtml";
 
@@ -115,81 +115,11 @@ class Thread extends Component {
   			// await findIdInListing(listing, parentId)
   			// or
   			// save nested location somehow for easy inserting
-  			findIdInListing(listing, parentId.substring(3))
-  			.then(iterators => {
-  				// const path = listing[1].data.children[3].data.replies.data.children[4].data.replies.data.children[0].data.replies.data.children[1];
-  				var newListing = listing;
-  				const test = (i) => {	// i === Array iterators
-  					console.log("test:", i);
-  					if (i.length == 1) {
-		  				var parentt = listing[1].data.children[Number(i[0])];
-  						data.json.data.things.map(c => newListing[1].data.children[Number(i[0])].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  					}
-  					if (i.length == 2) {
-		  				var parentt = listing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])];
-  						data.json.data.things.map(c => newListing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  					}
-  					if (i.length == 3) {
-		  				var parentt = listing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])];
-  						data.json.data.things.map(c => newListing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  					}
-  					if (i.length == 4) {
-		  				var parentt = listing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])].data.replies.data.children[Number(i[3])];
-  						data.json.data.things.map(c => newListing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])].data.replies.data.children[Number(i[3])].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  					}
-  					if (i.length == 5) {
-		  				var parentt = listing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])].data.replies.data.children[Number(i[3])].data.replies.data.children[Number(i[4])];
-  						data.json.data.things.map(c => newListing[1].data.children[Number(i[0])].data.replies.data.children[Number(i[1])].data.replies.data.children[Number(i[2])].data.replies.data.children[Number(i[3])].data.replies.data.children[Number(i[4])].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  					}
-  					console.log("parent:", parentt);
-
-  					const simplified = {
-						id: parentt.data.id,
-						replies: parentt.data.replies,
-						body: parentt.data.body,
-						author: parentt.data.author
-					}
-					console.log("reduced parent:\n", simplified);
-  				}
-  				const test2 = (children, iterators, i) => {
-  					console.log(i)
-  					if (i <= iterators.length) {
-  						test2(children[Number(iterators[i])].data.replies.data.children, iterators, i++);
-  					} else {
-  						// console.log("parent:", parentt);
-  						data.json.data.things.map(c => children.push(c));
-  						this.setState({ listing: newListing });
-
-  					}
-  				}
-  				// let newListing = listing;
-  				const makeStr = (iterators) => {
-  					let str = `[${iterators[0]}]`;
-
-  					for (let i = 1; i < iterators.length; i++) {
-  						const part = `.data.replies.data.children[${iterators[i]}]`;
-  						str.push(part);
-  					}
-  					console.log(str);
-  					return str;
-  				}
-  				const test3 = (iterators) => {
-		  				var parentt = listing[1].data.children;
-  						data.json.data.things.map(c => newListing[1].data.children[makeStr(iterators)].data.replies.data.children.push(c));
-  						this.setState({ listing: newListing });
-  				}
-  				test(iterators.split(""));
-  				// test2(newListing[1].data.children, iterators.split(""), 0);
-  			})
-  			.catch(err => console.log(err)) 
+  			
+  			findInListingAndInsert(listing, parentId.substring(3), data.json.data.things)
+  			.then(newListing => this.setState({ listing: newListing }))
   		})
-
-
+  		
   		// comments: listing[1].data.children.data
   		// replies: replies.data.children.data
   	}

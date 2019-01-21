@@ -1,72 +1,84 @@
 "use strict";
 
 // exports: 
-// convertListingToScript()
-// findIdInListing()
-
+	// convertListingToScript()
+	// findInListingAndInsert()
+	// findIdInListing()
 
 // search
 
 // vote
 
-// morebutton
+// sort
 
+// =========== more button functionality ============
 
-// makes array of strings to pass to speechSynthesis;
-export function convertListingToScript(listing, readmode) {
-	let script = [];
+// takes listing and additional replies and merges them
+export function findInListingAndInsert(listing, parentId, ArraytoInsert) {
+	return new Promise((resolve, reject) => {
 
-	const title =  listing[0].data.children[0].data.title;
-	const post = listing[0].data.children[0].data.selftext;
-	const comments = listing[1].data.children;
+		// the comments object is a "listing" and NOT the actual array
+		const comments = listing[1].data.children;
 
-	// push title, post and comments to array in order and read out
-	title && script.push(cleanString(title));
-	post && script.push(cleanString(post));
+		// loop through comments
+		comments.map((comment, i) => {
+			if (comment.data.id === parentId && comment.kind !== "more") {
+				
+				// remove more object
+				comment.data.replies.data.children.pop();
+				// if comment is parent, insert replies and resolve with new listing
+  				ArraytoInsert.map(toInsert => comment.data.replies.data.children.push(toInsert));
+				resolve(listing);
+			}
 
-	// push comments and replies to array
-	comments.map((c, i) => {
-		script.push(` ${c.data.author} comments: ? ` + cleanString(c.data.body));
-		
-		if (readmode === "STANDARD") {
-			pushReplies(c.data.replies, script);
-		}
-	});
-	return script;
-}
+			// comment is not parent, but has replies
+			if (comment.data.replies) {
 
-// recursive function
-function pushReplies(replies, script) {
+				// look if a reply is the parent 
+				findIdInRepliesAndInsert(comment.data.replies, parentId, ArraytoInsert)
+				.then(listing => listing && resolve(listing))
+				.catch(err => console.error(err))
+			}
+			// reject() oder resolve("someKindOfErrorMessage")
+		})
 
-	if (replies && replies.kind !== "more") {
+	})
 
-		// the replies object is a "listing" and NOT the actual array
-		const children = replies.data.children;
+	// recursive function
+	function findIdInRepliesAndInsert(replies, parentId, ArraytoInsert) {
+		return new Promise((resolve, reject) => {
 
-		// loop over children
-		children.map((child, i) => {
+			// the replies object is a "listing" and NOT the actual array
+			const children = replies.data.children;
 
-			// check if actual replies and not just links to fetch more replies
-			if (child.kind !== "more") {
+			// loop over children
+			children.map((child, i) => {
+				
+				// check if actual replies and not just links to fetch more replies
+				if (child.data.id === parentId && child.kind !== "more") {
 
-				// if it is push reply body to array
-				script.push(` ${child.data.author} replies: ? ` + cleanString(child.data.body));
-
+					// remove more object
+					child.data.replies.data.children.pop();
+					// .then insert replies
+	  				ArraytoInsert.map(toInsert => child.data.replies.data.children.push(toInsert));
+					
+					resolve(listing);			
+				}
+				// reply is not parent, but has replies
 				// call self with the replies of the reply
-				pushReplies(child.data.replies, script);
-			};
+				if (child.data.replies) {
+
+					// look if a reply of reply is the parent 
+					findIdInRepliesAndInsert(child.data.replies, parentId, ArraytoInsert)
+					.then(listing => resolve(listing)) 
+					.catch(err => console.err(err))
+				}
+			});	
 		});
 	}
 }
 
-function cleanString(str) {
-	if (!str) {
-		return null;
-	}
-	return str.replace(/[^\w\s.:,_$@%;-=`´'/!?]/gi, '');
-}
-
-// ===========  ===========
+// ==================== legacy ======================
 
 export function findIdInListing(listing, parentId) {
 	return new Promise((resolve, reject) => {
@@ -121,7 +133,6 @@ function findIdInReplies(replies, parentId) {
 
 				// .then insert replies
 				// comments.data.replies.data.children.push()
-				
 				resolve(i.toString());			
 			}
 			// call self with the replies of the reply
