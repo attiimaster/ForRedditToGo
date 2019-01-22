@@ -64,13 +64,15 @@ class Sub extends Component {
       return (
         <div className="Sub">
 
-          <header className="SubTitle">
-            <h2>r/{ children[0] && children[0].data.subreddit }</h2>
-          </header>
-
           <div className="container">
+
+            <header className="SubTitle">
+              <h2>r/{ children[0] && children[0].data.subreddit }</h2>
+            </header>
+
             <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top" ]} />
             { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
+          
           </div>
         </div>
       );

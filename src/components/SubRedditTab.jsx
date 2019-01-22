@@ -11,6 +11,9 @@ const SubRedditTab  = ({ subreddits, isOpen, handleSideBar, loggedIn }) => {
 				<Link className="logo" to={ `${uri}/` } onClick={ handleSideBar }>For Reddit To Go</Link>
 				<i className="fas fa-times" onClick={ handleSideBar }></i>
 			</div>	
+						
+			<div className="about-link"><Link to={`${uri}/about/`} >About</Link></div>
+			
 			{ subreddits && subreddits.map((sub, i) => <SubRedditBox handleSideBar={ handleSideBar } key={i} { ...sub } />)}
 			{ !subreddits && <div className="not-logged-in">Log in to see a list of your subscribed subreddits.</div> }
 		</div>

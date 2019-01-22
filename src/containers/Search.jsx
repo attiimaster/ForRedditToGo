@@ -56,11 +56,12 @@ class Search extends Component {
 			return (
 				<div className="Search">
 	
-					<header className="SearchTitle">
-						<h2>Search results for <u>{ query }</u>:</h2>
-					</header>
-	
 					<div className="container">
+	
+						<header className="SearchTitle">
+							<h2>Search results for <u>{ query }</u>:</h2>
+						</header>
+						
 						<section className="search-results">
 							<h3>Subreddits</h3>
 							{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }

@@ -1,15 +1,37 @@
 "use strict";
 
 // exports: 
-	// convertListingToScript()
+	// fetchUserData()
 	// findInListingAndInsert()
-	// findIdInListing()
+	// findIdInListing() - legacy
 
 // search
 
 // vote
 
 // sort
+
+// =========== api ============
+
+export function fetchUserData(token) {
+  	return Promise.all([
+  		// fetch users reddit profile
+		fetchWithToken("/api/v1/me", token),
+  		// fetch list of users subscribed subreddits
+		fetchWithToken("/subreddits/mine/subscriber", token)
+	]);
+}
+
+async function fetchWithToken(path, token) {
+	// token = token || JSON.parse(localStorage.getItem("access_token"));
+	const options = {
+	  headers: {
+	    Authorization: `bearer ${token}`
+	  }
+	}
+	const res = await fetch(`https://oauth.reddit.com${path}`, options);
+	return res.json();
+}
 
 // =========== more button functionality ============
 

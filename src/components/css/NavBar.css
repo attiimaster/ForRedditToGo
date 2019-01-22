@@ -53,51 +53,6 @@
 	margin: auto;
 	margin-left: 50px;
 }
-.login-user-field {
-	margin: auto 10px;
-}
-.login-btn {
-	background: #ff4500;
-	border-radius: 3px;
-	color: white;
-}
-.UserBox {
-	border-radius: 3px;
-	color: #666;
-	display: flex;
-}
-.UserBox .name-karma-container {
-	margin: auto;
-	margin: 5px 13px 5px 0;
-}
-.UserBox .name {
-	font-weight: 600;
-}
-.UserBox .karma {
-	color: #ff4500;
-	font-size: 90%;
-}
-.UserBox img {
-	border-radius: 3px;
-	margin: auto;
-	max-height: 40px;
-}
-.logout-btn {
-	background: white;
-	cursor: pointer;
-	height: 0px;
-	overflow-y: hidden;
-	opacity: 0.1;
-	position: absolute;
-	top: 100%;
-	right: 0;
-	transition: all 0.2s ease;
-}
-.UserBox:hover .logout-btn {
-	border: 1px solid #eee;
-	height: 30px;
-	opacity: 1;
-}
 
 .hide {
   transform: translateY(-50px);
@@ -110,11 +65,5 @@
 	}
 	.navbar .logo {
 		font-size: 12px;
-	}
-}
-
-@media (max-width: 438px) {
-	.UserBox .name-karma-container {
-		display: none;
 	}
 }

@@ -7,4 +7,4 @@ Uses text to speech so I can listen to Reddit while doing things.
 **Note:** This is a work in progress and features may not function as intended. 
 
 
-Link: https://attiimaster.github.io/ForRedditToGo
+Link: https://raphaelmayer.github.io/ForRedditToGo
