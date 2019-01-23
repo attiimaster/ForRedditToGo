@@ -7,6 +7,7 @@ import SortBox from "../components/SortBox";
 import LoadingScreen from "../components/LoadingScreen";
 
 import history from "../helpers/history";
+import { fetchFrontpage } from "../services/user.service.js";
       
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
@@ -19,37 +20,20 @@ class Frontpage extends Component {
   componentDidMount() {
     const { mySubreddits, loggedIn } = this.props;
 
-    if (mySubreddits && loggedIn) {
-      const arr = mySubreddits.map(sub => sub.data.display_name);
-
-      fetch(`https://www.reddit.com/r/${arr.join("+")}/.json?limit=100`)
-      .then(res => res.json())
-      .then(data => this.setState({ listing: data, loading: false }))
-      .catch(err => console.error(err))
-    } else {
-      fetch(`https://www.reddit.com/.json?limit=100`)
-      .then(res => res.json())
-      .then(data => this.setState({ listing: data, loading: false }))
-      .catch(err => console.error(err))
-    }
+    fetchFrontpage(mySubreddits)
+    .then(data => this.setState({ listing: data, loading: false }))
+    .catch(err => console.error(err))
   }
+  
   handleSort(e) {
-    this.setState({ loading: true, sort: { value: e.target.form[0].value, top: e.target.form[1].value } });
+    this.setState({ loading: true, sort });
 
     const { mySubreddits, loggedIn } = this.props;
+    const sort = { value: e.target.form[0].value, top: e.target.form[1].value };
 
-    if (mySubreddits && loggedIn) {
-      const arr = mySubreddits.map(sub => sub.data.display_name);
-
-      const top = e.target.form[0].value === "top" ? `&t=${e.target.form[1].value}` : "";
-
-      fetch(`https://www.reddit.com/r/${arr.join("+")}/${e.target.form[0].value}.json?limit=100${top}`)
-      .then(res => res.json())
-      .then(data => this.setState({ listing: data, loading: false }))
-      .catch(err => console.error(err))
-    } else {
-      this.setState({ loading: false });
-    }
+    fetchFrontpage(mySubreddits, sort)
+    .then(data => this.setState({ listing: data, loading: false }))
+    .catch(err => console.error(err))
   }
 
   render() {

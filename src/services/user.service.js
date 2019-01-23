@@ -1,5 +1,8 @@
 "use strict";
 
+// handlesort
+// fetchSubredditPosts
+
 // exports: 
 	// fetchUserData()
 	// findInListingAndInsert()
@@ -10,8 +13,36 @@
 // vote
 
 // sort
+function includeSorting(params) {
+	const generalParam = params && params.value || "";
+    const topOfAllParam = generalParam === "top" ? `&t=${params.top}` : "";
+
+    return `/${generalParam}.json?limit=100${topOfAllParam}`;
+}
+
+// 
+function suggestTextFocusedSubreddits() {
+	return ["askreddit", "showerthoughts"];
+}
 
 // =========== api ============
+
+export async function fetchFrontpage(mySubreddits, sortParams) {
+	// actual frontpage `https://www.reddit.com/.json?limit=100`
+    console.log(mySubreddits)
+    // if user has no subreddits or is not logged in, populate frontpage with predetermined subreddits
+    mySubreddits = mySubreddits ?
+    	mySubreddits.map(sub => sub.data.display_name)
+    	:
+    	suggestTextFocusedSubreddits();
+
+    const res = await fetch(`https://www.reddit.com/r/${mySubreddits.join("+")}${includeSorting(sortParams)}`)
+    return res.json();
+}
+
+export function fetchSortedSubreddit() {}
+
+export function fetchSortedThread() {}
 
 export function fetchUserData(token) {
   	return Promise.all([
