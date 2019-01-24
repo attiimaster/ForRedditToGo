@@ -34,7 +34,7 @@ class App extends Component {
             mySubreddits: data[1].data.children,
             loggedIn: true 
           });
-          history.push(`${uri}/`)
+          history.push(`${uri}/frontpage`);
         })
         .catch(err => {
           console.error(err);
@@ -69,11 +69,12 @@ class App extends Component {
 		  		  <SubRedditTab subreddits={ mySubreddits } isOpen={ sidebarIsOpen } handleSideBar={ this.handleSideBar } />
     
 		  		  <Switch>
-		  		  	<Route exact path={ `${uri}/` } render={ props => <Frontpage mySubreddits={ mySubreddits } loggedIn={ loggedIn } { ...props } /> } />
+		  		  	<Route exact path={ `${uri}/frontpage` } render={ props => <Frontpage mySubreddits={ mySubreddits } loggedIn={ loggedIn } { ...props } /> } />
 		  		  	<Route path={ `${uri}/r/:subreddit/:title` } component={Thread} />
               <Route path={ `${uri}/r` } component={Sub} />
               <Route path={ `${uri}/search/:query` } component={Search} />
               <Route path={ `${uri}/loginsuccess` } component={LoginSuccess} />
+              <Route path={ `${uri}/` } component={About} />
               <Route path={ `${uri}/about` } component={About} />
 		  		  </Switch>	
 		    	</div>

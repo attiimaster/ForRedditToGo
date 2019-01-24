@@ -10,6 +10,7 @@
 	border-right: 1px solid #eee;
 	display: flex;
 	font-size: 20px;
+	text-align: center;
 	width: 8%;
 }
 .ThreadBox h3 {
@@ -18,7 +19,7 @@
 .ThreadBox .score-mobile {
 	display: none;
 }
-.ThreadBox .score span {
+.ThreadBox .score div {
 	margin: auto;
 }
 .ThreadBox .content {
@@ -41,7 +42,7 @@
 	width: 100%;
 }
 .ThreadBox .stats {
-	box-shadow: 0px -20px 20px 10px white;
+	box-shadow: 0px -10px 40px 10px white;
 	margin-top: 8px;
 	position: relative;
 	z-index: 1;	
@@ -67,4 +68,12 @@
 	.ThreadBox .stats {
 		box-shadow: 0px -10px 40px 10px white;
 	}
+}
+
+.media-link {
+	isplay: flex;
+}
+
+.media-link i {
+	margin-right: 5px;
 }

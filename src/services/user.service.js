@@ -1,48 +1,53 @@
-"use strict";
+import accesstoken from "../helpers/accesstoken";
+import tokenIsValid from "../helpers/tokenIsValid";
 
-// handlesort
-// fetchSubredditPosts
-
-// exports: 
-	// fetchUserData()
-	// findInListingAndInsert()
-	// findIdInListing() - legacy
+export default {
+	fetchFrontpage,
+	fetchSubreddit,
+	fetchRedditThread,
+	fetchUserData,
+	fetchWithToken,
+	fetchMoreAndInsert,
+}
 
 // search
 
 // vote
 
 // sort
-function includeSorting(params) {
-	const generalParam = params && params.value || "";
+function determineSorting(params) {
+	// also submits parameters like limit oder .json, schlechter name
+	const generalParam = params ? params.value : "";
     const topOfAllParam = generalParam === "top" ? `&t=${params.top}` : "";
 
     return `/${generalParam}.json?limit=100${topOfAllParam}`;
 }
 
 // 
-function suggestTextFocusedSubreddits() {
+function getRecommendedSubreddits() {
 	return ["askreddit", "showerthoughts"];
 }
 
+
 // =========== api ============
 
-export async function fetchFrontpage(mySubreddits, sortParams) {
-	// actual frontpage `https://www.reddit.com/.json?limit=100`
-    console.log(mySubreddits)
+export function fetchFrontpage(mySubreddits, sortParams) {
     // if user has no subreddits or is not logged in, populate frontpage with predetermined subreddits
     mySubreddits = mySubreddits ?
     	mySubreddits.map(sub => sub.data.display_name)
     	:
-    	suggestTextFocusedSubreddits();
+    	getRecommendedSubreddits();
 
-    const res = await fetch(`https://www.reddit.com/r/${mySubreddits.join("+")}${includeSorting(sortParams)}`)
-    return res.json();
+    return fetchReddit(`/r/${mySubreddits.join("+")}${determineSorting(sortParams)}`)
 }
 
-export function fetchSortedSubreddit() {}
+export function fetchSubreddit(subreddit, sortParams) {
+  	return fetchReddit(`/r/${subreddit}${determineSorting(sortParams)}`);
+}
 
-export function fetchSortedThread() {}
+export function fetchRedditThread(subreddit, id, sortParams) {
+  	return fetchReddit(`/r/${subreddit}/comments/${id}/.json?sort=${sortParams}&limit=100`);
+}
 
 export function fetchUserData(token) {
   	return Promise.all([
@@ -53,28 +58,55 @@ export function fetchUserData(token) {
 	]);
 }
 
-async function fetchWithToken(path, token) {
-	// token = token || JSON.parse(localStorage.getItem("access_token"));
+
+// ========== general purpose ============
+
+async function fetchReddit(path) {
+  	const res = await fetch(`https://www.reddit.com${path}`);
+  	console.log(res.status);
+  	return res.json();
+}
+
+export async function fetchWithToken(path, token) {
+	token = token || accesstoken.get();
+
+	if (!tokenIsValid(token)) {
+		accesstoken.remove();
+		return Promise.reject("Token is expired.");
+	}
+
 	const options = {
 	  headers: {
-	    Authorization: `bearer ${token}`
+	    Authorization: `bearer ${token.value}`
 	  }
 	}
+
 	const res = await fetch(`https://oauth.reddit.com${path}`, options);
+  	console.log(res.status);
 	return res.json();
 }
 
+
 // =========== more button functionality ============
 
+export async function fetchMoreAndInsert(link_id, children, listing, parentId) {
+  	
+  	// fetch more replies
+  	const res = await fetchReddit(`/api/morechildren.json?link_id=t3_${link_id}&children=${children.join(", ")}&api_type=json`)
+
+  	// traverse listing to find matching id and append replies ( is currently mutating :S )
+  	return findInListingAndInsert(listing, parentId.substring(3), res.json.data.things);
+}
+
 // takes listing and additional replies and merges them
-export function findInListingAndInsert(listing, parentId, ArraytoInsert) {
+function findInListingAndInsert(listing, parentId, ArraytoInsert) {
 	return new Promise((resolve, reject) => {
 
 		// the comments object is a "listing" and NOT the actual array
 		const comments = listing[1].data.children;
 
 		// loop through comments
-		comments.map((comment, i) => {
+		comments.forEach((comment, i) => {
 			if (comment.data.id === parentId && comment.kind !== "more") {
 				
 				// remove more object
@@ -105,7 +137,7 @@ export function findInListingAndInsert(listing, parentId, ArraytoInsert) {
 			const children = replies.data.children;
 
 			// loop over children
-			children.map((child, i) => {
+			children.forEach((child, i) => {
 				
 				// check if actual replies and not just links to fetch more replies
 				if (child.data.id === parentId && child.kind !== "more") {
@@ -129,73 +161,4 @@ export function findInListingAndInsert(listing, parentId, ArraytoInsert) {
 			});	
 		});
 	}
-}
-
-// ==================== legacy ======================
-
-export function findIdInListing(listing, parentId) {
-	return new Promise((resolve, reject) => {
-		const comments = listing[1].data.children;
-
-		// if more comments can be ŕequested via /morechildren => check threadId
-
-		comments.map((c, i) => {
-			if (c.data.id === parentId && c.kind !== "more") {
-				console.log("parentId:", parentId);
-				console.log("comment:", c.data);
-				// console.log("\nreply of comment\narr to push onto:\n", c.data.replies.data.children);
-
-				// fetch additional comments / replies
-				// fetch("/morechildren")
-
-				// .then insert comment / replies
-				// comments.data.replies.data.children.push()
-
-				resolve(i.toString());
-			}
-
-			if (c.data.replies) {
-				findIdInReplies(c.data.replies, parentId)
-				.then(iterators => {
-					iterators && resolve(i + iterators) 
-				})
-			}
-		})
-
-	})
-}
-
-// recursive function
-function findIdInReplies(replies, parentId) {
-	return new Promise((resolve, reject) => {
-
-		// the replies object is a "listing" and NOT the actual array
-		const children = replies.data.children;
-
-		// loop over children
-		children.map((child, i) => {
-			
-			// check if actual replies and not just links to fetch more replies
-			if (child.data.id === parentId && child.kind !== "more") {
-				console.log("parentId:", parentId);
-				console.log("child:", child.data);
-				// console.log("\nchild of child\narr to push onto:\n", child.data.replies.data.children);
-
-				// fetch additional comments / replies
-				// fetch("/morechildren")
-
-				// .then insert replies
-				// comments.data.replies.data.children.push()
-				resolve(i.toString());			
-			}
-			// call self with the replies of the reply
-			if (child.data.replies) {
-				findIdInReplies(child.data.replies, parentId)
-				.then(iterators => {
-					iterators && resolve(i.toString() + iterators) 
-				})
-				.catch(err => () => console.log("reject"))
-			}
-		});	
-	});
 }

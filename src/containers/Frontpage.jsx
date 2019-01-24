@@ -6,10 +6,10 @@ import ErrorBox from "../components/ErrorBox";
 import SortBox from "../components/SortBox";
 import LoadingScreen from "../components/LoadingScreen";
 
-import history from "../helpers/history";
 import { fetchFrontpage } from "../services/user.service.js";
+// import history from "../helpers/history";
       
-const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
+// const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
 class Frontpage extends Component {
   constructor(props) {
@@ -26,10 +26,10 @@ class Frontpage extends Component {
   }
   
   handleSort(e) {
-    this.setState({ loading: true, sort });
-
     const { mySubreddits, loggedIn } = this.props;
     const sort = { value: e.target.form[0].value, top: e.target.form[1].value };
+    
+    this.setState({ loading: true, sort });
 
     fetchFrontpage(mySubreddits, sort)
     .then(data => this.setState({ listing: data, loading: false }))

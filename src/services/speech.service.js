@@ -31,11 +31,9 @@ function loadVoices() {
 // takes string and starts reading out lout
 // done takes (err, event)
 export function readOut(message, done) {
-	console.log("readOut");
     const speech = new SpeechSynthesisUtterance(message);
 
-    // find voice
-	const voices = synth.getVoices();
+    // find voices
 	loadVoices();
 
 	// Set text and voice attributes
@@ -51,25 +49,19 @@ export function readOut(message, done) {
 	// Register Event Handlers
 	speech.onstart = (e) => {
 		print(`array char count: ${message.length} (32,767 max)`);
-		console.log(e)
-		console.log("SPEECH START!");
 		print("SPEECH started.");
 	}
 	speech.onend = (e) => {
-		console.log("SPEECH END!");
 		print("SPEECH ended.");
 		done && done(null, e);
 	}
 	speech.onpause = () => {
-		console.log("SPEECH PAUSE!");
 		print("SPEECH paused.");
 	}
 	speech.onresume = () => {
-		console.log("SPEECH RESUME!");
 		print("SPEECH resumed.");
 	}
 	speech.onerror = (e) => {
-		console.log("SPEECH ERROR!");
 		print(`SPEECH ERROR!`);
 		done && done("ERROR reading out.", e);
 	}
@@ -91,7 +83,7 @@ export function convertListingToScript(listing, readmode) {
 	post && script.push(cleanString(post));
 
 	// push comments and replies to array
-	comments.map((c, i) => {
+	comments.forEach((c, i) => {
 		script.push(` ${c.data.author} comments: ? ` + cleanString(c.data.body));
 		
 		if (readmode === "STANDARD") {
@@ -110,7 +102,7 @@ function pushReplies(replies, script) {
 		const children = replies.data.children;
 
 		// loop over children
-		children.map((child, i) => {
+		children.forEach((child, i) => {
 
 			// check if actual replies and not just links to fetch more replies
 			if (child.kind !== "more") {

@@ -27,7 +27,7 @@ const SubRedditBox = ({ data, handleSideBar }) => {
 
 	return (
 		<Link to={ `${uri}/r/${data.display_name}` } onClick={ handleSideBar } className="subreddit-box">
-			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
+			<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.community_icon || data.icon_img})` }}></div>
 			<h3>{ data.display_name_prefixed }</h3>
 		</Link>
 	);

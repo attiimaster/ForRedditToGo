@@ -8,12 +8,12 @@ const SortBox = ({ onChange, values, active }) => {
 	return (
 		<form className="SortBox" onChange={ onChange }>
 			<span>Sort by</span>
-			<select value={ active.value || active }>
+			<select defaultValue={ active.value || active }>
 				{ values && values.map((v, i) => <option value={ v.toLowerCase() } key={i} >{ v }</option>) }
 			</select>
 
 			{ active.top &&
-			<select value={ active.top } className={ active.value === "top" ? "SortBox-top SortBox-top-active" : "SortBox-top" }>
+			<select defaultValue={ active.top } className={ active.value === "top" ? "SortBox-top SortBox-top-active" : "SortBox-top" }>
 				{ topValues.map((v, i) => <option value={ v.toLowerCase() } key={i} >{ v }</option>) }
 			</select>
 			}

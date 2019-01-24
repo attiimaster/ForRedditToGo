@@ -1,13 +1,16 @@
-"use strict";
-
 import { fetchUserData } from "./user.service.js";
 import getHashValue from "../helpers/getHashValue";
+import accesstoken from "../helpers/accesstoken";
 import tokenIsValid from "../helpers/tokenIsValid";
 import history from "../helpers/history";
 
+export default {
+  tryLogin,
+  logout
+}
 
 export function tryLogin() {
-  const token = JSON.parse(localStorage.getItem("access_token"));
+  const token = accesstoken.get();
   
   // check and parse url | values: access_token, token_type, state, expires_in, scope
   const state = getHashValue("state");
@@ -19,21 +22,22 @@ export function tryLogin() {
   // validate request and origin
   if (newToken && state === process.env.REACT_APP_SECRET_STRING) {
     console.log("setting new token");
-    localStorage.setItem("access_token", JSON.stringify(newToken));
-    return fetchUserData(newToken.value);
+    accesstoken.set(newToken);
+    return fetchUserData(newToken);
   }
 
   // if no params in url check localStorage
   else if (token && tokenIsValid(token)) {
-    return fetchUserData(token.value)
+    return fetchUserData(token);
 
   } else {
+    accesstoken.remove();
     return Promise.reject("not logged in");
   }
 }
 
 export function logout() {  
 	const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
-	localStorage.removeItem("access_token");
+  accesstoken.remove();
 	history.push(`${uri}/`);
 }

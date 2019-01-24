@@ -118,11 +118,10 @@ class Synth extends Component {
 			
 				<div className="readmode">Mode: 
 					<select onChange={ this.handleReadMode } value={ readmode } >
-						<i className="fas fa-ellipsis-h"></i>
 						<option value="STANDARD">Standard</option>
 						<option value="TOP_COMMENTS">Top cmnts</option>
 					</select>
-					<span className="position">{ `${position} / ${script && script.length || " - " }` }</span>
+					<span className="position">{ `${position} / ${script ? script.length : " - " }` }</span>
 				</div>
 
 				<div className="synth-btn-container">	
@@ -153,7 +152,7 @@ function mapScriptToUtteranceQueue(position, script, done) {
 	window.speechSynthesis.cancel();
 
 	// slice complete script at new position and map to readOut
-	script.slice(position, script.length).map(text => {
+	script.slice(position, script.length).forEach(text => {
 		text && readOut(text, (err, e) => {
 			
 			if (err) console.error(err);

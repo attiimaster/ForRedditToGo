@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Parser from "html-react-parser";
 import './css/Thread.css';
 
+import Synth from "../containers/Synth";
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
 import AuthorHeader from "../components/AuthorHeader";
-import Synth from "../components/Synth";
 import SortBox from "../components/SortBox";
 import MoreButton from "../components/MoreButton";
 
-import { findIdInListing, findInListingAndInsert } from "../services/user.service.js";
+import { fetchRedditThread, fetchMoreAndInsert, fetchWithToken } from "../services/user.service.js";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
 import decodeHtml from "../helpers/decodeHtml";
 
@@ -22,106 +22,45 @@ class Thread extends Component {
   	}
   	
   	componentDidMount() {
-  		const path = this.props.location.pathname;
-  		const subreddit = path.split("/")[3];
-  		const id = path.split("/")[4];
+  		const subreddit = this.props.location.pathname.split("/")[3];
+  		const threadId = this.props.location.pathname.split("/")[4];
   		
-  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json?limit=100`)
-  		.then(res => res.json())
+  		fetchRedditThread(subreddit, threadId)
   		.then(data => this.setState({ listing: data, loading: false }))
-  		.catch(err => {
-  			this.setState({ listing: null, loading: false });
-  			console.error(err);
-  		})
+  		.catch(err => this.setState({ listing: null, loading: false }));
   	}
 
   	handleSort(e) {
     	this.setState({ loading: true, sort: e.target.value });
     	
-  		const path = this.props.location.pathname;
-  		const subreddit = path.split("/")[3];
-  		const id = path.split("/")[4];
+  		const subreddit = this.props.location.pathname.split("/")[3];
+  		const threadId = this.props.location.pathname.split("/")[4];
   		
-  		fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}/.json?sort=${e.target.value}&limit=100`)
-  		.then(res => res.json())
+  		fetchRedditThread(subreddit, threadId, e.target.value)
   		.then(data => this.setState({ listing: data, loading: false }))
-  		.catch(err => this.setState({ listing: err, loading: false }))
+  		.catch(err => this.setState({ listing: null, loading: false }))
   	}
 
   	handleVote(e) {
   		const name = e.target.attributes.name.value;
   		const dir = e.target.className === "fas fa-arrow-up" ? "1" : "-1";
-  		const token = localStorage.getItem("access_token");
 
-  		fetch(`https://oauth.reddit.com/api/vote?id=${name}&dir=${dir}`, {
-  			method: "POST",
-  		  	headers: {
-  		  	  Authorization: `bearer ${token}`
-  		  	}
+  		fetchWithToken(`/api/vote?id=${name}&dir=${dir}`)
+  		.then(data => {
+  			console.log(data);
+  			e.target.className += " orange";
   		})
-  		.catch(err => console.error(err))
-  		.then(res => res.json())
-  		.then(data => console.log(data))	
-
-  		e.target.className += " orange"
+  		.catch(err => console.error(err))	
   	}
+
   	handleMore(e, children, parentId) {
   		const { listing } = this.state;
   		const link_id = listing[0].data.children[0].data.id;
-		
-		const dummyListing = {
-			data: {
-				author: "ZharkoDK",
-				body: "No reason to feel bad. I think you dodged a bullet there. ",
-				id: "eegen2z",
-				link_id: "t3_ahm7sd",
-				name: "t1_eegen2z",
-				parent_id: "t1_eeg9fa7",
-				replies: { kind: "Listing", data: {} },
-				subreddit: "AskReddit",
-				subreddit_id: "t5_2qh1i",
-			},
-			kind: "t1"
-		}
-
-		const dummyMoreObj = {
-			data: {
-				children:[ "eegl116" ],
-				count: 5,
-				depth: 2,
-				id: "eegl116",
-				name: "t1_eegl116",
-				parent_id: "t1_eegen2z"
-			},
-			kind: "more"
-		}
-
-		// console.log("link_id:", link_id)
-		console.log("children:", children)
-		console.log("parentId:", parentId)
-
-  		// const link_id = link_id; // "t3_2otg5f";
-  		// const children = children; // "cmqj5en";
-  		// const id = dummyListing.data.name; // "t1_cmqj5en";
 
   		// fetch more replies
-  		fetch(`https://www.reddit.com/api/morechildren.json?link_id=t3_${link_id}&children=${children.join(", ")}&api_type=json`)
+  		fetchMoreAndInsert(link_id, children, listing, parentId)
+  		.then(newListing => this.setState({ listing: newListing }))
   		.catch(err => console.error(err))
-  		.then(res => res.json())
-  		.then(data => {
-  			console.log("add. replies:", data.json);
-
-	  		// traverse listing to find matching id and append
-  			// await findIdInListing(listing, parentId)
-  			// or
-  			// save nested location somehow for easy inserting
-  			
-  			findInListingAndInsert(listing, parentId.substring(3), data.json.data.things)
-  			.then(newListing => this.setState({ listing: newListing }))
-  		})
-  		
-  		// comments: listing[1].data.children.data
-  		// replies: replies.data.children.data
   	}
 
   	render() {

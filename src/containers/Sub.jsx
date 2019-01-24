@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './css/Sub.css';
 
+import { fetchSubreddit } from "../services/user.service.js";
+
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
@@ -14,40 +16,33 @@ class Sub extends Component {
   }
 
   componentDidMount() {
-  	const path = this.props.location.pathname;
-  	const subreddit = path.split("/")[3];
+  	const subreddit = this.props.location.pathname.split("/")[3];
   	
-  	fetch(`https://www.reddit.com/r/${subreddit}/.json?limit=100`)
-  	.then(res => res.json())
+  	fetchSubreddit(subreddit)
   	.then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
   	.catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
   }
   
   componentDidUpdate() {
-  	const path = this.props.location.pathname;
-  	const subreddit = path.split("/")[3];
+  	const subreddit = this.props.location.pathname.split("/")[3];
     const { loading, currentSub, sort } = this.state;
-  	if (!loading && currentSub !== subreddit) {
-      if (!loading) { this.setState({ loading: true }); }
+  	
+    if (!loading && currentSub !== subreddit) {
+      this.setState({ loading: true });
 
-      const top = sort.value === "top" ? `&t=${sort.top}` : "";
-  		
-      fetch(`https://www.reddit.com/r/${subreddit}/${sort.value}/.json?limit=100${top}`)
-  		.then(res => res.json())
+      fetchSubreddit(subreddit, sort)
   		.then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
   		.catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
   	}
   }
   
   handleSort(e) {
-    this.setState({ loading: true, sort: { value: e.target.form[0].value, top: e.target.form[1].value } });
-    const path = this.props.location.pathname;
-    const subreddit = path.split("/")[3];
+    const sort = { value: e.target.form[0].value, top: e.target.form[1].value };
+    const subreddit = this.props.location.pathname.split("/")[3];
+    
+    this.setState({ loading: true, sort });
 
-    const top = e.target.form[0].value === "top" ? `&t=${e.target.form[1].value}` : "";
-
-    fetch(`https://www.reddit.com/r/${subreddit}/${e.target.form[0].value}/.json?limit=100${top}`)
-    .then(res => res.json())
+    fetchSubreddit(subreddit, sort)
     .then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
     .catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
   }

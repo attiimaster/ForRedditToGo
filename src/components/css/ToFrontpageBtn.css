@@ -1,0 +1,15 @@
+.to-frontpage-container {
+	margin: 50px auto;
+	text-align: center;
+}
+.to-frontpage-btn {
+	background: white;
+	border: 1px solid #ff4500;
+	border-radius: 3px;
+	color: #ff4500;
+	cursor: pointer;
+	font-family: "open sans";
+	font-size: 16px;
+	letter-spacing: 1px;
+	padding: 5px;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/UserBox.css";
-import history from "../helpers/history";
+// import history from "../helpers/history";
 
 const UserBox = ({ loggedIn, user, logout }) => {
 	return (

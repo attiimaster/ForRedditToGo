@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './css/About.css';
 
-import ThreadBox from "../components/ThreadBox";
-import SortBox from "../components/SortBox";
-import LoadingScreen from "../components/LoadingScreen";
+import ToFrontpageBtn from "../components/ToFrontpageBtn";
 
 const About = () => {
   return (
@@ -32,6 +30,7 @@ const Sections = () => {
       <section className="about-section">
         <h1>Listen to Reddit, while getting stuff done.</h1>
         <p>Reddit To Go is a web application intended for portable devices that leverages the <b>Text to Speech</b> features of modern browsers to read out reddit threads. For now please consider using the latest version of <b>Google Chrome</b> or <b>Mozilla Firefox</b> to ensure functionality and the best possible user experience.</p>
+        <ToFrontpageBtn />
         <p>RedditToGo fits some subreddits more than others. Where it excels are textbased threads and comment trees. Accessing threads that share images, videos or links is possible, but for now you will have to follow the link to the original source to consume it.</p>
         <p>Features like messaging, mod features, etc are not included for now, because this is meant to be a complementary service one can use if needed.</p>
         <p>If you want to suggest or contribute a feature, feel free to contact me on my page or on github.</p> 

@@ -64,7 +64,7 @@ class Search extends Component {
 						
 						<section className="search-results">
 							<h3>Subreddits</h3>
-							{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } />) : <small>Wow, much empty o.O</small> }
+							{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
 							<MoreButton onClick={ () => "" } text="Show more results" />
 						</section>
 						
@@ -89,11 +89,12 @@ class Search extends Component {
 export default Search;
 
 const SubRedditBoxAlt = ({ data }) => {
+	console.log(data)
 	return (
 		<Link to={ `${uri}/r/${data.display_name}` } >
 		<div className="SubRedditBoxAlt">
 			<div className="head">
-				<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.header_img})` }}></div>
+				<div className="subreddit-box-img" style={{ backgroundImage: `url(${data.community_icon || data.icon_img})` }}></div>
 				
 				<div className="title">
 					<p><b>{ data.display_name_prefixed }</b></p>
