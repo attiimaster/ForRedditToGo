@@ -4,19 +4,20 @@ import { Link } from "react-router-dom";
 import "./css/ThreadBox.css";
 
 import AuthorHeader from "../components/AuthorHeader";
+import ThreadStatsBox from "../components/ThreadStatsBox";
 // import decodeHtml from "../helpers/decodeHtml";
 
 const uri =  process.env.NODE_ENV === "production" ? "/ForRedditToGo" : "/x";
 
-const ThreadBox = ({ data }) => {
+const ThreadBox = ({ data, handleVote }) => {
 	return (
 		<div className="ThreadBox" >
 
 			<small className="score">
 				<div>
-					<div><i className="fas fa-arrow-up"></i></div>
+					<div><i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote }></i></div>
 					<div>{ data.score }</div>
-					<div><i className="fas fa-arrow-down"></i></div>
+					<div><i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote }></i></div>
 				</div>
 			</small>
 			
@@ -33,21 +34,14 @@ const ThreadBox = ({ data }) => {
 					{/* data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) */}
 				</Link>
 
-				<div className="stats">
-					<small>
-						<span>{ `${data.num_comments} Comments` }</span>
-					</small>
-					<small className="score-mobile">
-						<span>
-							<i className="fas fa-arrow-up"></i>
-							{ ` ${data.score} Upvotes ` }
-							<i className="fas fa-arrow-down"></i>
-						</span>
-					</small>
-					<small>
-						<MediaLink url={ data.url } />
-					</small>
-				</div>
+				<ThreadStatsBox 
+					data={{ num_comments: data.num_comments,
+							score: data.score,
+							name: data.name,
+							url: data.url
+					}}
+					handleVote={ handleVote }
+				/>
 			</div>
 
 		</div>
@@ -55,16 +49,3 @@ const ThreadBox = ({ data }) => {
 }
 
 export default ThreadBox;
-
-const MediaLink = ({ url }) => {
-	if (url && url.slice(0, 23) !== "https://www.reddit.com/") {
-		return (
-				<a className="media-link" href={ url } target="_blank" rel="noopener noreferrer">
-					<i className="fas fa-link"></i> 
-					<span>{ url.split("/")[2] }</span>
-				</a>
-		);		
-	} else {
-		return null;
-	}
-}

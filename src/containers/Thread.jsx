@@ -8,8 +8,9 @@ import LoadingScreen from "../components/LoadingScreen";
 import AuthorHeader from "../components/AuthorHeader";
 import SortBox from "../components/SortBox";
 import MoreButton from "../components/MoreButton";
+import ThreadStatsBox from "../components/ThreadStatsBox";
 
-import { fetchRedditThread, fetchMoreAndInsert, fetchWithToken } from "../services/user.service.js";
+import { fetchRedditThread, fetchMoreAndInsert, fetchWithToken, castVote } from "../services/user.service.js";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
 import decodeHtml from "../helpers/decodeHtml";
 
@@ -44,11 +45,11 @@ class Thread extends Component {
   	handleVote(e) {
   		const name = e.target.attributes.name.value;
   		const dir = e.target.className === "fas fa-arrow-up" ? "1" : "-1";
+  		e.target.className += " orange";
 
-  		fetchWithToken(`/api/vote?id=${name}&dir=${dir}`)
+    	castVote(name, dir)
   		.then(data => {
   			console.log(data);
-  			e.target.className += " orange";
   		})
   		.catch(err => console.error(err))	
   	}
@@ -106,18 +107,15 @@ const ThreadHead = ({ data, handleVote }) => {
 			{/* data.preview && data.preview.reddit_video_preview && <iframe src={ data.preview.reddit_video_preview.scrubber_media_url } ></iframe> */}
 			{/* data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) */}
 			{ data.selftext_html ? <div>{ Parser(decodeHtml(data.selftext_html)) }</div> : <p>{ "This post contains media only. Follow the link to find out more." }</p> }
-			{ data.url && data.url.slice(0, 23) !== "https://www.reddit.com/" && <a href={ data.url } target="_blank" rel="noopener noreferrer"><div>{ data.url.split("/")[2] }</div></a> }
 
-			<div className="stats">
-				<small>{ data.num_comments } Comments</small>
-				<small className="score">
-					<span>
-						<i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote }></i>
-						{ ` ${data.score} Upvotes ` }
-						<i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote }></i>
-					</span>
-				</small>
-			</div>
+			<ThreadStatsBox 
+				data={{ num_comments: data.num_comments,
+						score: data.score,
+						name: data.name,
+						url: data.url
+				}}
+				handleVote={ handleVote }
+			/>
 		</article>
 	);
 }
@@ -131,25 +129,23 @@ const CommentBox = ({ data, handleVote, handleMore }) => {
 				<small className="author">{ data.author } &#8226; { hoursAgoStr } </small>
 				<div>{ Parser(decodeHtml(data.body_html)) }</div>
 
-				<div className="stats">
-					<small>
-						<span>{ `${data.replies ? data.replies.data.children.length : 0} Replies` }</span>
-					</small>
-					<small className="score">
-						<span>
-							<i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote }></i>
-							{ ` ${data.score} Upvotes ` }
-							<i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote }></i>
-						</span>
-					</small>
-				</div>
+
+				<ThreadStatsBox 
+					data={{ num_comments: data.replies && data.replies.data.children.length,
+							score: data.score,
+							name: data.name,
+					}}
+					handleVote={ handleVote } 
+					type={ "Replies" }
+				/>
+
 				<br />
 				{/* loop over replies and check if reply === comment || link id to more*/}
 				{
 					data.replies && data.replies.data.children && data.replies.data.children.map((r, i) => r.kind === "more" ? 
 						<MoreButton key={i} { ...r } onClick={ handleMore } text={ `${r.data.count} more replies` } />
 						:
-						r.data && <CommentBox { ...r } key={i} handleMore={ handleMore } />)
+						r.data && <CommentBox { ...r } key={i} handleVote={ handleVote } handleMore={ handleMore } />)
 				}
 			</div>
 		</div>

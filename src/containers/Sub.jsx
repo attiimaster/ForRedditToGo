@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/Sub.css';
 
-import { fetchSubreddit } from "../services/user.service.js";
+import { fetchSubreddit, fetchWithToken, castVote } from "../services/user.service.js";
 
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";
@@ -46,6 +46,18 @@ class Sub extends Component {
     .then(data => this.setState({ listing: data, currentSub: subreddit, loading: false }))
     .catch(err => this.setState({ listing: null, currentSub: subreddit, loading: false }))
   }
+
+  handleVote(e) {
+    const name = e.target.attributes.name.value;
+    const dir = e.target.className === "fas fa-arrow-up" ? "1" : "-1";
+    e.target.className += " orange";
+
+    castVote(name, dir)
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => console.error(err)) 
+  }
   
   render() {
 	const { listing, loading, sort } = this.state;
@@ -66,7 +78,7 @@ class Sub extends Component {
             </header>
 
             <SortBox onChange={ this.handleSort } active={ sort } values={[ "Hot", "New", "Controversial", "Top" ]} />
-            { children.map((c, i) => <ThreadBox { ...c } key={i} /> )}
+            { children.map((c, i) => <ThreadBox { ...c } handleVote={ this.handleVote } key={i} /> )}
           
           </div>
         </div>

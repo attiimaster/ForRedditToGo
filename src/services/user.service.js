@@ -7,13 +7,18 @@ export default {
 	fetchRedditThread,
 	fetchUserData,
 	fetchWithToken,
+	postWithToken,
 	fetchMoreAndInsert,
 }
 
 // search
 
 // vote
+export function castVote(id, dir) {
+	// dir === 1 || -1 and indicates upvote || downvote
 
+	return postWithToken(`/api/vote?id=${id}&dir=${dir}`)
+}
 // sort
 function determineSorting(params) {
 	// also submits parameters like limit oder .json, schlechter name
@@ -84,6 +89,28 @@ export async function fetchWithToken(path, token) {
 	const res = await fetch(`https://oauth.reddit.com${path}`, options);
   	console.log(res.status);
 	return res.json();
+}
+
+export async function postWithToken(path) {
+// only function that returns res instead of res.json(),
+// because it is used exclusively by castVote(), which returns a parsed object
+	const token = accesstoken.get();
+
+	if (!tokenIsValid(token)) {
+		accesstoken.remove();
+		return Promise.reject("Token is expired.");
+	}
+
+	const options = {
+		method: "POST",
+	  	headers: {
+	    	Authorization: `bearer ${token.value}`
+	  	}
+	}
+
+	const res = await fetch(`https://oauth.reddit.com${path}`, options);
+	console.log(res.status);
+	return res;
 }
 
 

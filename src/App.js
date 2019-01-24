@@ -34,7 +34,7 @@ class App extends Component {
             mySubreddits: data[1].data.children,
             loggedIn: true 
           });
-          history.push(`${uri}/frontpage`);
+          // history.push(`${uri}/frontpage`);
         })
         .catch(err => {
           console.error(err);

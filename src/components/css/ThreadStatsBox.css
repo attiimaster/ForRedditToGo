@@ -1,0 +1,27 @@
+.ThreadStatsBox {
+	display: inline-flex;
+	width: 100%;
+}
+.ThreadStatsBox small {
+	color: #555;
+}
+.ThreadStatsBox .score-mobile {
+	margin-left: 20px;
+}
+
+.fa-arrow-up {
+	cursor: pointer;
+}
+.fa-arrow-down {
+	cursor: pointer;
+}
+
+.media-link {
+	font-size: 12px;
+	margin: auto;
+	margin-right: 0px;
+}
+
+.media-link i {
+	margin-right: 5px;
+}
