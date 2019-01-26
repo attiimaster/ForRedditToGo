@@ -13,12 +13,6 @@ export default {
 
 // search
 
-// vote
-export function castVote(id, dir) {
-	// dir === 1 || -1 and indicates upvote || downvote
-
-	return postWithToken(`/api/vote?id=${id}&dir=${dir}`)
-}
 // sort
 function determineSorting(params) {
 	// also submits parameters like limit oder .json, schlechter name
@@ -61,6 +55,12 @@ export function fetchUserData(token) {
   		// fetch list of users subscribed subreddits
 		fetchWithToken("/subreddits/mine/subscriber", token)
 	]);
+}
+
+// vote
+export function castVote(id, dir) {
+	// dir === 1 || -1 and indicates upvote || downvote
+	return postWithToken(`/api/vote?id=${id}&dir=${dir}`)
 }
 
 

@@ -57,7 +57,6 @@ class Search extends Component {
 				<div className="Search">
 	
 					<div className="container">
-	
 						<header className="SearchTitle">
 							<h2>Search results for <u>{ query }</u>:</h2>
 						</header>
@@ -75,7 +74,6 @@ class Search extends Component {
 							{ posts.data.children[0] ? posts.data.children.map((c, i) => <ThreadBox { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
 						</section>
 					</div>
-	
 				</div>
 			);
 
