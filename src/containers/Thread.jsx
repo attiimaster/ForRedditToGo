@@ -106,7 +106,7 @@ const ThreadHead = ({ data, handleVote }) => {
 			{/* data.media && data.media.reddit_video && <iframe src={ data.media.reddit_video.scrubber_media_url } width={ data.media.reddit_video.width } ></iframe> */}
 			{/* data.preview && data.preview.reddit_video_preview && <iframe src={ data.preview.reddit_video_preview.scrubber_media_url } ></iframe> */}
 			{/* data.media_embed.content && Parser(decodeHtml(data.media_embed.content)) */}
-			{ data.selftext_html ? <div>{ Parser(decodeHtml(data.selftext_html)) }</div> : <p>{ "This post contains media only. Follow the link to find out more." }</p> }
+			{ data.selftext_html && <div>{ Parser(decodeHtml(data.selftext_html)) }</div> }
 
 			<ThreadStatsBox 
 				data={{ num_comments: data.num_comments,

@@ -9,6 +9,9 @@
 	background: white;
 	padding: 10px;
 }
+.Search .MoreButton {
+	margin: 20px auto;
+}
 
 .SubRedditBoxAlt {
 	border-top: 1px solid #eee;
@@ -47,9 +50,16 @@
 	.SubRedditBoxAlt {
 		display: block;
 	}
+	/*
+	hidden description on mobile better?
+
 	.SubRedditBoxAlt .description {
 		display: block;
 		margin: auto 10px;
 		width: 100%;
+	}
+	*/
+	.SubRedditBoxAlt .description {
+		display: none;
 	}
 }

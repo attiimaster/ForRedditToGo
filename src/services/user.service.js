@@ -6,9 +6,10 @@ export default {
 	fetchSubreddit,
 	fetchRedditThread,
 	fetchUserData,
+	fetchReddit,
 	fetchWithToken,
 	postWithToken,
-	fetchMoreAndInsert,
+	fetchMoreAndInsert
 }
 
 // search
@@ -29,6 +30,13 @@ function getRecommendedSubreddits() {
 
 
 // =========== api ============
+
+export async function searchReddit(query) {
+    const subreddits = await fetchReddit(`/subreddits/search.json?q=${query}&limit=5`);
+   	const posts = await fetchReddit(`/search.json?q=${query}`);
+
+   	return { subreddits, posts };
+}
 
 export function fetchFrontpage(mySubreddits, sortParams) {
     // if user has no subreddits or is not logged in, populate frontpage with predetermined subreddits
@@ -66,7 +74,7 @@ export function castVote(id, dir) {
 
 // ========== general purpose ============
 
-async function fetchReddit(path) {
+export async function fetchReddit(path) {
   	const res = await fetch(`https://www.reddit.com${path}`);
   	console.log(res.status);
   	return res.json();

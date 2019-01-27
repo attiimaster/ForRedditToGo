@@ -1,6 +1,8 @@
 import React from "react";
 import "./css/ThreadStatsBox.css";
 
+import spaceOutNumber from "../helpers/spaceOutNumber";
+
 function no() {
 	console.log("no.");
 	alert("no.");
@@ -12,12 +14,12 @@ const ThreadStatsBox = ({ data, handleVote, type }) => {
 		<div className="ThreadStatsBox">
 			<div>
 				<small>
-					<span>{ `${data.num_comments || 0} ${type || "Comments"}` }</span>
+					<span>{ `${spaceOutNumber(data.num_comments) || 0} ${type || "Comments"}` }</span>
 				</small>
 				<small className="score-mobile">
 					<span>
 						<i className="fas fa-arrow-up" name={ data.name } onClick={ handleVote || no }></i>
-						{ ` ${data.score} Upvotes ` }
+						{ ` ${spaceOutNumber(data.score)} Upvotes ` }
 						<i className="fas fa-arrow-down" name={ data.name } onClick={ handleVote || no }></i>
 					</span>
 				</small>

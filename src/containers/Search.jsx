@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./css/Search.css";
 
+import { searchReddit, fetchReddit } from "../services/user.service.js";
+import spaceOutNumber from "../helpers/spaceOutNumber";
+
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";
 import LoadingScreen from "../components/LoadingScreen";
@@ -13,39 +16,46 @@ class Search extends Component {
 	constructor() {
 		super();
 		this.state = { loading: true, query: null, posts: null, subreddits: null }
+		this.getMoreSubreddits = this.getMoreSubreddits.bind(this);
 	}
+
 	async componentDidMount() {   
 		const query = this.props.location.pathname.split("/")[3];
-		console.log(query);
 
-    	const posts = await fetch(`https://www.reddit.com/search.json?q=${query}`);
-    	const subreddits = await fetch(`https://www.reddit.com/subreddits/search.json?q=${query}`);
+		const { subreddits, posts } = await searchReddit(query);
 
     	this.setState({
-			posts: await posts.json(), 
-    		subreddits: await subreddits.json(), 
+			posts, 
+    		subreddits, 
     		loading: false, 
-    		query: query
+    		query
     	})
 	}
+
 	async componentDidUpdate() {
 		const { query, loading } = this.state;
   		const newQuery = this.props.location.pathname.split("/")[3];
 
   		if (!loading && query !== newQuery) {
-        	if (!loading) { this.setState({ loading: true }); }
-  			
-    		const subreddits = await fetch(`https://www.reddit.com/subreddits/search.json?q=${newQuery}`);
-  			const posts = await fetch(`https://www.reddit.com/search.json?q=${newQuery}`);
+        	this.setState({ loading: true });
+
+        	const { subreddits, posts } = await searchReddit(newQuery);
 	
     		this.setState({
-    			subreddits: await subreddits.json(),
-				posts: await posts.json(),  
+    			subreddits,
+				posts,  
     			loading: false, 
     			query: newQuery
     		})	
 		}
 	}
+
+	async getMoreSubreddits() {
+		const { query } = this.state;
+		const subreddits = await fetchReddit(`/subreddits/search.json?q=${query}&limit=25`);
+    	this.setState({ subreddits });
+	}
+
 	render() {
 		const { posts, subreddits, loading, query } = this.state;
 
@@ -63,11 +73,11 @@ class Search extends Component {
 						
 						<section className="search-results">
 							<h3>Subreddits</h3>
-							{ subreddits.data.children[0] ? subreddits.data.children.slice(0, 5).map((c, i) => <SubRedditBoxAlt { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
-							<MoreButton onClick={ () => "" } text="Show more results" />
+							{ subreddits.data.children[0] ? subreddits.data.children.map((c, i) => <SubRedditBoxAlt { ...c } key={i} />) : <small>Wow, much empty o.O</small> }
+							<MoreButton onClick={ this.getMoreSubreddits } text="Show more results" />
 						</section>
 						
-						<div style={{ width: "100%", margin: "20px auto", borderTop: "1px solid silver" }}></div>
+						<div style={{ width: "100%", margin: "40px auto" }}></div>
 						
 						<section className="search-results">
 							<h3>Posts</h3>
@@ -96,7 +106,7 @@ const SubRedditBoxAlt = ({ data }) => {
 				
 				<div className="title">
 					<p><b>{ data.display_name_prefixed }</b></p>
-					<small>{ data.subscribers } Subscribers</small>
+					<small>{ spaceOutNumber(data.subscribers) } Subscribers</small>
 				</div>
 			</div>
 			<small className="description">{ data.public_description || data.title }</small>
