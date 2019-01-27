@@ -1,13 +1,13 @@
 {
-  "main.css": "/ForRedditToGo/static/css/main.82db605a.chunk.css",
-  "main.js": "/ForRedditToGo/static/js/main.084e635e.chunk.js",
-  "main.js.map": "/ForRedditToGo/static/js/main.084e635e.chunk.js.map",
-  "static/js/1.ef0b0099.chunk.js": "/ForRedditToGo/static/js/1.ef0b0099.chunk.js",
-  "static/js/1.ef0b0099.chunk.js.map": "/ForRedditToGo/static/js/1.ef0b0099.chunk.js.map",
+  "main.css": "/ForRedditToGo/static/css/main.808dd461.chunk.css",
+  "main.js": "/ForRedditToGo/static/js/main.ff09d82e.chunk.js",
+  "main.js.map": "/ForRedditToGo/static/js/main.ff09d82e.chunk.js.map",
+  "static/js/1.43f52831.chunk.js": "/ForRedditToGo/static/js/1.43f52831.chunk.js",
+  "static/js/1.43f52831.chunk.js.map": "/ForRedditToGo/static/js/1.43f52831.chunk.js.map",
   "runtime~main.js": "/ForRedditToGo/static/js/runtime~main.fc3ea1a7.js",
   "runtime~main.js.map": "/ForRedditToGo/static/js/runtime~main.fc3ea1a7.js.map",
-  "static/css/main.82db605a.chunk.css.map": "/ForRedditToGo/static/css/main.82db605a.chunk.css.map",
+  "static/css/main.808dd461.chunk.css.map": "/ForRedditToGo/static/css/main.808dd461.chunk.css.map",
   "index.html": "/ForRedditToGo/index.html",
-  "precache-manifest.493ae4f6436e521a08161e9e5f8141cf.js": "/ForRedditToGo/precache-manifest.493ae4f6436e521a08161e9e5f8141cf.js",
+  "precache-manifest.c8ba0da675843bd92b83f95515eae704.js": "/ForRedditToGo/precache-manifest.c8ba0da675843bd92b83f95515eae704.js",
   "service-worker.js": "/ForRedditToGo/service-worker.js"
 }
