@@ -5,7 +5,6 @@ const LoadingScreen = () => {
 	return (
 		<div className="LoadingScreen">
 		<div>
-			<h1>LOADING</h1>
 			<div className="spinner"></div>
 		</div>
 		</div>

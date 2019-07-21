@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/Sub.css';
 
-import { fetchSubreddit, fetchWithToken, castVote } from "../services/user.service.js";
+import { fetchSubreddit, castVote } from "../services/user.service.js";
 
 import ThreadBox from "../components/ThreadBox";
 import ErrorBox from "../components/ErrorBox";

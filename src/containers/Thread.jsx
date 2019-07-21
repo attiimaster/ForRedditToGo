@@ -10,7 +10,7 @@ import SortBox from "../components/SortBox";
 import MoreButton from "../components/MoreButton";
 import ThreadStatsBox from "../components/ThreadStatsBox";
 
-import { fetchRedditThread, fetchMoreAndInsert, fetchWithToken, castVote } from "../services/user.service.js";
+import { fetchRedditThread, fetchMoreAndInsert, castVote } from "../services/user.service.js";
 import convertToHoursAgo from "../helpers/convertToHoursAgo";
 import decodeHtml from "../helpers/decodeHtml";
 
@@ -66,6 +66,8 @@ class Thread extends Component {
 
   	render() {
 		const { listing, loading, sort } = this.state;
+		console.log("listing", listing);
+		console.log("should log");
 		if (loading) {
 			return ( <LoadingScreen /> );
 
